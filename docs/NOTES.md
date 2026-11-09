@@ -1556,3 +1556,36 @@ strip 第 i 帧 = 该层有 cel 的 frame index 升序第 i 个（提取脚本�
 ### 📦 文档
 
 `docs/M2A_STEP5_HOE.md` —— 第 5 步完整施工指南（素材准备 + 格子规则 + 代码 + 验收清单）
+
+---
+
+## 2026-11-09 · 耕地贴图：主图集全量筛选
+
+用户反馈自制 soil_tiles.png 不好看，改为在主图集里找现成的。
+
+### 🔍 主图集全量筛选
+
+`assets/Tileset/spr_tileset_sunnysideworld_16px.png` 1024×1024 → 64×64 = 4096 个 16px tile
+筛选条件：**四边全不透明（可无缝平铺）+ 棕色主导(>75%) + 绿色<3%**
+→ 主图集 197 个，森林 32px 图集 0 个 → 按平均色聚类成 35 种质感
+
+### ✅ 选定：atlas(11,3) + atlas(11,4)
+
+深棕底 + 横向犁沟波纹，同族两块，互相协调，3×3 混铺实测效果自然。
+排除项：(14,2) 浅色碎石（明度差太大不能混）、(12,9)(10,9)(13,11) 是木板、
+(34,6) 有竖接缝、(10,4)(10,5) 是崖边斜坡、(24,25)等是熔岩橙。
+
+### 📐 关键事实
+
+- **Ground 层 1176 格全部用 `atlas(1,1)`**（普通草地，单一 tile 铺满 42×28）
+- 用户已自己建好 Soil 的 TileSet（`TileSet_jej6c`）但**是空的**，还没加 atlas source
+- atlas source 直接用主图集 → atlas 坐标即图集格子坐标，`(11,3)` 可直接用
+- Soil 独立 TileSet 的 `tile_size` 必须保持 (16,16)，否则网格与 Ground 错位
+
+### ✅ 真实渲染验证
+
+`/tmp/soil_live.gd`：临时给 Soil 建 TileSet（主图集 + 3 个候选 tile），
+set_cell 铺 5×5，真实渲染截图 → **格子与角色格/目标格严丝合缝** ✅
+青框 = 角色格 (21,13)，绿框 = 面朝下的目标格 (21,14)
+
+图：`docs/images/soil_candidate_live.png`、`soil_candidates.png`、`soil_pool_all.png`

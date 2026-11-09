@@ -6,25 +6,48 @@
 
 ---
 
-## 0. 这一步要用的素材（我已经备好）
+## 0. 这一步要用的素材
 
-| 文件 | 内容 | 备注 |
+### 0.1 耕地贴图：主图集里的现成 tile ✅ 推荐
+
+**不用另外找素材了** —— 主图集 `assets/Tileset/spr_tileset_sunnysideworld_16px.png`
+里已经有合适的块，我把 4096 个 16px tile 全筛了一遍（可无缝平铺 + 棕色主导 + 无绿色），
+聚类出 35 种质感，其中**两块深棕犁沟块**最接近星露谷式的翻土：
+
+| atlas 坐标 | 外观 | 判定 |
 |---|---|---|
-| `assets/game/soil/soil_tiles.png` | 64×16 = **4 个 16×16 tile 横排** | 顺序：`(0,0)`干土 `(1,0)`湿土 `(2,0)`带小坑 `(3,0)`带大坑 |
-| `assets/game/fx/dust_land.png` | 144×9 = **6 帧 24×9 横排** | 尘土落地特效 |
+| **`(11,3)`** | 深棕底 + 横向犁沟波纹 | **✅ 首选** |
+| **`(11,4)`** | 同上，沟纹更密 | **✅ 第二变体** |
+| `(14,2)` | 浅肉色 + 十字碎石点 | ⚠ 质感不同，**不要和上面两个混用** |
+| `(12,9)` `(10,9)` `(13,11)` | 深棕**木板** | ❌ 是木板不是土 |
+| `(34,6)` | 横向竖缝明显 | ❌ 平铺会有竖接缝 |
+| `(10,4)` `(10,5)` | 崖边斜坡 | ❌ |
+| `(24,25)` `(27,25)` `(22,29)` 等 | 熔岩橙 | ❌ |
 
-### 0.1 土壤四态语义（已实测确认）
+**全部 35 种候选的对比图**：`docs/images/soil_pool_all.png`
+**8 个候选铺在草地上的实景对比**：`docs/images/soil_candidates.png`
+**真实农场渲染**（已验证格子对齐）：`docs/images/soil_candidate_live.png`
 
-| tile | 源文件 | 底色 | 判定 |
-|---|---|---|---|
-| `(0,0)` | soil_00 | `[228,166,114]` 亮橙棕 | **干土（已耕未浇水）← 第 5 步用这个** |
-| `(1,0)` | soil_01 | `[194,133,105]` 暗橙棕 | 湿土（= soil_00 暗化 62 像素） |
-| `(2,0)` | soil_03 | 亮橙棕 + 小深坑 | 干土 + 播种坑 |
-| `(3,0)` | soil_04 | 亮橙棕 + 大深坑 | 干土 + 作物 |
+> 你的 Ground 层 1176 格**全部用的 `atlas(1,1)`**（普通草地），
+> 耕地用同图集的 `(11,3)/(11,4)` 画风完全一致。
+> 3×3 混铺实测：`(11,3)` 和 `(11,4)` 互相协调；掺进 `(14,2)` 会因为
+> 明度差太大而显得很跳。
 
-原 `soil_02`（推测是"湿土+播种"）在原资源包里就缺失，无法恢复。
+### 0.2 湿土 / 播种 / 作物：先派生，后面再补
 
-### 0.2 尘土帧序
+| 状态 | 怎么来 |
+|---|---|
+| 干土 | `atlas(11,3)` / `atlas(11,4)` 随机 |
+| 湿土 | 同一 tile，`modulate` 压暗（M2b 做） |
+| 播种 / 作物 | M2b 再做 |
+
+### 0.3 尘土特效
+
+| 文件 | 内容 |
+|---|---|
+| `assets/game/fx/dust_land.png` | 144×9 = **6 帧 24×9 横排**，直接当纹理用 `hframes=6` |
+
+### 0.4 尘土帧序
 
 原 GameMaker 工程已删，**真实帧序无法恢复**。我按"面积从小到大"重排了一版
 （尘土扬起的过程），**顺序是推测的**，你在 Godot 里看着不对可以直接拖动调整。
@@ -70,23 +93,21 @@ func _player_cell() -> Vector2i:
 
 ## 2. 素材准备（Godot 编辑器里做）
 
-### 2.1 给 Soil 层建一个独立 TileSet
+### 2.1 给 Soil 层配 TileSet
 
-Soil 层现在挂着主图集的 `TileSet_o5qli`，**里面没有耕地 tile**，而且主图集不能手改
-（1740 个 atlas 坐标）。所以给 Soil 层单独建一套：
+你已经建好一个空的 `TileSet_jej6c` 并挂到 Soil 上了，现在只差加 atlas source：
 
 1. 打开 `scenes/main.tscn`，选中 `Soil` 节点
-2. Inspector → `Tile Set` → 点 **新建**（New TileSet）→ 保存为 `assets/game/soil/Soil_TileSet.tres`
-3. 在 TileSet 面板底部 **Atlas Sources** 区域 → **Add Atlas Source**
-   （如果已有 source，先把它删掉，只留这一个）
-4. `Texture` 选 `res://assets/game/soil/soil_tiles.png`
+2. Inspector → `Tile Set` → 打开刚建的那个 TileSet（**在 Inspector 里点进去编辑**）
+3. TileSet 面板底部 **Atlas Sources** → **Add Atlas Source**
+4. `Texture` 选 **`res://assets/Tileset/spr_tileset_sunnysideworld_16px.png`**（主图集）
 5. **Texture Region Size** = `(16, 16)`，`Separation` = `(0, 0)`，`Margins` = `(0, 0)`
-6. → 自动生成 4 个 tile，atlas 坐标依次是 `(0,0) (1,0) (2,0) (3,0)`
+6. → 自动生成整张图集的 tile，**atlas 坐标就是图集格子坐标**，耕地那两块就是 `(11,3)` 和 `(11,4)`
 7. **TileSet 的 `tile_size` 保持 `(16,16)`** ← 关键，保证 Soil 网格与 Ground 的 16×16 对齐
 
-> 注意：源图 `soil_XX.png` 是 16×12，我打包时上下各补了 2 像素透明做成 16×16，
-> 所以土块在格子里是垂直居中的，上下会露出 2 像素草地。
-> 如果你觉得位置不对，可以在 TileSet 里调 tile 的 `texture_region_offset`。
+> **更省事的替代**：Soil 层的 TileSet 直接改成 Ground 那份 `TileSet_o5qli`，
+> atlas 坐标完全一样，零配置。代价是 Soil 层能选到图集里所有 tile（无害）。
+> 我实测时就是这么做的 —— 见 `docs/images/soil_candidate_live.png`。
 
 ### 2.2 给 Soil 节点加一个 group
 
@@ -116,11 +137,9 @@ dust.play("default")     # 用 hframes 时动画名固定是 "default"
 const TILE_SIZE := 16
 const FARM_SIZE := Vector2i(40, 26)
 
-# soil_tiles.png 里的 atlas 坐标
-const SOIL_DRY    := Vector2i(0, 0)
-const SOIL_WET    := Vector2i(1, 0)
-const SOIL_SEEDED := Vector2i(2, 0)
-const SOIL_PLANTED := Vector2i(3, 0)
+# 主图集里的耕地 tile（深棕犁沟块，两个变体）
+# 见 docs/M2A_STEP5_HOE.md 第 0.1 节，有实景对比图
+const SOIL_TILES := [Vector2i(11, 3), Vector2i(11, 4)]
 
 var _busy := false          # 锄地中：锁移动 + 锁朝向
 var _target := Vector2i.ZERO   # 目标格在开始时锁存
@@ -202,7 +221,7 @@ func _apply_till(cell: Vector2i) -> void:
 	var soil: TileMapLayer = get_tree().get_first_node_in_group("soil")
 	if soil == null:
 		return
-	soil.set_cell(cell, 0, SOIL_DRY)
+	soil.set_cell(cell, 0, SOIL_TILES[randi() % SOIL_TILES.size()])
 	_spawn_dust(cell)
 
 
