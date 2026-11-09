@@ -1393,11 +1393,11 @@ tool_dig 帧数=13  speed=20.0  loop=false   ✅
 - **查证到的官方信息**：
   - 作者 **Daniel Diggle**，官网 http://danieldiggle.com/sunnysideworld.php ，Twitter @DanielDiggle
   - 授权 **LICENCE V1**：免费+商业可用、任意修改、**署名非必需但受欢迎**、
-    教程/教学再分发需附 itch.io 链接、**禁止转售/NFT**、**禁止用于训练 AI**
+	教程/教学再分发需附 itch.io 链接、**禁止转售/NFT**、**禁止用于训练 AI**
   - itch.io 下载页另有 **`Sunnyside World - Human - 4,6,8 way movement - BETA`（404 kB）**
-    → **四向/多方向移动素材作者官方已提供**，不需要自己扩展
+	→ **四向/多方向移动素材作者官方已提供**，不需要自己扩展
   - 作者原文明说 "Sprite assets are for L/R movement, similar to Forager and Atomicrops!"
-    → 正面 + flip_h 的做法**符合作者设计意图**
+	→ 正面 + flip_h 的做法**符合作者设计意图**
   - 作者建议 7 种发型用 **palette swapping** 换色 → Godot 里可用 modulate / shader 实现无限变体
 
 ---

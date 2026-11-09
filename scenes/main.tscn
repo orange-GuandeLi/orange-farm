@@ -1749,6 +1749,8 @@ texture = ExtResource("1_sugp2")
 [sub_resource type="TileSet" id="TileSet_o5qli"]
 sources/0 = SubResource("TileSetAtlasSource_tbgi4")
 
+[sub_resource type="TileSet" id="TileSet_jej6c"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5qli"]
 size = Vector2(684, 16)
 
@@ -1768,7 +1770,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAAAAAIAAAABAAE
 tile_set = SubResource("TileSet_o5qli")
 
 [node name="Soil" type="TileMapLayer" parent="." unique_id=893052748]
-tile_set = SubResource("TileSet_o5qli")
+tile_set = SubResource("TileSet_jej6c")
 
 [node name="Boundary" type="StaticBody2D" parent="." unique_id=708301617]
 
