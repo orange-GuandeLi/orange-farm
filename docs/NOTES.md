@@ -1589,3 +1589,45 @@ set_cell 铺 5×5，真实渲染截图 → **格子与角色格/目标格严丝�
 青框 = 角色格 (21,13)，绿框 = 面朝下的目标格 (21,14)
 
 图：`docs/images/soil_candidate_live.png`、`soil_candidates.png`、`soil_pool_all.png`
+
+---
+
+## 2026-11-09 · 星露谷式软边耕地（blob 系统）
+
+用户要"边缘有点模糊、类似星露谷"的耕地。
+
+### 💡 关键认知
+
+星露谷的耕地**内部是连续一片土，草只长在整块耕地的外轮廓**。
+所以"给每块土都加草边"是错的 —— 那样内部会出现网格线。
+必须按**每格 4 个邻居的耕地状态**决定该格用哪种边（简化版 blob / 47-tile 系统）。
+
+### 🧩 做法
+
+1. 底纹：主图集 `atlas(11,3)`（唯一的实心横向犁沟土）
+   （注意 `atlas(11,4)` 是同一块地的另一个相位，交替铺会有棋盘感，弃用）
+2. `assets/game/soil/soil_edge16.png` = 512×16 = **32 张 16×16**
+   = **16 种邻域组合 × 2 个变体**
+   组合编号 = bit0(上)|bit1(下)|bit2(左)|bit3(右)，1 = 该方向邻居不是耕地 = 需要软边
+   每张 = 实心犁沟土 + 该方向半透明软化边缘 + 不规则草叶侵入（草色取自 atlas(1,1) 草地）
+3. 场景加 `SoilEdge` TileMapLayer，顺序在 Soil 之后、Entities 之前
+4. 代码 `_refresh_edge(cell)`：锄地后重算该格 + 4 邻域的 combo，
+   内部格(combo=0)不贴 blob，只贴实心土
+
+### ❌ 走过的弯路
+
+- **每格羽化**（soil_fuzzy.png）：内部全是草噪点 + 明显网格线 → 废弃
+- **只加草叶不羽化**（soil_edge.png 12 张）：土块边缘仍是硬直线，不够"模糊" → 合并进 blob
+- 纯草叶版用纯绿色太亮太跳 → 改用暗绿/中绿三档
+- 曾误把 fuzzy 的第 0 个变体当"实心土" → 内部还是有羽化
+
+### ✅ 验证
+
+- Godot 真实渲染：连续犁沟土 + 外轮廓不规则草叶 ✅ 格子对齐 ✅
+  图 `docs/images/soil_blob_live.png`
+- 16 组合预览 `docs/images/soil_blob_variants.png`
+- 外轮廓效果 `docs/images/soil_edge_contour.png`
+
+### 📦 清理
+
+删除 soil_fuzzy.png、soil_edge.png（方案 A 废弃产物）
