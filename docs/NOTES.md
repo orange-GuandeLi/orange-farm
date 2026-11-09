@@ -1157,3 +1157,295 @@ screen = (world - 视野左上角) * 4
 视野左上角 = 相机屏幕中心 - 视口/2
 ```
 第一次忘了减视口左上角，第二次裁剪框超出了窗口高度(720)取到黑边。
+
+---
+
+## 2026-11-09 · 角色素材评估（两个包）
+
+### 包 A：Sunnyside_World_ASSET_PACK_V2.1（用户已放入）
+**锄头问题的答案：包里没有锄头（hoe），只有铲子（shovel）。**
+- `UI/shovel.png` 14×14 = 铲子图标（灰铲头 + 棕木柄）
+- `Characters/Human/DIG/tools_dig_strip13.png` 里手上拿的就是**同一把铲子**
+  （f0-f6 举起，f7-f12 下挥，f12 铲头朝下 + 棕色土屑飞溅）
+- 附带可用：`UI/water.png`（洒水壶）、`UI/plant.png`（幼苗/种子）、
+  `Elements/Crops/soil_00/01/03/04.png`（16×12 耕地四态）、
+  11 种作物 × 6 个生长阶段、`seeds_generic.png`、`wood.png`、`rock.png`
+- **DIG base 身体底边全程 = 39**，与 IDLE(39)/WALK(39)/WATERING(39) 完全一致
+  → 换动画时角色不会跳，AnimatedSprite2D position(0,-5) 可直接复用 ✅
+- 两个 aseprite 源文件**像素数据加密**（frame chunk 尺寸不合理），
+  但**图层名/帧标签是明文可读的**：
+  - v0.07.aseprite：bg/guide/base/6种发型/tools/20个动作标签 + 额外图层
+    (shadow/water/impact/hand back/hand front/arm/bald head/afro hair/red hair…)
+  - condensed 版：base/6种发型/tools + 20个动作标签（无加密标记 0x189b）
+  → 可据此写切图脚本，但**不能提取新内容/加画**
+
+### 包 B：SuperRetroWorld_CharacterPack_Full（用户新放入）
+**结论：能用，但不建议整体换。**
+- 32 个角色，RPG Maker 标准 **3×4 布局**，帧 16×20（48×80 = 3列×4行）
+  - row0: 待机 下 / 左 / 右
+  - row1: 走 下 / 左 / 右
+  - row2: 走 下 / 左 / 右
+  - row3: **待机 上(背面)** / 走上 / 走上
+  - 另有 32×32 版本（配 ARPG 素材包用）
+- 附属：宝箱（8配色×多状态）、篝火动画、心形血条、宝石/药水图标
+- 许可：可商用可改，需署名 @gif_not_jif / @Noiracide / @DessRomaric
+- **4 个硬伤**：
+  1. **只有 idle+walk，没有工具动画** → 锄地没有挥铲动作（M2a 表现会退化）
+  2. **画风不匹配**：DQ/FF Q版大头粗描边 vs 星露谷现代像素；且本包无配套地面 tileset
+  3. **角色 16×20 比 16px 格高 4px** → 脚底对位/碰撞盒/相机跟随要重算
+  4. **不能再用 flip_h**（左/右是独立帧），现有 facing/flip_h 逻辑要整个换
+
+### 🔑 关键发现：Sunnyside 角色本来就是**正面朝向镜头**的
+`base_idle_strip9.png` 放大可见两只眼睛 + 粉色腮红 + 双手都在身前 → **不是侧视图**。
+所以"朝上没背面图"在 Sunnyside 素材上**没想象中严重**：
+大量俯视游戏角色背对镜头时也仍是正面脸，玩家不会觉得违和。
+
+### 用户已决定
+移动方案：**改 4 方向移动 + 4 向朝向**（星露谷原味），facing 改成 Vector2i。
+M2a 工具范围：等角色调整完再定。
+
+---
+
+## 2026-11-09 · M2a 方案确定 + 资源现状
+
+### 资源现状（删包后实测）
+- 删掉的两份包都是**副本**，项目本体没受影响：
+  - `assets/Characters/Human/`（**含 DIG 动画全部 8 层**）✅
+  - `assets/Tileset/spr_tileset_sunnysideworld_16px.png` ✅
+  - 场景无头加载跑通，40×26 / 墙 / Camera limit / Ground 42×28 全部数值不变 ✅
+- **随包一起没了的**（只在包里有，项目里没副本）：
+  - `Elements/Crops/soil_00/01/03/04.png` ← 耕地贴图 4 态（16×12）
+  - `UI/shovel.png` / `UI/water.png` / `UI/plant.png` ← 工具图标
+  - 11 种作物 × 6 生长阶段、`Elements/Animals|Plants|Other|VFX`、全部 UI 图标
+- **耕地贴图替代方案**：主图集里就有现成棕色泥土 tile
+  **c19r7 / c20r7 / c19r8 / c20r8**（16×16，四张随机拼成田地）✅
+- 用户会另外找铲子素材
+
+### 🔑 查证更正：星露谷是「8 向移动 + 4 向动画」，不是 4 向移动
+出处：CSDN《从零开始的星露谷-用Unity还原星露谷物语:移动,界面篇》
+「星露谷中人物的移动有八个方向：上下左右，左上，左下，右上右下，实际上展示的动画只有上下左右四个」
++ UQcsse3200 Wiki「The player is able to both walk and run in any direction,
+although the core animation set only features 4 directional animation for simplicity.」
+→ **移动代码 `Input.get_vector` 一行不用改**，只把 `facing` 从 int(±1) 改成 Vector2i(4 向)
+
+### 关键几何结论（角色所在格）
+角色原点在**脚底**，身体向上延伸 → 身体所在格 = 脚底所在格
+- `floor(y/16)` 在脚底压边界时**会算错一格**（176 → 11，应该是 10）
+- 正确：`cell = Vector2i(floor(x/16), floor((y-1)/16))`
+- X 轴不减 1：角色水平居中，Y 轴单边（下沿在脚底），不对称是几何事实
+
+### 铲子动作接入方式（关键决策）
+**不要**双 AnimatedSprite2D 同步（经典 bug 源）。
+**要**把 `base_dig_strip13.png` + `tools_dig_strip13.png` alpha 预烘焙成一条 1248×64 strip，
+当普通动画用 → SpriteFrames 加一个 "dig" 动画，结构零改动。
+（已实测：DIG 身体底边全程=39，与 IDLE/WALK/WATERING 一致 → 切动画不跳，position(0,-5) 可复用）
+
+详见 `docs/M2A_PLAN.md`。
+
+---
+
+## 2026-11-09 · M2a 前三步验收（facing / 数据层 / 输入）
+
+### ✅ 第1步：facing 改 4 向 —— 修复后验收全绿
+无头实测（`/tmp/verify_step123.gd`）：
+```
+按住左 → (-1, 0) ✅   松开左 → (-1, 0) 保持 ✅
+按住上 → (0, -1) ✅   松开上 → (0, -1) 保持 ✅
+按住右 → (1, 0) ✅    松开右 → (1, 0) 保持 ✅
+flip_h = false（朝右）✅
+```
+**中途发现并已修的 bug**：松开所有键后 `direction == Vector2.ZERO`，
+若不早退会掉进 else 兜底分支 → `absf(0)>absf(0)` 为 false → facing 被强制 DOWN。
+后果：站着不动时朝向恒为朝下 → 锄地目标格永远是"脚下往下一格"，"面朝哪锄哪"直接失效。
+修法：整块朝向判定包一层 `if direction != Vector2.ZERO:`。
+
+### ❌ 第2步：Autoload 注册失败（必须修）
+```
+ERROR: Unrecognized UID: "uid://v2mea8ac5y10".
+ERROR: Resource file not found: res:// (expected type: unknown)
+ERROR: Failed to instantiate an autoload, can't load from path: .
+```
+`project.godot` 里写的是 `FarmData="*uid://v2mea8ac5y10"`，
+但 `.godot/uid_cache.bin` 里**没有这个 UID**（只注册了 `res://scripts/data/soil_data.gd`，
+因为它有 `class_name` 会被全局扫描；`farm_data.gd` 是普通 Node 脚本，没被分配 UID）。
+→ Autoload 加载失败，`/root/FarmData` 根本不存在（实测 `存在 = false`）。
+**修法**：改成路径形式 `FarmData="*res://scripts/data/farm_data.gd"`（路径永远有效），
+或在 Project Settings → Autoload 里删掉再加一次。
+
+### ✅ 数据层内容正确
+- `soil_data.gd`：State 枚举 + watered/watered_days/crop_id/growth_days 全对
+- `farm_data.gd`：typed Dictionary[Vector2i, SoilData] + get_tile/is_tilled/till 全对
+
+### ✅ use_tool 已绑空格
+`physical_keycode: 32` = Space，`InputMap.has_action("use_tool") = true`
+
+### 📌 新坑：Autoload 的 uid:// 引用会失效
+Godot 4.4+ 的编辑器有时会把 Autoload 写成 `*uid://xxx`，
+但如果那个脚本没被 UID 扫描过（比如没有 `class_name`），这个 UID 就不存在 → 加载失败。
+**Autoload 一律用 `*res://` 路径形式更保险。**
+
+---
+
+## 📌 2026-11-09 第4步：三层角色（Body/Hair/Tool）实施 + 复验
+
+### ✅ 实施结果（用户完成，我复验通过）
+```
+Player (CharacterBody2D)
+├── CollisionShape2D  pos=(0,-4)
+├── BodySprite   (AnimatedSprite2D) pos=(0,-5)   ← 用户把 AnimatedSprite2D 改名成 BodySprite
+├── HairSprite   (AnimatedSprite2D) pos=(0,-5)
+├── ToolSprite   (AnimatedSprite2D) pos=(0,-5)
+└── Camera2D
+```
+`player.gd` 用 `$BodySprite` / `$HairSprite` / `$ToolSprite`，三层 pos 完全一致。
+
+### 🔴 图层语义实测（LimeZu Human 每动作目录）
+| 层 | 文件 | 实测内容 |
+|---|---|---|
+| 身体 | `base_<动作>_stripN.png` | 头+躯干+腿，**无头发、无手臂** |
+| 头发 | `<发型>_hair_<动作>_stripN.png` | 6 种发型各一层 |
+| 手臂/工具 | `tools_<动作>_stripN.png` | **idle/walk/run=空手手臂；dig=手臂+铲子** |
+
+**"tools 层其实是手臂层"的证据**：idle 的 tools 层像素落在 base 层**本身全透明**的
+`(43,34)`，填肤色 `(232,173,125)` / 深色 `(23,20,36)` / 红 `(165,31,51)` = 一只没画在
+body 层里的手。**少这一层角色就缺手臂** → 三层必须同时常显。
+
+**每个动作目录自带 tools 层** → 工具动画全套齐备，**用户不需要自己找铲子动画**：
+`DIG`=铲子 `AXE`=斧头 `MINING`=镐 `WATERING`=洒水壶 `HAMMERING`=锤子 `ATTACK`=剑。
+
+### 🔴 推翻旧方案：不需要"每帧同步 frame"
+旧 M2A_PLAN 建议"每帧 `hair.frame = animation.frame`" → **错的**。
+Godot `_process` 顺序是**父先子后**，`Player._process` 读到的 `animation.frame` 是子节点
+*上一帧*的值 → 头发/手臂慢一帧。
+**正确**：同名动画 + 相同 speed = 自动同步（`play()` 同名时直接 return，不重置帧号）。
+实测真实渲染逐帧打印：body/hair/tool 的 frame 始终相等。
+
+### 🔴 发现的 bug（待用户修）：Body 的 `dig` 参数不对
+```
+dig        帧数=13  speed=5.0   loop=true    ← ❌ 应为 speed=20, loop=false
+hair_dig   帧数=13  speed=20.0  loop=false   ✓
+tool_dig   帧数=13  speed=20.0  loop=false   ✓
+```
+后果：① 身体慢动作、头发+手臂高速 → 三层脱节；② `loop=true` 时
+`animation_finished` **永不发出** → 第5步锄地状态机永久卡在 `_busy=true`。
+（新建动画时 Godot 默认 speed=5 + loop 开，忘了改。）
+
+### 📌 新坑：用 `pause()` + 手动 `frame=N` 截图会拍到"缺头发"的假象
+Godot 4.7 的 AnimatedSprite2D 在暂停态手动改 frame **不刷新贴图缓存** → 头发层渲染成空。
+但**真实运行（自然播放）完全正常**。以后验证动画一律用"自然播放"拍，别用 pause+设帧。
+
+### 📌 其它复验数据
+- Soil 已挂上 `TileSet_o5qli` ✅（用户做了）
+- Decor 仍为空（`tile_set = null`, `used_cells = 0`）—— 用户似已清空待重做
+- 12 个动画的 region / 内容**逐帧核对全部正确**（无导入错误）
+
+---
+
+## 📌 2026-11-09 修正 + GameMaker 工程勘察（详见 docs/GAMEMAKER_ASSETS.md）
+
+### 🔴 修正上一条结论：整包回来了，"丢失的素材"全部恢复
+上一条记录里写的"耕地贴图 soil_00/01/03/04、11 种作物×6 阶段、UI 图标已随包删除且无副本"
+**作废** —— 用户把整个 `Sunnyside_World_ASSET_PACK_V2.1/` 放回了项目，现已全部可用。
+
+### ✅ 第4步复验：dig 已修好
+```
+dig      帧数=13  speed=20.0  loop=false   ✅
+hair_dig 帧数=13  speed=20.0  loop=false   ✅
+tool_dig 帧数=13  speed=20.0  loop=false   ✅
+```
+
+### 🔬 GameMaker 工程 vs aseprite 加密 —— 绕过成功，但没绕出新像素
+- `Sunnyside_World_Gamemaker/sprites/` 共 **475 个 sprite**，每个含**明文 `.yy`**（JSON-like）
+  + **每帧独立明文 PNG**（UUID 命名）+ `layers/<uuid>/`
+- `.yy` 里能读到：`frames` 顺序、`sequence.tracks[].keyframes`（真实帧序）、
+  `playbackSpeed`（作者原始速度）、`origin`/`xorigin`/`yorigin`、`bbox_*`
+- **GM 帧 vs 导出 strip 差异 = 0 像素** → 同一批数据
+- `layers/<uuid>/` 每帧**只有一个 png** → GameMaker 里已是合并单层，没有更多图层
+- ❌ **仍然没有背面/侧面**：角色 sprite 只有 20 动作 × 3 层，全正面
+
+### ★★★ 决定性验证：三层方案 = 作者原方案
+`Spr_dig468`（作者手工合成的完整角色）与我们的 `base + bowlhair + tools` 三层合成：
+**帧0 差异 0 像素**，其余发型差异 105~166 → 我们的做法和原作者**完全一致**，
+`bowlhair` 确认为作者默认发型。
+
+### ★ 新挖到的资产（Assets 目录里之前没注意到的）
+- `soil_00/01/03/04`（16×12 耕地四态）→ **第5步直接用**，替代主图集泥土 tile
+- `greenbar_00~06`（15×7，7 段）→ M2b 体力条；另有 redbar(7段)/bluebar(6段)
+- `expression_alerted/attack/chat/confused/love/stress/working`（8~10px 表情气泡）
+- `dust_land_strip6` / `dust_run_strip8` / `dust_land_sidepuff_strip5`（多帧尘土特效）
+- `spr_deco_charactershadow`（16×16 角色阴影）、`spr_deco_tree_01`(32×34)、`_02`(28×43)
+- 动物（sheep/chicken/cow/pig/duck/fish）、矿物（ore_stone/coal/gold/silver/bluestone）、
+  家具装饰（chair/bed/chest/barrel/campfire/well…）、9-slice 面板 9 色
+
+### 📌 作者的播放速度参考
+`base_dig_strip13` playbackSpeed=**12.0**（13帧≈1.08s）vs 我们用的 20（≈0.65s）。
+星露谷锄地约 0.5~0.7s → 20 更接近星露谷，保持当前值。
+
+### ⚠️ 待用户执行：给整包加 .gdignore
+几千张 PNG 已生成 .import，拖慢编辑器扫描。
+`touch assets/Sunnyside_World_ASSET_PACK_V2.1/.gdignore` + 需要的图单独复制到 `assets/game/`。
+
+### ✅ 已建立 README.md 与素材致谢
+- `README.md`（项目根）：项目介绍 + **完整素材致谢与授权摘要**（作者 Daniel Diggle / itch.io 链接 /
+  LICENCE V1 中英要点）+ 设计参数 + 目录结构 + 运行方式 + 8 条关键技术约定 + 当前进度 + docs 索引
+- `assets/Sunnyside_World_ASSET_PACK_V2.1/CREDITS.md`：
+  保证素材文件夹被单独拷走时 itch.io 链接不丢失（符合作者条款中"再分发需附链接"的要求）
+- **查证到的官方信息**：
+  - 作者 **Daniel Diggle**，官网 http://danieldiggle.com/sunnysideworld.php ，Twitter @DanielDiggle
+  - 授权 **LICENCE V1**：免费+商业可用、任意修改、**署名非必需但受欢迎**、
+    教程/教学再分发需附 itch.io 链接、**禁止转售/NFT**、**禁止用于训练 AI**
+  - itch.io 下载页另有 **`Sunnyside World - Human - 4,6,8 way movement - BETA`（404 kB）**
+    → **四向/多方向移动素材作者官方已提供**，不需要自己扩展
+  - 作者原文明说 "Sprite assets are for L/R movement, similar to Forager and Atomicrops!"
+    → 正面 + flip_h 的做法**符合作者设计意图**
+  - 作者建议 7 种发型用 **palette swapping** 换色 → Godot 里可用 modulate / shader 实现无限变体
+
+---
+
+## 📌 2026-11-09 重大突破：aseprite 混淆绕过 + 四向移动素材提取（详见 docs/ASEPRITE_EXTRACTION.md）
+
+### ⚠️ 修正此前结论
+之前多次说"源 aseprite 像素数据加密" —— **表述不准确**。
+准确说法：**chunk 元数据被混淆，像素数据是明文 zlib，可完整提取**。
+
+### ✅ 混淆结构（实测）
+| 部位 | 混淆? |
+|---|---|
+| 文件头 / 顶层 frame chunk | ❌ 未混淆 |
+| frame 内部子 chunk 的 size/type | ✅ **被混淆**（size 全是 0xN0000，type 全 0x0000） |
+| cel 的 layer index / x / y / opacity / w / h | ❌ 未混淆 |
+| **像素数据** | ❌ **未加密**（1909 个 zlib 流全部可解压） |
+
+### ✅ 绕过方法
+1. 全文件扫 zlib 头（`78 01/9c/da/5e`）→ 1909 个流
+2. **从流尾部反推 cel 头**：width 在 `off-4`、height 在 `off-2`（1909/1909 校验通过）
+3. cel 头相对 zlib 起点：layer index `-20` / x `-18` / y `-16` / opacity `-14` /
+   celtype `-13` / zindex `-11` / reserved `-9..-4` / w `-4` / h `-2`
+4. 顶层 frame chunk 未混淆 → 按边界分帧；cel 按 (x,y) 贴到 96×64 画布叠加
+5. **踩坑**：x/y 首次读成 `-20/-18` 全错位，靠 GameMaker 里 base_idle f0 的 bbox(43,23)
+   反查原始字节才修正
+
+### 🎁 收获：作者官方尚未导出的四向移动动画
+`assets/sunnyside_world_chatacter_anim_human_v1.0.aseprite`（**项目里本来就有**，
+用户以为"不是 zip 就没用"）= itch.io 那个 404 kB 的 BETA 包。
+
+**frame tag 明文**：`idle-s / idle-se / idle-ne / idle-n`、`walk-s/se/ne/n`、`run-s/se/ne/n`
+（S=南 SE=东南 NE=东北 N=北）—— **这就是四向移动**。
+另有图层面板 **`tools rear`**（背向手臂层）。
+
+**像素证据**（docs/images/frames_27_92.png）：
+帧 27-43 正面可见眼睛腮红 → 44-59 侧转 → 60-76 正面 → **77-92 全黑无脸 = 背面**
+
+**图层结构**（15 层）：base(layer4,293帧) / tools(layer8,279帧) /
+6 发型(layer9-13,各215帧) / **tools rear(layer14,285帧)** / 特效(16,17,18)
+
+### 📦 产物
+`assets/Characters/Human_v1/frames/frame_000..309.png`（310 张完整合成帧，可靠）
++ 各图层 strip + `all310_grid.png` 全景网格
+脚本 `/tmp/extract_aseprite.py` 可复用
+
+### ⚠️ 已知限制
+- **单层 strip 不完整**（base 层一帧多个 cel，脚本只留最后一个）→ **合成帧才完整**
+- layer offset 未解（发型层与 GameMaker 哈希对不上，layer12 匹配 196/215）
+- frame tag → 帧号映射未打通（tag 结构已确认在 offset 296 起）
+- 四向只有**一种发型**完成（作者原话）
