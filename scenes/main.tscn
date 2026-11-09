@@ -1768,6 +1768,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAAAAAIAAAABAAE
 tile_set = SubResource("TileSet_o5qli")
 
 [node name="Soil" type="TileMapLayer" parent="." unique_id=893052748]
+tile_set = SubResource("TileSet_o5qli")
 
 [node name="Boundary" type="StaticBody2D" parent="." unique_id=708301617]
 
