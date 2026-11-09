@@ -1,3 +1,10 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# macOS
+.DS_Store
+
+# 临时验证目录（产物已归档到 assets/ 与 docs/images/）
+tmp_extract/
+tmp_review/
