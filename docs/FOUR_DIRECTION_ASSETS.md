@@ -104,6 +104,7 @@ idle 段（0–15）有全部 8 层。
 |---|---|---|---|
 | `base_walk_e.png` / `bowlhair_walk_e.png` / `tools_walk_e.png` | 8 | V2.1 `*_walk_strip8.png` | 朝东，**游戏在用** |
 | `curlyhair/longhair/mophair/shorthair/spikeyhair_walk_e.png` | 8 | V2.1 | 其它发型的朝东版，游戏暂时不用 |
+| `base_walk_s.png` / `bowlhair_walk_s.png` / `tools_walk_s.png` | 8 | v1.0 `walk-s` 27–34 | 朝下，**游戏在用** |
 
 > V2.1 那套朝东素材是**老版本**（角色更简化），v1.0 是作者重绘过的同一款角色。
 > 两者画风一致、体型一致，混用不会出现角色变形。
@@ -175,7 +176,7 @@ func _dir_suffix() -> String:
 | 动作 | 方向版本 | 备注 |
 |---|---|---|
 | `idle` | `_s` ✓ / `_e` ✓ / `_n` ✗ / `_w`（镜像 `_e`） | 4 帧 idle speed 2.67（1.5 秒一轮）；9 帧 idle speed 6.0 |
-| `walk` | `_e` ✓ / `_s` ✗ / `_n` ✗ / `_w`（镜像 `_e`） | 8 帧，speed 10.0 |
+| `walk` | `_e` ✓ / `_s` ✓ / `_n` ✗ / `_w`（镜像 `_e`） | 8 帧，speed 10.0 |
 | `run` / `use_dig` 等 18 个动作 | 无方向版本 | 保持原样 |
 
 ---
@@ -186,7 +187,7 @@ func _dir_suffix() -> String:
 
 | 目标 | 源 tag | 帧段 | 层 |
 |---|---|---|---|
-| `_s` 的 walk | `walk-s` | 27–34 | base / bowlhair / tools |
+| `_s` 的 walk | `walk-s` | 27–34 | base / bowlhair / tools ✅ 已入库 |
 | `_n` 的 idle | `idle-n` | 12–15 | base / bowlhair / tools |
 | `_n` 的 walk | `walk-n` | 51–58 | base / bowlhair / tools |
 | `_e` 的 v1.0 版（可选） | `idle-ne` / `walk-ne` | 8–11 / 43–50 | base / bowlhair / tools |
@@ -210,7 +211,7 @@ func _dir_suffix() -> String:
 
 - **朝下 idle 是 4 帧、朝东 idle 是 9 帧**，帧数不统一。后果只有一个：转身停下时 idle 动画会重启一次，
   站姿轮廓接近所以跳变很轻微。真要统一就把朝东也换成 v1.0 的 4 帧。
-- **走路的帧数统一（8 帧）**，但 `_s` 的 walk 还缺，朝下走目前显示的是朝东那套。
+- **走路的帧数统一（8 帧）**，`_s` 的 walk 已补齐，朝下走显示朝下那套。
 - 角色**逐格吸附移动**：按下方向键后要先把当前这一步走到格子中心才切 idle，
   一格 16px ÷ `SPEED 40` = **0.4 秒**。这段等待不是动画 bug，是移动方式决定的。
 - `turn`（转身过渡）动画没接：现在是瞬间切换。
