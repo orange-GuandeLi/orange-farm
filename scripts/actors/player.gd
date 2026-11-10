@@ -36,12 +36,12 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("use_tool"):
 		_start_tool("dig")
 
-## 节点位置（脚底）-> 脚下所在的格
-##   脚底 y 落在 [r*16, (r+1)*16) 就是第 r 行
+## 节点位置（脚底）-> 身体中心所在的格
+##   身体中心 = 脚底上方 8px；刚踏进新格时目标格才不会跳远
 func _cell_of(p: Vector2) -> Vector2i:
 	return Vector2i(
 		floori(p.x / GameConfig.TILE_SIZE),
-		floori((p.y - 1.0) / GameConfig.TILE_SIZE)
+		floori((p.y - 8.0) / GameConfig.TILE_SIZE)
 	)
 
 func _update_facing(direction: Vector2) -> void:

@@ -2429,3 +2429,14 @@ UP    → target(21,12) y=192..208   紧贴头顶
 - BodySprite 默认动画从 `tool_idle_n` / `walk_s` 修正为 `idle_s`。
 - 文档：README / ROADMAP / FOUR_DIRECTION_ASSETS / TOOL_TARGET_RULES / M2A_PLAN /
   M2A_STEP5_HOE / FARM_SIZE 已同步。
+
+---
+
+## 2026-11-10 23:30 目标格判格点改为身体中心
+
+- 现象：自由移动下站在一格开头 1px，操作框跳到下一格，显得很远。
+- 原因：`_cell_of` 用脚底（`y-1`），脚一进新格就换格；人物 16px 高，目标格比身体低一截。
+- 改法：判格点改为**身体中心**（`y-8`），目标格 = 身体中心格 + facing。
+- 实测（x=100，朝下）：`feet_y=96..103 → cell(6,5) target(6,6)`；
+  `feet_y=104..119 → cell(6,6) target(6,7)`；`(100,100)` 锄地落在 `(6,6)`。
+- 代价：朝下站在一格开头时，目标格是脚底这格（贴身），不再严格“脚底前方 1 格”。
