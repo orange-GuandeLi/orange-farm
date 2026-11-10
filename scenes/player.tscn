@@ -888,7 +888,7 @@ shape = SubResource("RectangleShape2D_qhqgy")
 [node name="BodySprite" type="AnimatedSprite2D" parent="." unique_id=1017259835]
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_y8v0a")
-animation = &"tool_use_dig"
+animation = &"walk"
 
 [node name="HairSprite" type="AnimatedSprite2D" parent="." unique_id=605184306]
 position = Vector2(0, -6)
