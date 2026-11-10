@@ -941,7 +941,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"hair_walk_e",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -970,7 +970,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"hair_walk_n",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -999,7 +999,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"hair_walk_s",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1262,7 +1262,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"tool_walk_e",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1291,7 +1291,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"tool_walk_n",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1320,7 +1320,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"tool_walk_s",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1393,7 +1393,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_e",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1422,7 +1422,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_n",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1451,7 +1451,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_s",
-"speed": 10.0
+"speed": 15.0
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1235568156]
@@ -1464,7 +1464,7 @@ shape = SubResource("RectangleShape2D_qhqgy")
 [node name="BodySprite" type="AnimatedSprite2D" parent="." unique_id=1017259835]
 position = Vector2(0, -6)
 sprite_frames = SubResource("SpriteFrames_y8v0a")
-animation = &"tool_idle_n"
+animation = &"idle_s"
 
 [node name="HairSprite" type="AnimatedSprite2D" parent="." unique_id=605184306]
 position = Vector2(0, -6)

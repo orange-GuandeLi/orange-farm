@@ -7,103 +7,41 @@ extends CharacterBody2D
 @export var select_box: SelectBox # 目标格高亮框
 
 var facing := Vector2i.DOWN # 面向那里
-const SPEED = 40.0 # 速度
+const SPEED = 60.0 # 速度
 ## 工具动作里"入土"那一刻占总时长的比例（use_dig 的落地帧 f9 在 0.69 处，取 0.7）
 const TOOL_IMPACT_RATIO := 0.7
 var _busy := false # 是否在播放工具动画
-var _target := Vector2i.ZERO # 目标块
-
-# === 吸附（逐格移动）===
-# 农夫当前所在的格。永远是精确的一格，不会骑在格线上
-var _cell := Vector2i.ZERO
-# 这一步：起点格 -> 终点格
-var _from := Vector2i.ZERO
-var _to := Vector2i.ZERO
-# 这一步的进度 0~1，1 = 已经站到 _to 上
-var _t := 1.0
 
 func _ready() -> void:
-	animation.animation_finished.connect(_on_animation_finished) # 身体动画播放完毕之后通知一个函数
-	# 起点也对齐到格子，省得在场景里手改坐标
-	_cell = _cell_of(position)
-	_from = _cell
-	_to = _cell
-	_t = 1.0
-	position = _cell_center(_cell)
+	animation.animation_finished.connect(_on_animation_finished)
+	# 俯视角：不要重力/地面逻辑，move_and_slide 才是 2D 自由移动
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	_update_select_box() # 先更新高亮框（播动画期间也要跟着动）
 
-	if _busy: # 如果在播工具动画，不响应其他动画
-		_advance_step(delta)
+	if _busy: # 工具动画期间锁移动
+		velocity = Vector2.ZERO
 		return
 
-	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down") # 获取到四个方向的走动
-
+	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if direction != Vector2.ZERO:
 		_update_facing(direction)
 
-	# 站在格子上 -> 看输入决定走哪一格
-	if _t >= 1.0 and direction != Vector2.ZERO:
-		var step := _step_dir(direction)
-		if _can_enter(_cell + step):
-			_from = _cell
-			_to = _cell + step
-			_t = 0.0
+	velocity = direction * SPEED
+	move_and_slide()
 
-	_advance_step(delta)
-
-	if _t < 1.0: # 正在走这一步 -> 走路动画
-		_play_anim("walk")
-	else: # 站住了 -> idle
-		_play_anim("idle")
+	_play_anim("walk" if velocity.length() > 1.0 else "idle")
 
 	if Input.is_action_just_pressed("use_tool"):
 		_start_tool("dig")
 
-## 推进正在走的这一步（走到格子中心就停）
-func _advance_step(delta: float) -> void:
-	if _t >= 1.0:
-		position = _cell_center(_cell)
-		return
-	_t = minf(1.0, _t + SPEED * delta / GameConfig.TILE_SIZE)
-	position = _cell_center(_from).lerp(_cell_center(_to), _t)
-	if _t >= 1.0:
-		_cell = _to
-
-## 走一格往哪走（主轴优先）
-func _step_dir(direction: Vector2) -> Vector2i:
-	if absf(direction.x) > absf(direction.y):
-		return Vector2i.LEFT if direction.x < 0.0 else Vector2i.RIGHT
-	return Vector2i.UP if direction.y < 0.0 else Vector2i.DOWN
-
-## 这一格能不能站进去（问物理引擎有没有墙）
-func _can_enter(cell: Vector2i) -> bool:
-	var space := get_world_2d().direct_space_state
-	var q := PhysicsShapeQueryParameters2D.new()
-	q.shape = $CollisionShape2D.shape
-	q.transform = Transform2D(0.0, _cell_center(cell) + $CollisionShape2D.position)
-	q.collision_mask = 1
-	var ignore: Array[RID] = [get_rid()]
-	q.exclude = ignore
-	return space.intersect_shape(q, 1).is_empty()
-
-## 一个格子对应的节点位置
-##   x = 16*列 + 8  -> 身体中心落在格子正中间
-##   y = 16*(行+1)  -> 脚底线贴着这一行的底边
-func _cell_center(c: Vector2i) -> Vector2:
-	return Vector2(
-		c.x * GameConfig.TILE_SIZE + GameConfig.TILE_SIZE * 0.5,
-		(c.y + 1) * GameConfig.TILE_SIZE
-	)
-
-## 节点位置 -> 农夫当前所在格
-##   横：身体中心所在的列
-##   纵：身体中心所在的行
+## 节点位置（脚底）-> 脚下所在的格
+##   脚底 y 落在 [r*16, (r+1)*16) 就是第 r 行
 func _cell_of(p: Vector2) -> Vector2i:
 	return Vector2i(
 		floori(p.x / GameConfig.TILE_SIZE),
-		floori((p.y - 8.0) / GameConfig.TILE_SIZE)
+		floori((p.y - 1.0) / GameConfig.TILE_SIZE)
 	)
 
 func _update_facing(direction: Vector2) -> void:
@@ -128,7 +66,6 @@ func _start_tool(tool: String) -> void:
 
 	_busy = true
 	var anim := _play_anim("use_" + tool)
-	_target = cell
 	if anim == &"":
 		# 没有这个工具动画：别把玩家锁死，也不改地块
 		_busy = false
@@ -136,7 +73,7 @@ func _start_tool(tool: String) -> void:
 
 	# 等锄头落地再改地块：时长从动画本身算，改帧数/速度时不用再动这里
 	await get_tree().create_timer(_anim_duration(animation, anim) * TOOL_IMPACT_RATIO).timeout
-	_apply_till(_target)
+	_apply_till(cell)
 
 ## 三层一起播；返回身体层实际播放的动画名（回退链解析后的结果）
 func _play_anim(base_name: String) -> StringName:
@@ -192,7 +129,7 @@ func _on_animation_finished() -> void:
 
 ## 农夫当前所在的格
 func _player_cell() -> Vector2i:
-	return _cell
+	return _cell_of(position)
 
 func _target_cell() -> Vector2i:
 	var c := _player_cell()
