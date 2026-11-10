@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://do0w4qvrmns2t"
-path="res://.godot/imported/bowlhair_run_strip8.png-28839b13e5edc52bfe6cbe4bfeeb34be.ctex"
+uid="uid://c8rvdwybp5igm"
+path="res://.godot/imported/bowlhair_run_strip8.png-86f8aa393161afeb80385f9659eec425.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/RUN/bowlhair_run_strip8.png"
-dest_files=["res://.godot/imported/bowlhair_run_strip8.png-28839b13e5edc52bfe6cbe4bfeeb34be.ctex"]
+source_file="res://assets/characters/human/run/bowlhair_run_strip8.png"
+dest_files=["res://.godot/imported/bowlhair_run_strip8.png-86f8aa393161afeb80385f9659eec425.ctex"]
 
 [params]
 

@@ -1,14 +1,14 @@
 [gd_scene format=4 uid="uid://d1flhep88ywh0"]
 
 [ext_resource type="PackedScene" uid="uid://dabka20wufary" path="res://scenes/player.tscn" id="1_o5qli"]
-[ext_resource type="Texture2D" uid="uid://c3mw8g7kbass7" path="res://assets/Tileset/spr_tileset_sunnysideworld_16px.png" id="1_sugp2"]
+[ext_resource type="Texture2D" uid="uid://c3mw8g7kbass7" path="res://assets/tileset/spr_tileset_sunnysideworld_16px.png" id="1_sugp2"]
 [ext_resource type="Script" uid="uid://fdsxobyo2h6t" path="res://scripts/world/select_box.gd" id="2_85g3d"]
 [ext_resource type="Script" uid="uid://cc6m641cgymto" path="res://scripts/world/soil.gd" id="2_jyhfs"]
-[ext_resource type="Texture2D" uid="uid://bl0sdl3lfni77" path="res://assets/game/Select Box/selectbox_tl.png" id="3_choun"]
-[ext_resource type="Texture2D" uid="uid://decwbadwdap2j" path="res://assets/game/fx/dust_land.png" id="3_tbgi4"]
-[ext_resource type="Texture2D" uid="uid://q5irnc1wy0pu" path="res://assets/game/Select Box/selectbox_tr.png" id="4_ya4ey"]
-[ext_resource type="Texture2D" uid="uid://hibbps5x7k7f" path="res://assets/game/Select Box/selectbox_br.png" id="5_eb6dy"]
-[ext_resource type="Texture2D" uid="uid://dhw5sjl2cfk22" path="res://assets/game/Select Box/selectbox_bl.png" id="6_trceg"]
+[ext_resource type="Texture2D" uid="uid://83kmau14a5ro" path="res://assets/ui/selectbox_tl.png" id="3_85g3d"]
+[ext_resource type="Texture2D" uid="uid://brfn5tph55jud" path="res://assets/ui/selectbox_tr.png" id="4_85g3d"]
+[ext_resource type="Texture2D" uid="uid://m2xx7lvkwha5" path="res://assets/ui/selectbox_br.png" id="5_85g3d"]
+[ext_resource type="Texture2D" uid="uid://hidlwhcv3fs0" path="res://assets/ui/selectbox_bl.png" id="6_85g3d"]
+[ext_resource type="Texture2D" uid="uid://up8ov17h6v4d" path="res://assets/game/fx/dust_land.png" id="8_85g3d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
@@ -1782,25 +1782,25 @@ tile_set = SubResource("TileSet_o5qli")
 script = ExtResource("2_85g3d")
 
 [node name="TL" type="Sprite2D" parent="SelectBox" unique_id=2113031282]
-texture = ExtResource("3_choun")
+texture = ExtResource("3_85g3d")
 centered = false
 
 [node name="TR" type="Sprite2D" parent="SelectBox" unique_id=393496780]
-texture = ExtResource("4_ya4ey")
+texture = ExtResource("4_85g3d")
 centered = false
 
 [node name="BR" type="Sprite2D" parent="SelectBox" unique_id=1501383133]
-texture = ExtResource("5_eb6dy")
+texture = ExtResource("5_85g3d")
 centered = false
 
 [node name="BL" type="Sprite2D" parent="SelectBox" unique_id=1536985582]
-texture = ExtResource("6_trceg")
+texture = ExtResource("6_85g3d")
 centered = false
 
 [node name="Soil" type="TileMapLayer" parent="." unique_id=893052748]
 tile_set = SubResource("TileSet_o5qli")
 script = ExtResource("2_jyhfs")
-tex = ExtResource("3_tbgi4")
+tex = ExtResource("8_85g3d")
 
 [node name="Boundary" type="StaticBody2D" parent="." unique_id=708301617]
 

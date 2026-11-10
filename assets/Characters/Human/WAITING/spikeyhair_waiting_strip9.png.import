@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3ga8o8gmlbdc"
-path="res://.godot/imported/spikeyhair_waiting_strip9.png-3322ff73e46e4f3ca13cd0bd78a6837c.ctex"
+uid="uid://710lgkt8u8pi"
+path="res://.godot/imported/spikeyhair_waiting_strip9.png-bd6534f7d494a47f0785a73807aa96ff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WAITING/spikeyhair_waiting_strip9.png"
-dest_files=["res://.godot/imported/spikeyhair_waiting_strip9.png-3322ff73e46e4f3ca13cd0bd78a6837c.ctex"]
+source_file="res://assets/characters/human/waiting/spikeyhair_waiting_strip9.png"
+dest_files=["res://.godot/imported/spikeyhair_waiting_strip9.png-bd6534f7d494a47f0785a73807aa96ff.ctex"]
 
 [params]
 

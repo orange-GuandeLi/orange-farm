@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://eye12bnp3y26"
-path="res://.godot/imported/shorthair_death_strip13.png-8c8b1379935322473690fd50f5f4a1f9.ctex"
+uid="uid://dnw2q7uiarl05"
+path="res://.godot/imported/shorthair_death_strip13.png-fcf837035abd45c11c93496d0f31610b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DEATH/shorthair_death_strip13.png"
-dest_files=["res://.godot/imported/shorthair_death_strip13.png-8c8b1379935322473690fd50f5f4a1f9.ctex"]
+source_file="res://assets/characters/human/death/shorthair_death_strip13.png"
+dest_files=["res://.godot/imported/shorthair_death_strip13.png-fcf837035abd45c11c93496d0f31610b.ctex"]
 
 [params]
 

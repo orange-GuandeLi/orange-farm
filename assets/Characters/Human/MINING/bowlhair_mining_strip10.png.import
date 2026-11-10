@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beca3h83k27a4"
-path="res://.godot/imported/bowlhair_mining_strip10.png-52328d03480825f4561ccd9248c80119.ctex"
+uid="uid://beevdi52ivvdf"
+path="res://.godot/imported/bowlhair_mining_strip10.png-107331afdd67f39e9d0151fea3c61815.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/MINING/bowlhair_mining_strip10.png"
-dest_files=["res://.godot/imported/bowlhair_mining_strip10.png-52328d03480825f4561ccd9248c80119.ctex"]
+source_file="res://assets/characters/human/mining/bowlhair_mining_strip10.png"
+dest_files=["res://.godot/imported/bowlhair_mining_strip10.png-107331afdd67f39e9d0151fea3c61815.ctex"]
 
 [params]
 

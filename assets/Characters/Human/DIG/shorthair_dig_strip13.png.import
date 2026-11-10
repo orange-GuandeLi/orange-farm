@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pvp87fp57c75"
-path="res://.godot/imported/shorthair_dig_strip13.png-e4697db7c6e9fcf7732aea18181dc9bd.ctex"
+uid="uid://cu4j2w36dygge"
+path="res://.godot/imported/shorthair_dig_strip13.png-e9a6242bb5d4381b20ed19e55d9afcfd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DIG/shorthair_dig_strip13.png"
-dest_files=["res://.godot/imported/shorthair_dig_strip13.png-e4697db7c6e9fcf7732aea18181dc9bd.ctex"]
+source_file="res://assets/characters/human/dig/shorthair_dig_strip13.png"
+dest_files=["res://.godot/imported/shorthair_dig_strip13.png-e9a6242bb5d4381b20ed19e55d9afcfd.ctex"]
 
 [params]
 

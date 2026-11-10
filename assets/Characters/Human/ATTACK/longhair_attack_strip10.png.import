@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn2fxgukn3y0o"
-path="res://.godot/imported/longhair_attack_strip10.png-5a719d9fcf10fbfe3da6e5f93b0368e1.ctex"
+uid="uid://barc8qem68ejw"
+path="res://.godot/imported/longhair_attack_strip10.png-71e7d5279b49484ab19bb715cdb903ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ATTACK/longhair_attack_strip10.png"
-dest_files=["res://.godot/imported/longhair_attack_strip10.png-5a719d9fcf10fbfe3da6e5f93b0368e1.ctex"]
+source_file="res://assets/characters/human/attack/longhair_attack_strip10.png"
+dest_files=["res://.godot/imported/longhair_attack_strip10.png-71e7d5279b49484ab19bb715cdb903ad.ctex"]
 
 [params]
 

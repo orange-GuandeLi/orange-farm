@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de52fsr4aacjn"
-path="res://.godot/imported/mophair_doing_strip8.png-e44e64ba55bc9b9fc282ad0a9c91c259.ctex"
+uid="uid://fj26tbuusn0c"
+path="res://.godot/imported/mophair_doing_strip8.png-80693086578be8658bfbbe463cb5b3cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DOING/mophair_doing_strip8.png"
-dest_files=["res://.godot/imported/mophair_doing_strip8.png-e44e64ba55bc9b9fc282ad0a9c91c259.ctex"]
+source_file="res://assets/characters/human/doing/mophair_doing_strip8.png"
+dest_files=["res://.godot/imported/mophair_doing_strip8.png-80693086578be8658bfbbe463cb5b3cc.ctex"]
 
 [params]
 

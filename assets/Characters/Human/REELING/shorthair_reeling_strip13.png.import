@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuo6tv0l2oces"
-path="res://.godot/imported/shorthair_reeling_strip13.png-88bde0b1d73cd007f2db4f64eb97da53.ctex"
+uid="uid://w4f5d2rs63wr"
+path="res://.godot/imported/shorthair_reeling_strip13.png-72d15991373eba6f4d9d96861224172f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/REELING/shorthair_reeling_strip13.png"
-dest_files=["res://.godot/imported/shorthair_reeling_strip13.png-88bde0b1d73cd007f2db4f64eb97da53.ctex"]
+source_file="res://assets/characters/human/reeling/shorthair_reeling_strip13.png"
+dest_files=["res://.godot/imported/shorthair_reeling_strip13.png-72d15991373eba6f4d9d96861224172f.ctex"]
 
 [params]
 

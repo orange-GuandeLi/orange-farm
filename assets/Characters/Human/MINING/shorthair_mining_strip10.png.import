@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r66y1f0r03pd"
-path="res://.godot/imported/shorthair_mining_strip10.png-f1576017b9a983c1ae3be6ab5353484e.ctex"
+uid="uid://bi2mdny6kqvcf"
+path="res://.godot/imported/shorthair_mining_strip10.png-aa611286335d16ff63f2b00323f1a78d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/MINING/shorthair_mining_strip10.png"
-dest_files=["res://.godot/imported/shorthair_mining_strip10.png-f1576017b9a983c1ae3be6ab5353484e.ctex"]
+source_file="res://assets/characters/human/mining/shorthair_mining_strip10.png"
+dest_files=["res://.godot/imported/shorthair_mining_strip10.png-aa611286335d16ff63f2b00323f1a78d.ctex"]
 
 [params]
 

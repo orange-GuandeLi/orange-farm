@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwdoi3lpn7nvu"
-path="res://.godot/imported/base_mining_strip10.png-5488574aae3d76470f6d2a3ca49eae91.ctex"
+uid="uid://b0eq7i8lx3r5r"
+path="res://.godot/imported/base_mining_strip10.png-1a1396aaad1488349c52a243b84c96d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/MINING/base_mining_strip10.png"
-dest_files=["res://.godot/imported/base_mining_strip10.png-5488574aae3d76470f6d2a3ca49eae91.ctex"]
+source_file="res://assets/characters/human/mining/base_mining_strip10.png"
+dest_files=["res://.godot/imported/base_mining_strip10.png-1a1396aaad1488349c52a243b84c96d1.ctex"]
 
 [params]
 

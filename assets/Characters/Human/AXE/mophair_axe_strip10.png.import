@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwtibmvc8n0is"
-path="res://.godot/imported/mophair_axe_strip10.png-208a2da4d2cbe91cfe9e967aa5757c0e.ctex"
+uid="uid://benlxfy3kjl3p"
+path="res://.godot/imported/mophair_axe_strip10.png-087fed3169f4563403b343604e0ddc35.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/AXE/mophair_axe_strip10.png"
-dest_files=["res://.godot/imported/mophair_axe_strip10.png-208a2da4d2cbe91cfe9e967aa5757c0e.ctex"]
+source_file="res://assets/characters/human/axe/mophair_axe_strip10.png"
+dest_files=["res://.godot/imported/mophair_axe_strip10.png-087fed3169f4563403b343604e0ddc35.ctex"]
 
 [params]
 

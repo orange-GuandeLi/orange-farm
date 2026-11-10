@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxmcdvnfsd3us"
-path="res://.godot/imported/tools_walk_strip8.png-f6523f490cfffebfd0e426ba6b0af71e.ctex"
+uid="uid://chdlswds5byhv"
+path="res://.godot/imported/tools_walk_strip8.png-4b66da830b76066fd7770dadbea8c29c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WALKING/tools_walk_strip8.png"
-dest_files=["res://.godot/imported/tools_walk_strip8.png-f6523f490cfffebfd0e426ba6b0af71e.ctex"]
+source_file="res://assets/characters/human/walking/tools_walk_strip8.png"
+dest_files=["res://.godot/imported/tools_walk_strip8.png-4b66da830b76066fd7770dadbea8c29c.ctex"]
 
 [params]
 

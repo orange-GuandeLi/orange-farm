@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://flsyqkyijgkf"
-path="res://.godot/imported/mophair_waiting_strip9.png-dabe76c228f3ef8dcbb59dca9040113f.ctex"
+uid="uid://dvcjvsxa8t5vp"
+path="res://.godot/imported/mophair_waiting_strip9.png-6b4c47a26d62e3df9686ab6d2089f2eb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WAITING/mophair_waiting_strip9.png"
-dest_files=["res://.godot/imported/mophair_waiting_strip9.png-dabe76c228f3ef8dcbb59dca9040113f.ctex"]
+source_file="res://assets/characters/human/waiting/mophair_waiting_strip9.png"
+dest_files=["res://.godot/imported/mophair_waiting_strip9.png-6b4c47a26d62e3df9686ab6d2089f2eb.ctex"]
 
 [params]
 

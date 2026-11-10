@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://y1coscg75q43"
-path="res://.godot/imported/curlyhair_hamering_strip23.png-c3a2961b5e110f8e2c6c69780c9f5fe2.ctex"
+uid="uid://b85r8wo43oge"
+path="res://.godot/imported/curlyhair_hamering_strip23.png-54a29ff88a4721b69337c6c214bf1d08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HAMMERING/curlyhair_hamering_strip23.png"
-dest_files=["res://.godot/imported/curlyhair_hamering_strip23.png-c3a2961b5e110f8e2c6c69780c9f5fe2.ctex"]
+source_file="res://assets/characters/human/hammering/curlyhair_hamering_strip23.png"
+dest_files=["res://.godot/imported/curlyhair_hamering_strip23.png-54a29ff88a4721b69337c6c214bf1d08.ctex"]
 
 [params]
 

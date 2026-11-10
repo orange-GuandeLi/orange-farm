@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3ib8n6f16i55"
-path="res://.godot/imported/tools_swimming_strip12.png-b28ecfbadcad61fef868fc16f387c18e.ctex"
+uid="uid://cq0ppxtljok0m"
+path="res://.godot/imported/tools_swimming_strip12.png-12ba17be5cf5d9cf670f374f73474306.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/SWIMMING/tools_swimming_strip12.png"
-dest_files=["res://.godot/imported/tools_swimming_strip12.png-b28ecfbadcad61fef868fc16f387c18e.ctex"]
+source_file="res://assets/characters/human/swimming/tools_swimming_strip12.png"
+dest_files=["res://.godot/imported/tools_swimming_strip12.png-12ba17be5cf5d9cf670f374f73474306.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6wrg8q7ffu2f"
-path="res://.godot/imported/curlyhair_hurt_strip8.png-6aae6254141cd154322384acb771921b.ctex"
+uid="uid://bggxn8gpvahii"
+path="res://.godot/imported/curlyhair_hurt_strip8.png-958a0a5ab26a340ed736e0d1bfe07b9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HURT/curlyhair_hurt_strip8.png"
-dest_files=["res://.godot/imported/curlyhair_hurt_strip8.png-6aae6254141cd154322384acb771921b.ctex"]
+source_file="res://assets/characters/human/hurt/curlyhair_hurt_strip8.png"
+dest_files=["res://.godot/imported/curlyhair_hurt_strip8.png-958a0a5ab26a340ed736e0d1bfe07b9b.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwx16n7khtowh"
-path="res://.godot/imported/shorthair_walk_strip8.png-2798d91dd03fa0917a9d32138c1049fe.ctex"
+uid="uid://dnykwmx4c6lke"
+path="res://.godot/imported/shorthair_walk_strip8.png-4b94818c43f3078e92f9ad8488f78d63.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WALKING/shorthair_walk_strip8.png"
-dest_files=["res://.godot/imported/shorthair_walk_strip8.png-2798d91dd03fa0917a9d32138c1049fe.ctex"]
+source_file="res://assets/characters/human/walking/shorthair_walk_strip8.png"
+dest_files=["res://.godot/imported/shorthair_walk_strip8.png-4b94818c43f3078e92f9ad8488f78d63.ctex"]
 
 [params]
 

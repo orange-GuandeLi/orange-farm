@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqy3rp5ksxntd"
-path="res://.godot/imported/curlyhair_axe_strip10.png-aa49018f9b58b9bbd3dee5e42799511e.ctex"
+uid="uid://drhp4hdau4ql2"
+path="res://.godot/imported/curlyhair_axe_strip10.png-441dc03d27b8bc772a64a0acf5294cb4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/AXE/curlyhair_axe_strip10.png"
-dest_files=["res://.godot/imported/curlyhair_axe_strip10.png-aa49018f9b58b9bbd3dee5e42799511e.ctex"]
+source_file="res://assets/characters/human/axe/curlyhair_axe_strip10.png"
+dest_files=["res://.godot/imported/curlyhair_axe_strip10.png-441dc03d27b8bc772a64a0acf5294cb4.ctex"]
 
 [params]
 

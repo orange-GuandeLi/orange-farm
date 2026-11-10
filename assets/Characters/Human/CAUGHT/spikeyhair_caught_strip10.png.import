@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ev55l4fy8b7r"
-path="res://.godot/imported/spikeyhair_caught_strip10.png-f235e1598b7ff78cccff34ba92a3f338.ctex"
+uid="uid://cmvftd8e2lwo7"
+path="res://.godot/imported/spikeyhair_caught_strip10.png-9bd7b6c141585d8b784214bfc7d4fe37.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CAUGHT/spikeyhair_caught_strip10.png"
-dest_files=["res://.godot/imported/spikeyhair_caught_strip10.png-f235e1598b7ff78cccff34ba92a3f338.ctex"]
+source_file="res://assets/characters/human/caught/spikeyhair_caught_strip10.png"
+dest_files=["res://.godot/imported/spikeyhair_caught_strip10.png-9bd7b6c141585d8b784214bfc7d4fe37.ctex"]
 
 [params]
 

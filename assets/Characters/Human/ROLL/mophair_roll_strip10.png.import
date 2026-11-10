@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhd3hah8dgfcj"
-path="res://.godot/imported/mophair_roll_strip10.png-1cb4c8fbe3c39d1c6c2416f3ff59d3ff.ctex"
+uid="uid://bgyfpqh7g8iou"
+path="res://.godot/imported/mophair_roll_strip10.png-19a76407f049a3e3db83b6d576723589.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ROLL/mophair_roll_strip10.png"
-dest_files=["res://.godot/imported/mophair_roll_strip10.png-1cb4c8fbe3c39d1c6c2416f3ff59d3ff.ctex"]
+source_file="res://assets/characters/human/roll/mophair_roll_strip10.png"
+dest_files=["res://.godot/imported/mophair_roll_strip10.png-19a76407f049a3e3db83b6d576723589.ctex"]
 
 [params]
 

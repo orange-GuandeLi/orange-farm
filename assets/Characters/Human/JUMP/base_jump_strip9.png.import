@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://favp0a1n3me4"
-path="res://.godot/imported/base_jump_strip9.png-d0c92806c0ab42b18f28ec23872049c7.ctex"
+uid="uid://8oxptdwfsncr"
+path="res://.godot/imported/base_jump_strip9.png-e60c2857d9e0b1bdc1558f1fe26b8cc4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/JUMP/base_jump_strip9.png"
-dest_files=["res://.godot/imported/base_jump_strip9.png-d0c92806c0ab42b18f28ec23872049c7.ctex"]
+source_file="res://assets/characters/human/jump/base_jump_strip9.png"
+dest_files=["res://.godot/imported/base_jump_strip9.png-e60c2857d9e0b1bdc1558f1fe26b8cc4.ctex"]
 
 [params]
 

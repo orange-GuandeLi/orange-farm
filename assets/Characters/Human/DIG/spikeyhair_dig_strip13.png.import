@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce37gbye4ta2y"
-path="res://.godot/imported/spikeyhair_dig_strip13.png-2b72424f7363576e5cdce7d207b5298d.ctex"
+uid="uid://cph4y0gc5c7h8"
+path="res://.godot/imported/spikeyhair_dig_strip13.png-0a372c0580c069f22430da1c886be563.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DIG/spikeyhair_dig_strip13.png"
-dest_files=["res://.godot/imported/spikeyhair_dig_strip13.png-2b72424f7363576e5cdce7d207b5298d.ctex"]
+source_file="res://assets/characters/human/dig/spikeyhair_dig_strip13.png"
+dest_files=["res://.godot/imported/spikeyhair_dig_strip13.png-0a372c0580c069f22430da1c886be563.ctex"]
 
 [params]
 

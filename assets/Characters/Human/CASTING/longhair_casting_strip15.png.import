@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv8302wniko5y"
-path="res://.godot/imported/longhair_casting_strip15.png-7638c67354ebf6e4ca7183e59dd1447d.ctex"
+uid="uid://bh62tjk8dyfy7"
+path="res://.godot/imported/longhair_casting_strip15.png-0ad7edd0fa7fe716610afaa918cfdd9a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CASTING/longhair_casting_strip15.png"
-dest_files=["res://.godot/imported/longhair_casting_strip15.png-7638c67354ebf6e4ca7183e59dd1447d.ctex"]
+source_file="res://assets/characters/human/casting/longhair_casting_strip15.png"
+dest_files=["res://.godot/imported/longhair_casting_strip15.png-0ad7edd0fa7fe716610afaa918cfdd9a.ctex"]
 
 [params]
 

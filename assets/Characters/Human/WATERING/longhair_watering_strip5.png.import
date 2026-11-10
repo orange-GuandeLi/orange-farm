@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djauorqoy42fk"
-path="res://.godot/imported/longhair_watering_strip5.png-9fa914e9f2a460720206e77177683c3f.ctex"
+uid="uid://dt1lu087noume"
+path="res://.godot/imported/longhair_watering_strip5.png-87dd661e7a9f4a03425e044997034758.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WATERING/longhair_watering_strip5.png"
-dest_files=["res://.godot/imported/longhair_watering_strip5.png-9fa914e9f2a460720206e77177683c3f.ctex"]
+source_file="res://assets/characters/human/watering/longhair_watering_strip5.png"
+dest_files=["res://.godot/imported/longhair_watering_strip5.png-87dd661e7a9f4a03425e044997034758.ctex"]
 
 [params]
 

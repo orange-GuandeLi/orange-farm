@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d87cy8q2pv1l"
-path="res://.godot/imported/tools_watering_strip5.png-142bac11bba26561c50c6f349f91bea1.ctex"
+uid="uid://curd60piin2iv"
+path="res://.godot/imported/tools_watering_strip5.png-6fd81bff5ee2e2c66d448838599bb946.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WATERING/tools_watering_strip5.png"
-dest_files=["res://.godot/imported/tools_watering_strip5.png-142bac11bba26561c50c6f349f91bea1.ctex"]
+source_file="res://assets/characters/human/watering/tools_watering_strip5.png"
+dest_files=["res://.godot/imported/tools_watering_strip5.png-6fd81bff5ee2e2c66d448838599bb946.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cx302wp7xpygu"
-path="res://.godot/imported/mophair_death_strip13.png-30818df44b0ed887bec3a02a7971d10e.ctex"
+uid="uid://prvli18vnxfy"
+path="res://.godot/imported/mophair_death_strip13.png-3db85a658ae1ef49076b37797674aa8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DEATH/mophair_death_strip13.png"
-dest_files=["res://.godot/imported/mophair_death_strip13.png-30818df44b0ed887bec3a02a7971d10e.ctex"]
+source_file="res://assets/characters/human/death/mophair_death_strip13.png"
+dest_files=["res://.godot/imported/mophair_death_strip13.png-3db85a658ae1ef49076b37797674aa8a.ctex"]
 
 [params]
 

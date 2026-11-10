@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr0ppcp1ybyh6"
-path="res://.godot/imported/tools_axe_strip10.png-3d15ac638e19d5a4a38544a60cd439dc.ctex"
+uid="uid://bgib1ploq58xh"
+path="res://.godot/imported/tools_axe_strip10.png-4f53a3a8dd672afbc018c606e005900f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/AXE/tools_axe_strip10.png"
-dest_files=["res://.godot/imported/tools_axe_strip10.png-3d15ac638e19d5a4a38544a60cd439dc.ctex"]
+source_file="res://assets/characters/human/axe/tools_axe_strip10.png"
+dest_files=["res://.godot/imported/tools_axe_strip10.png-4f53a3a8dd672afbc018c606e005900f.ctex"]
 
 [params]
 

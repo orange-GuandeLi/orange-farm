@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cma2eswlutjln"
-path="res://.godot/imported/curlyhair_idle_strip9.png-eb83de1a11e1a01a58fe74df3df80653.ctex"
+uid="uid://dsm7nica2q1on"
+path="res://.godot/imported/curlyhair_idle_strip9.png-6d00c5018730215ac249b72a160485b8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/IDLE/curlyhair_idle_strip9.png"
-dest_files=["res://.godot/imported/curlyhair_idle_strip9.png-eb83de1a11e1a01a58fe74df3df80653.ctex"]
+source_file="res://assets/characters/human/idle/curlyhair_idle_strip9.png"
+dest_files=["res://.godot/imported/curlyhair_idle_strip9.png-6d00c5018730215ac249b72a160485b8.ctex"]
 
 [params]
 

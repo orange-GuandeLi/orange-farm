@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq0y4rgny1b0n"
-path="res://.godot/imported/spikeyhair_run_strip8.png-a31bc63561c0f4fe2c8c04189ef5f369.ctex"
+uid="uid://dlbrxblrkeqre"
+path="res://.godot/imported/spikeyhair_run_strip8.png-c7d5d0d10df51172137675b1f91c3523.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/RUN/spikeyhair_run_strip8.png"
-dest_files=["res://.godot/imported/spikeyhair_run_strip8.png-a31bc63561c0f4fe2c8c04189ef5f369.ctex"]
+source_file="res://assets/characters/human/run/spikeyhair_run_strip8.png"
+dest_files=["res://.godot/imported/spikeyhair_run_strip8.png-c7d5d0d10df51172137675b1f91c3523.ctex"]
 
 [params]
 

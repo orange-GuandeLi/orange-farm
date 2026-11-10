@@ -17,24 +17,24 @@ hat_layer.py —— 角色图层合成 / 帽子装备工具
 
 命令示例：
   # 1) 参考帧：美术画帽子的画布
-  python3 tools/hat_layer.py ref --dir assets/Characters/Human \
+  python3 tools/hat_layer.py ref --dir assets/characters/human \
       --hair bowlhair --out /tmp/ref_bowlhair.png
 
   # 2) 锚点表
-  python3 tools/hat_layer.py anchor --dir assets/Characters/Human \
+  python3 tools/hat_layer.py anchor --dir assets/characters/human \
       --variant base --out assets/data/human_face_anchors.json
 
   # 3) 合成（帽子 PNG 必须是 96x64）
-  python3 tools/hat_layer.py bake --dir assets/Characters/Human \
+  python3 tools/hat_layer.py bake --dir assets/characters/human \
       --hair bowlhair --tools --hat /tmp/hat.png \
       --anchors assets/data/human_face_anchors.json \
-      --out-dir assets/Characters/Human_baked --actions IDLE WALKING AXE
+      --out-dir assets/characters/human_baked --actions idle walking axe
 
   # 4) 预览
-  python3 tools/hat_layer.py preview --dir assets/Characters/Human \
+  python3 tools/hat_layer.py preview --dir assets/characters/human \
       --hair bowlhair --hat /tmp/hat.png \
       --anchors assets/data/human_face_anchors.json \
-      --out /tmp/preview.png --actions IDLE AXE
+      --out /tmp/preview.png --actions idle axe
 """
 
 import argparse
@@ -171,12 +171,12 @@ def shift(img, dx, dy):
 
 def cmd_ref(args):
     """输出参考帧：base + hair 合成 + 坐标标注，美术在这上面画帽子。"""
-    p = find_strip(args.dir, "IDLE", "base")
+    p = find_strip(args.dir, "idle", "base")
     if p is None:
         sys.exit("[!] 找不到 IDLE/base")
     composed = load_frame(p, 0)
     if args.hair:
-        hp = find_strip(args.dir, "IDLE", args.hair)
+        hp = find_strip(args.dir, "idle", args.hair)
         if hp:
             composed = Image.alpha_composite(composed, load_frame(hp, 0))
         else:
@@ -217,7 +217,7 @@ def cmd_anchor(args):
             faces.append(find_face(fr))
         missing = [i for i, f in enumerate(faces) if f is None]
         result[action] = faces
-        if action == "IDLE":
+        if action == "idle":
             ref = faces[0]
         xs = [f[0] for f in faces if f]
         ys = [f[1] for f in faces if f]

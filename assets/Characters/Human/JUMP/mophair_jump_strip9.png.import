@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5emw58u83epw"
-path="res://.godot/imported/mophair_jump_strip9.png-fb7ae09582d75964905b9e036c1b355f.ctex"
+uid="uid://br25jnae2f8m3"
+path="res://.godot/imported/mophair_jump_strip9.png-ea719fa11af7aecc846b5bf1a28d9f7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/JUMP/mophair_jump_strip9.png"
-dest_files=["res://.godot/imported/mophair_jump_strip9.png-fb7ae09582d75964905b9e036c1b355f.ctex"]
+source_file="res://assets/characters/human/jump/mophair_jump_strip9.png"
+dest_files=["res://.godot/imported/mophair_jump_strip9.png-ea719fa11af7aecc846b5bf1a28d9f7f.ctex"]
 
 [params]
 

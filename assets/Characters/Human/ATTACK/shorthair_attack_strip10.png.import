@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beba4cfskysr7"
-path="res://.godot/imported/shorthair_attack_strip10.png-bdecc312bf296ae62afce83df0765c77.ctex"
+uid="uid://bxefng55caeu8"
+path="res://.godot/imported/shorthair_attack_strip10.png-ebc8f801905864f5d300a2a896a41556.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ATTACK/shorthair_attack_strip10.png"
-dest_files=["res://.godot/imported/shorthair_attack_strip10.png-bdecc312bf296ae62afce83df0765c77.ctex"]
+source_file="res://assets/characters/human/attack/shorthair_attack_strip10.png"
+dest_files=["res://.godot/imported/shorthair_attack_strip10.png-ebc8f801905864f5d300a2a896a41556.ctex"]
 
 [params]
 

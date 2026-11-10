@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtve4e8t0vns3"
-path="res://.godot/imported/spikeyhair_mining_strip10.png-00ff4c17b4b00a6f70f065780d8fa94e.ctex"
+uid="uid://bprgvesmem7o2"
+path="res://.godot/imported/spikeyhair_mining_strip10.png-0f9410ea71e85ed58ae12ef732af70c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/MINING/spikeyhair_mining_strip10.png"
-dest_files=["res://.godot/imported/spikeyhair_mining_strip10.png-00ff4c17b4b00a6f70f065780d8fa94e.ctex"]
+source_file="res://assets/characters/human/mining/spikeyhair_mining_strip10.png"
+dest_files=["res://.godot/imported/spikeyhair_mining_strip10.png-0f9410ea71e85ed58ae12ef732af70c7.ctex"]
 
 [params]
 

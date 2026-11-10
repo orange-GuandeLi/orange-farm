@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3dyt1rt8ab6a"
-path="res://.godot/imported/tools_carry_strip8.png-751747b3d2848996182f6eeb5c087700.ctex"
+uid="uid://3gdrepw0o8aa"
+path="res://.godot/imported/tools_carry_strip8.png-b38cf88b4aa6b306ef2b6067debba54e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CARRY/tools_carry_strip8.png"
-dest_files=["res://.godot/imported/tools_carry_strip8.png-751747b3d2848996182f6eeb5c087700.ctex"]
+source_file="res://assets/characters/human/carry/tools_carry_strip8.png"
+dest_files=["res://.godot/imported/tools_carry_strip8.png-b38cf88b4aa6b306ef2b6067debba54e.ctex"]
 
 [params]
 

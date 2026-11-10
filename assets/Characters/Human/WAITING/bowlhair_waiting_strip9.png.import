@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf0rcoaoq6k1k"
-path="res://.godot/imported/bowlhair_waiting_strip9.png-ace5c7c3209041fdff14404a7c154354.ctex"
+uid="uid://ehg81fnp1574"
+path="res://.godot/imported/bowlhair_waiting_strip9.png-45643ecc2766ed7fc6d6782036c826fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WAITING/bowlhair_waiting_strip9.png"
-dest_files=["res://.godot/imported/bowlhair_waiting_strip9.png-ace5c7c3209041fdff14404a7c154354.ctex"]
+source_file="res://assets/characters/human/waiting/bowlhair_waiting_strip9.png"
+dest_files=["res://.godot/imported/bowlhair_waiting_strip9.png-45643ecc2766ed7fc6d6782036c826fb.ctex"]
 
 [params]
 

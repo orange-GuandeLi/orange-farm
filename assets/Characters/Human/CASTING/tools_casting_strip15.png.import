@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d254hp3t1pghf"
-path="res://.godot/imported/tools_casting_strip15.png-ee1c7f2d811a879aee8f087b04a5ffc4.ctex"
+uid="uid://cynm1aurs14ak"
+path="res://.godot/imported/tools_casting_strip15.png-f3e36cb3b2c6732fb9c3983c7949b1cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CASTING/tools_casting_strip15.png"
-dest_files=["res://.godot/imported/tools_casting_strip15.png-ee1c7f2d811a879aee8f087b04a5ffc4.ctex"]
+source_file="res://assets/characters/human/casting/tools_casting_strip15.png"
+dest_files=["res://.godot/imported/tools_casting_strip15.png-f3e36cb3b2c6732fb9c3983c7949b1cf.ctex"]
 
 [params]
 

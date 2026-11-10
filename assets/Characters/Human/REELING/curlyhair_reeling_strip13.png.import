@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cecjnftugao5r"
-path="res://.godot/imported/curlyhair_reeling_strip13.png-b58ea172cfb655550420bf5d6687e356.ctex"
+uid="uid://ceix6xd7bkkuh"
+path="res://.godot/imported/curlyhair_reeling_strip13.png-815fa23af1802032bdac762b59d95dc1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/REELING/curlyhair_reeling_strip13.png"
-dest_files=["res://.godot/imported/curlyhair_reeling_strip13.png-b58ea172cfb655550420bf5d6687e356.ctex"]
+source_file="res://assets/characters/human/reeling/curlyhair_reeling_strip13.png"
+dest_files=["res://.godot/imported/curlyhair_reeling_strip13.png-815fa23af1802032bdac762b59d95dc1.ctex"]
 
 [params]
 

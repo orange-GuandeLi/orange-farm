@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtvc7ohvs2f88"
-path="res://.godot/imported/longhair_hurt_strip8.png-c6a6900cfdc46f7db87c9dbcfc102d77.ctex"
+uid="uid://c7vmfwchso17d"
+path="res://.godot/imported/longhair_hurt_strip8.png-c6c3aad4b0d69845a06dafa0a33b00e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HURT/longhair_hurt_strip8.png"
-dest_files=["res://.godot/imported/longhair_hurt_strip8.png-c6a6900cfdc46f7db87c9dbcfc102d77.ctex"]
+source_file="res://assets/characters/human/hurt/longhair_hurt_strip8.png"
+dest_files=["res://.godot/imported/longhair_hurt_strip8.png-c6c3aad4b0d69845a06dafa0a33b00e5.ctex"]
 
 [params]
 

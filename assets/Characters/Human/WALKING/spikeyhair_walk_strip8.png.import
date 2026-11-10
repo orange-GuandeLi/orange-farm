@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lx8kqdrixi11"
-path="res://.godot/imported/spikeyhair_walk_strip8.png-31698cdbdbfbe1d5aa909cfba03f32f0.ctex"
+uid="uid://d0pc7q60cv20k"
+path="res://.godot/imported/spikeyhair_walk_strip8.png-5d7e333c8108da91f514286ae2ca3018.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WALKING/spikeyhair_walk_strip8.png"
-dest_files=["res://.godot/imported/spikeyhair_walk_strip8.png-31698cdbdbfbe1d5aa909cfba03f32f0.ctex"]
+source_file="res://assets/characters/human/walking/spikeyhair_walk_strip8.png"
+dest_files=["res://.godot/imported/spikeyhair_walk_strip8.png-5d7e333c8108da91f514286ae2ca3018.ctex"]
 
 [params]
 

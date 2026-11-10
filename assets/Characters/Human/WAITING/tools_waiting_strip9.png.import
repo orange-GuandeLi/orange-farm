@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cq207hca5tbvw"
-path="res://.godot/imported/tools_waiting_strip9.png-85e129d5b32133def65905f0c6dd7417.ctex"
+uid="uid://dnes85fhtubwr"
+path="res://.godot/imported/tools_waiting_strip9.png-a4044ea2248e66838e2cb9b96842ddbf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WAITING/tools_waiting_strip9.png"
-dest_files=["res://.godot/imported/tools_waiting_strip9.png-85e129d5b32133def65905f0c6dd7417.ctex"]
+source_file="res://assets/characters/human/waiting/tools_waiting_strip9.png"
+dest_files=["res://.godot/imported/tools_waiting_strip9.png-a4044ea2248e66838e2cb9b96842ddbf.ctex"]
 
 [params]
 

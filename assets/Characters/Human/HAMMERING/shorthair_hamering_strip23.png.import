@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dw71fhxdjajdo"
-path="res://.godot/imported/shorthair_hamering_strip23.png-f6104751e16b0c56a4b5d6dfeb7da414.ctex"
+uid="uid://bv6lqcs13om0v"
+path="res://.godot/imported/shorthair_hamering_strip23.png-4ba0cad3a3e2574f029417c2aedefd92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HAMMERING/shorthair_hamering_strip23.png"
-dest_files=["res://.godot/imported/shorthair_hamering_strip23.png-f6104751e16b0c56a4b5d6dfeb7da414.ctex"]
+source_file="res://assets/characters/human/hammering/shorthair_hamering_strip23.png"
+dest_files=["res://.godot/imported/shorthair_hamering_strip23.png-4ba0cad3a3e2574f029417c2aedefd92.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doo7rmot2ft1u"
-path="res://.godot/imported/tools_death_strip13.png-5a66cfcc893c2037421223aaddca6374.ctex"
+uid="uid://bn34gtb15sm3d"
+path="res://.godot/imported/tools_death_strip13.png-4fbd69604da0b10e73ebb9224d11c00f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DEATH/tools_death_strip13.png"
-dest_files=["res://.godot/imported/tools_death_strip13.png-5a66cfcc893c2037421223aaddca6374.ctex"]
+source_file="res://assets/characters/human/death/tools_death_strip13.png"
+dest_files=["res://.godot/imported/tools_death_strip13.png-4fbd69604da0b10e73ebb9224d11c00f.ctex"]
 
 [params]
 

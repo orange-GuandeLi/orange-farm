@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5gxltdoxh8fy"
-path="res://.godot/imported/curlyhair_watering_strip5.png-fa667f44553e16181e723ac89516e8e0.ctex"
+uid="uid://n3g2f6uijvnm"
+path="res://.godot/imported/curlyhair_watering_strip5.png-87e3f6e895d4ba80451009068a64536d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WATERING/curlyhair_watering_strip5.png"
-dest_files=["res://.godot/imported/curlyhair_watering_strip5.png-fa667f44553e16181e723ac89516e8e0.ctex"]
+source_file="res://assets/characters/human/watering/curlyhair_watering_strip5.png"
+dest_files=["res://.godot/imported/curlyhair_watering_strip5.png-87e3f6e895d4ba80451009068a64536d.ctex"]
 
 [params]
 

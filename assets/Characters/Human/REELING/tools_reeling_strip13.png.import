@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxai4o5v2eiu4"
-path="res://.godot/imported/tools_reeling_strip13.png-0de2beb27092c1f6c305680c7e1905e9.ctex"
+uid="uid://diii3nxk4ov14"
+path="res://.godot/imported/tools_reeling_strip13.png-304dd89dced95713490f1751f692cfa1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/REELING/tools_reeling_strip13.png"
-dest_files=["res://.godot/imported/tools_reeling_strip13.png-0de2beb27092c1f6c305680c7e1905e9.ctex"]
+source_file="res://assets/characters/human/reeling/tools_reeling_strip13.png"
+dest_files=["res://.godot/imported/tools_reeling_strip13.png-304dd89dced95713490f1751f692cfa1.ctex"]
 
 [params]
 

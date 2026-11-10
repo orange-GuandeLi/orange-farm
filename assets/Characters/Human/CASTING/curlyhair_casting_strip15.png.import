@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clxvtuyamx4bw"
-path="res://.godot/imported/curlyhair_casting_strip15.png-148f8eeb2575d478098abf98aa4a9ed7.ctex"
+uid="uid://coyn7pvkvfpu0"
+path="res://.godot/imported/curlyhair_casting_strip15.png-6dbdb216f85fad19dcf98a4ecd882843.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CASTING/curlyhair_casting_strip15.png"
-dest_files=["res://.godot/imported/curlyhair_casting_strip15.png-148f8eeb2575d478098abf98aa4a9ed7.ctex"]
+source_file="res://assets/characters/human/casting/curlyhair_casting_strip15.png"
+dest_files=["res://.godot/imported/curlyhair_casting_strip15.png-6dbdb216f85fad19dcf98a4ecd882843.ctex"]
 
 [params]
 

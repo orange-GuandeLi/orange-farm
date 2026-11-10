@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c25k8ukxeq278"
-path="res://.godot/imported/spikeyhair_swimming_strip12.png-b8e4f8041f0341ffb59346e7e506a937.ctex"
+uid="uid://b16xi1habm85n"
+path="res://.godot/imported/spikeyhair_swimming_strip12.png-021b4948036a94a27cdd67bbd42ccf2b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/SWIMMING/spikeyhair_swimming_strip12.png"
-dest_files=["res://.godot/imported/spikeyhair_swimming_strip12.png-b8e4f8041f0341ffb59346e7e506a937.ctex"]
+source_file="res://assets/characters/human/swimming/spikeyhair_swimming_strip12.png"
+dest_files=["res://.godot/imported/spikeyhair_swimming_strip12.png-021b4948036a94a27cdd67bbd42ccf2b.ctex"]
 
 [params]
 

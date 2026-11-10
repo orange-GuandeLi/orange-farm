@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bi33240mlblk8"
-path="res://.godot/imported/longhair_swimming_strip12.png-ae9dd6a6d4cafc932842aba419f899b1.ctex"
+uid="uid://d1m15nweqo0f1"
+path="res://.godot/imported/longhair_swimming_strip12.png-4c68cd5f619d851f21b3ad1a1c108916.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/SWIMMING/longhair_swimming_strip12.png"
-dest_files=["res://.godot/imported/longhair_swimming_strip12.png-ae9dd6a6d4cafc932842aba419f899b1.ctex"]
+source_file="res://assets/characters/human/swimming/longhair_swimming_strip12.png"
+dest_files=["res://.godot/imported/longhair_swimming_strip12.png-4c68cd5f619d851f21b3ad1a1c108916.ctex"]
 
 [params]
 

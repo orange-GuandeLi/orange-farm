@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2nd5ckxd5e2y"
-path="res://.godot/imported/mophair_swimming_strip12.png-d07be351632da570600741d0aa987d82.ctex"
+uid="uid://cnn6a0sadawcg"
+path="res://.godot/imported/mophair_swimming_strip12.png-b57dfe780009cbede1d6ee435e2d46f5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/SWIMMING/mophair_swimming_strip12.png"
-dest_files=["res://.godot/imported/mophair_swimming_strip12.png-d07be351632da570600741d0aa987d82.ctex"]
+source_file="res://assets/characters/human/swimming/mophair_swimming_strip12.png"
+dest_files=["res://.godot/imported/mophair_swimming_strip12.png-b57dfe780009cbede1d6ee435e2d46f5.ctex"]
 
 [params]
 

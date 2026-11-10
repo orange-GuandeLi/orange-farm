@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmnbubbiom0jb"
-path="res://.godot/imported/bowlhair_axe_strip10.png-377b7b1c521e5f497ef3e2eb4d6132b1.ctex"
+uid="uid://dbp3lyenrpgl2"
+path="res://.godot/imported/bowlhair_axe_strip10.png-d679d6e9fefa7c1be2f12af32b61e63b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/AXE/bowlhair_axe_strip10.png"
-dest_files=["res://.godot/imported/bowlhair_axe_strip10.png-377b7b1c521e5f497ef3e2eb4d6132b1.ctex"]
+source_file="res://assets/characters/human/axe/bowlhair_axe_strip10.png"
+dest_files=["res://.godot/imported/bowlhair_axe_strip10.png-d679d6e9fefa7c1be2f12af32b61e63b.ctex"]
 
 [params]
 

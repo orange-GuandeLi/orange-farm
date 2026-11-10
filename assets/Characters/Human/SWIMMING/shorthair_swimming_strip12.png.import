@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdms2gf45tme5"
-path="res://.godot/imported/shorthair_swimming_strip12.png-c928ed457fef41425c1d0396fd0bb114.ctex"
+uid="uid://c1jcglh7secwv"
+path="res://.godot/imported/shorthair_swimming_strip12.png-b8fc1cfcfb0c0c889964b82e557584cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/SWIMMING/shorthair_swimming_strip12.png"
-dest_files=["res://.godot/imported/shorthair_swimming_strip12.png-c928ed457fef41425c1d0396fd0bb114.ctex"]
+source_file="res://assets/characters/human/swimming/shorthair_swimming_strip12.png"
+dest_files=["res://.godot/imported/shorthair_swimming_strip12.png-b8fc1cfcfb0c0c889964b82e557584cc.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckh4mnynih0ss"
-path="res://.godot/imported/mophair_dig_strip13.png-129cdfba0db8441b0cbcd95e951dd7df.ctex"
+uid="uid://c0r6djevoumo"
+path="res://.godot/imported/mophair_dig_strip13.png-b3f84a7e635032ae0c53389e7046769a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DIG/mophair_dig_strip13.png"
-dest_files=["res://.godot/imported/mophair_dig_strip13.png-129cdfba0db8441b0cbcd95e951dd7df.ctex"]
+source_file="res://assets/characters/human/dig/mophair_dig_strip13.png"
+dest_files=["res://.godot/imported/mophair_dig_strip13.png-b3f84a7e635032ae0c53389e7046769a.ctex"]
 
 [params]
 

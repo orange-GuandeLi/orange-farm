@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1qv3pbrs2hj0"
-path="res://.godot/imported/bowlhair_doing_strip8.png-f3facd9a97b62f91aa8b4029f39cb79e.ctex"
+uid="uid://c8q7tcdblbk0d"
+path="res://.godot/imported/bowlhair_doing_strip8.png-30ea00eab2ebb9ce378ebfa2b91ce813.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DOING/bowlhair_doing_strip8.png"
-dest_files=["res://.godot/imported/bowlhair_doing_strip8.png-f3facd9a97b62f91aa8b4029f39cb79e.ctex"]
+source_file="res://assets/characters/human/doing/bowlhair_doing_strip8.png"
+dest_files=["res://.godot/imported/bowlhair_doing_strip8.png-30ea00eab2ebb9ce378ebfa2b91ce813.ctex"]
 
 [params]
 

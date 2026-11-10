@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://digajxl2a80o7"
-path="res://.godot/imported/spikeyhair_reeling_strip13.png-32a1b6e5475ada8195fdacd35cc61bb7.ctex"
+uid="uid://dmt1o2du4p462"
+path="res://.godot/imported/spikeyhair_reeling_strip13.png-17fd60aa715e34dc0b3f0dd6be7ad2f8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/REELING/spikeyhair_reeling_strip13.png"
-dest_files=["res://.godot/imported/spikeyhair_reeling_strip13.png-32a1b6e5475ada8195fdacd35cc61bb7.ctex"]
+source_file="res://assets/characters/human/reeling/spikeyhair_reeling_strip13.png"
+dest_files=["res://.godot/imported/spikeyhair_reeling_strip13.png-17fd60aa715e34dc0b3f0dd6be7ad2f8.ctex"]
 
 [params]
 

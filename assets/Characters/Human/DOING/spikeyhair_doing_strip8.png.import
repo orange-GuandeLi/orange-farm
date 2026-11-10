@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ca8k7xrsimfdd"
-path="res://.godot/imported/spikeyhair_doing_strip8.png-0596e9e44e2532842b31d514a5674db5.ctex"
+uid="uid://dpo5v610nturm"
+path="res://.godot/imported/spikeyhair_doing_strip8.png-3ee2b20f320306a43a1f5ee84eacadbd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DOING/spikeyhair_doing_strip8.png"
-dest_files=["res://.godot/imported/spikeyhair_doing_strip8.png-0596e9e44e2532842b31d514a5674db5.ctex"]
+source_file="res://assets/characters/human/doing/spikeyhair_doing_strip8.png"
+dest_files=["res://.godot/imported/spikeyhair_doing_strip8.png-3ee2b20f320306a43a1f5ee84eacadbd.ctex"]
 
 [params]
 

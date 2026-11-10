@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://sm34xwvpxyle"
-path="res://.godot/imported/spikeyhair_attack_strip10.png-e4f7ee58a2f576d78c063f5cbdc97885.ctex"
+uid="uid://suhey5chigyw"
+path="res://.godot/imported/spikeyhair_attack_strip10.png-e2cd469040ee75441a68e1a962ac0439.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ATTACK/spikeyhair_attack_strip10.png"
-dest_files=["res://.godot/imported/spikeyhair_attack_strip10.png-e4f7ee58a2f576d78c063f5cbdc97885.ctex"]
+source_file="res://assets/characters/human/attack/spikeyhair_attack_strip10.png"
+dest_files=["res://.godot/imported/spikeyhair_attack_strip10.png-e2cd469040ee75441a68e1a962ac0439.ctex"]
 
 [params]
 

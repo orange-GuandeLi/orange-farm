@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ci8trfon2eta3"
-path="res://.godot/imported/spikeyhair_roll_strip10.png-97344063fad7de3ecb66063a99b95803.ctex"
+uid="uid://b037de7tdwp10"
+path="res://.godot/imported/spikeyhair_roll_strip10.png-ea0e142998bdec0313ff40afd66fca2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ROLL/spikeyhair_roll_strip10.png"
-dest_files=["res://.godot/imported/spikeyhair_roll_strip10.png-97344063fad7de3ecb66063a99b95803.ctex"]
+source_file="res://assets/characters/human/roll/spikeyhair_roll_strip10.png"
+dest_files=["res://.godot/imported/spikeyhair_roll_strip10.png-ea0e142998bdec0313ff40afd66fca2e.ctex"]
 
 [params]
 

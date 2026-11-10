@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnprnvnd36b3e"
-path="res://.godot/imported/shorthair_doing_strip8.png-a755cdf321532493389b4cdbf6b59b56.ctex"
+uid="uid://cgw0hfodtotg"
+path="res://.godot/imported/shorthair_doing_strip8.png-b1983b8ef507b7460ca819171d76a95d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DOING/shorthair_doing_strip8.png"
-dest_files=["res://.godot/imported/shorthair_doing_strip8.png-a755cdf321532493389b4cdbf6b59b56.ctex"]
+source_file="res://assets/characters/human/doing/shorthair_doing_strip8.png"
+dest_files=["res://.godot/imported/shorthair_doing_strip8.png-b1983b8ef507b7460ca819171d76a95d.ctex"]
 
 [params]
 

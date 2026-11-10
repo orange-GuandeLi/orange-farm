@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tfw55dmwx4qy"
-path="res://.godot/imported/curlyhair_carry_strip8.png-b1c2498ad4639006a64b55ce9805166e.ctex"
+uid="uid://dboyofh8smaqc"
+path="res://.godot/imported/curlyhair_carry_strip8.png-5ee6b4c52d35a5379565d43ebda856e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CARRY/curlyhair_carry_strip8.png"
-dest_files=["res://.godot/imported/curlyhair_carry_strip8.png-b1c2498ad4639006a64b55ce9805166e.ctex"]
+source_file="res://assets/characters/human/carry/curlyhair_carry_strip8.png"
+dest_files=["res://.godot/imported/curlyhair_carry_strip8.png-5ee6b4c52d35a5379565d43ebda856e5.ctex"]
 
 [params]
 

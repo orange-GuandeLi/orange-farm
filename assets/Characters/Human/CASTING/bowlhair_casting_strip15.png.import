@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kk3823uk7ni"
-path="res://.godot/imported/bowlhair_casting_strip15.png-a2767707e9327829c2120b2958c956b0.ctex"
+uid="uid://v16c4wq5by88"
+path="res://.godot/imported/bowlhair_casting_strip15.png-37afedcd5221e0ee78142d707960b533.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CASTING/bowlhair_casting_strip15.png"
-dest_files=["res://.godot/imported/bowlhair_casting_strip15.png-a2767707e9327829c2120b2958c956b0.ctex"]
+source_file="res://assets/characters/human/casting/bowlhair_casting_strip15.png"
+dest_files=["res://.godot/imported/bowlhair_casting_strip15.png-37afedcd5221e0ee78142d707960b533.ctex"]
 
 [params]
 

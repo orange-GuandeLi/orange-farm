@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4ewftjsytohc"
-path="res://.godot/imported/spikeyhair_death_strip13.png-36e4b238c056070bfb589526309e6dd4.ctex"
+uid="uid://bpetllgqj2bou"
+path="res://.godot/imported/spikeyhair_death_strip13.png-73f2172dce8b1fb5ef6d8a1af5de4ace.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DEATH/spikeyhair_death_strip13.png"
-dest_files=["res://.godot/imported/spikeyhair_death_strip13.png-36e4b238c056070bfb589526309e6dd4.ctex"]
+source_file="res://assets/characters/human/death/spikeyhair_death_strip13.png"
+dest_files=["res://.godot/imported/spikeyhair_death_strip13.png-73f2172dce8b1fb5ef6d8a1af5de4ace.ctex"]
 
 [params]
 

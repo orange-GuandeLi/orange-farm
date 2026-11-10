@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c53u6tjyj6u20"
-path="res://.godot/imported/base_hurt_strip8.png-1a522d359d7f2366aa561549dec1587a.ctex"
+uid="uid://b14yvii25rhv2"
+path="res://.godot/imported/base_hurt_strip8.png-f439b7b068d0d966cd2f6706b56ae4c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HURT/base_hurt_strip8.png"
-dest_files=["res://.godot/imported/base_hurt_strip8.png-1a522d359d7f2366aa561549dec1587a.ctex"]
+source_file="res://assets/characters/human/hurt/base_hurt_strip8.png"
+dest_files=["res://.godot/imported/base_hurt_strip8.png-f439b7b068d0d966cd2f6706b56ae4c0.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://j4o0jane231d"
-path="res://.godot/imported/tools_doing_strip8.png-563adeaba704cb4c1ea549cd306ef68a.ctex"
+uid="uid://bqv4xwnwg1vux"
+path="res://.godot/imported/tools_doing_strip8.png-4b0143a0c9f9cb482af453b4ac24543b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DOING/tools_doing_strip8.png"
-dest_files=["res://.godot/imported/tools_doing_strip8.png-563adeaba704cb4c1ea549cd306ef68a.ctex"]
+source_file="res://assets/characters/human/doing/tools_doing_strip8.png"
+dest_files=["res://.godot/imported/tools_doing_strip8.png-4b0143a0c9f9cb482af453b4ac24543b.ctex"]
 
 [params]
 

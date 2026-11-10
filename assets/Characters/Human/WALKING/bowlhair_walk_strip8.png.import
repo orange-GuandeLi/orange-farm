@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5pr30joqrk1"
-path="res://.godot/imported/bowlhair_walk_strip8.png-453424e99d0fde388d6500e8e7c5c6b2.ctex"
+uid="uid://bw4aqgitde04e"
+path="res://.godot/imported/bowlhair_walk_strip8.png-9c2fe80888ee25e48c34a887be00116b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WALKING/bowlhair_walk_strip8.png"
-dest_files=["res://.godot/imported/bowlhair_walk_strip8.png-453424e99d0fde388d6500e8e7c5c6b2.ctex"]
+source_file="res://assets/characters/human/walking/bowlhair_walk_strip8.png"
+dest_files=["res://.godot/imported/bowlhair_walk_strip8.png-9c2fe80888ee25e48c34a887be00116b.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csy007aqhqidr"
-path="res://.godot/imported/shorthair_hurt_strip8.png-3b55e291479427786755c911f46dd5ac.ctex"
+uid="uid://w4xm5y7b5yis"
+path="res://.godot/imported/shorthair_hurt_strip8.png-d4130cb2248b1d963bfd1756fe629732.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HURT/shorthair_hurt_strip8.png"
-dest_files=["res://.godot/imported/shorthair_hurt_strip8.png-3b55e291479427786755c911f46dd5ac.ctex"]
+source_file="res://assets/characters/human/hurt/shorthair_hurt_strip8.png"
+dest_files=["res://.godot/imported/shorthair_hurt_strip8.png-d4130cb2248b1d963bfd1756fe629732.ctex"]
 
 [params]
 

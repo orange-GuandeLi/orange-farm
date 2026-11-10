@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br7ehq0wrocfj"
-path="res://.godot/imported/base_attack_strip10.png-c4f8d3b45ae3d29f79e10d74fe070cc6.ctex"
+uid="uid://5wx2agf7hosy"
+path="res://.godot/imported/base_attack_strip10.png-89f9f1aaa8c5be6940469d919c34be0c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ATTACK/base_attack_strip10.png"
-dest_files=["res://.godot/imported/base_attack_strip10.png-c4f8d3b45ae3d29f79e10d74fe070cc6.ctex"]
+source_file="res://assets/characters/human/attack/base_attack_strip10.png"
+dest_files=["res://.godot/imported/base_attack_strip10.png-89f9f1aaa8c5be6940469d919c34be0c.ctex"]
 
 [params]
 

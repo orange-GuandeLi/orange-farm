@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cot2rlwnjpjpl"
-path="res://.godot/imported/shorthair_axe_strip10.png-18192b27c88d3bed0c6e3ceff269cb2d.ctex"
+uid="uid://ch0sn78mu2kqn"
+path="res://.godot/imported/shorthair_axe_strip10.png-fec8c24f3a63db5ad68a9bca8951227a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/AXE/shorthair_axe_strip10.png"
-dest_files=["res://.godot/imported/shorthair_axe_strip10.png-18192b27c88d3bed0c6e3ceff269cb2d.ctex"]
+source_file="res://assets/characters/human/axe/shorthair_axe_strip10.png"
+dest_files=["res://.godot/imported/shorthair_axe_strip10.png-fec8c24f3a63db5ad68a9bca8951227a.ctex"]
 
 [params]
 

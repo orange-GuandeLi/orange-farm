@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u0d0ubnvt2l"
-path="res://.godot/imported/curlyhair_attack_strip10.png-0e9cc00b84e1b76837b336e108c8e738.ctex"
+uid="uid://clwsfwqlpdlvw"
+path="res://.godot/imported/curlyhair_attack_strip10.png-6f4fb2639f566d3cb3c4060f0f6bab61.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ATTACK/curlyhair_attack_strip10.png"
-dest_files=["res://.godot/imported/curlyhair_attack_strip10.png-0e9cc00b84e1b76837b336e108c8e738.ctex"]
+source_file="res://assets/characters/human/attack/curlyhair_attack_strip10.png"
+dest_files=["res://.godot/imported/curlyhair_attack_strip10.png-6f4fb2639f566d3cb3c4060f0f6bab61.ctex"]
 
 [params]
 

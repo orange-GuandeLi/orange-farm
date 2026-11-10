@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qpktyooln8tm"
-path="res://.godot/imported/mophair_casting_strip15.png-3682780a26e8c27c56c0df8af93cf25a.ctex"
+uid="uid://boiqlh7tfl8g5"
+path="res://.godot/imported/mophair_casting_strip15.png-f2025609a460e90facde4907cc56465e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CASTING/mophair_casting_strip15.png"
-dest_files=["res://.godot/imported/mophair_casting_strip15.png-3682780a26e8c27c56c0df8af93cf25a.ctex"]
+source_file="res://assets/characters/human/casting/mophair_casting_strip15.png"
+dest_files=["res://.godot/imported/mophair_casting_strip15.png-f2025609a460e90facde4907cc56465e.ctex"]
 
 [params]
 

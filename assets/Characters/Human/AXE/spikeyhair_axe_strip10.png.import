@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://m0qbbjearv6t"
-path="res://.godot/imported/spikeyhair_axe_strip10.png-81374afdf5c9311df7a596b1e6328a68.ctex"
+uid="uid://bxqasrce6xk1g"
+path="res://.godot/imported/spikeyhair_axe_strip10.png-17630ba4126462ef87159d34fa6b9aeb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/AXE/spikeyhair_axe_strip10.png"
-dest_files=["res://.godot/imported/spikeyhair_axe_strip10.png-81374afdf5c9311df7a596b1e6328a68.ctex"]
+source_file="res://assets/characters/human/axe/spikeyhair_axe_strip10.png"
+dest_files=["res://.godot/imported/spikeyhair_axe_strip10.png-17630ba4126462ef87159d34fa6b9aeb.ctex"]
 
 [params]
 

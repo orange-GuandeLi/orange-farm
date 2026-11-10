@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckrf52xis73rb"
-path="res://.godot/imported/shorthair_carry_strip8.png-e169e93635eaf5cd4aaa42615be318bf.ctex"
+uid="uid://b5u2qqqvrdu6i"
+path="res://.godot/imported/shorthair_carry_strip8.png-9080f9325f234c50dde0dc08f81d533a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CARRY/shorthair_carry_strip8.png"
-dest_files=["res://.godot/imported/shorthair_carry_strip8.png-e169e93635eaf5cd4aaa42615be318bf.ctex"]
+source_file="res://assets/characters/human/carry/shorthair_carry_strip8.png"
+dest_files=["res://.godot/imported/shorthair_carry_strip8.png-9080f9325f234c50dde0dc08f81d533a.ctex"]
 
 [params]
 

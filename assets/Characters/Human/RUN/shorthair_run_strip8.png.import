@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4bmf8pqe5pc"
-path="res://.godot/imported/shorthair_run_strip8.png-48a547285fade003ee583343ce9c9b24.ctex"
+uid="uid://cya4xo455lncu"
+path="res://.godot/imported/shorthair_run_strip8.png-0cea74720a712e06f27bc6e797742335.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/RUN/shorthair_run_strip8.png"
-dest_files=["res://.godot/imported/shorthair_run_strip8.png-48a547285fade003ee583343ce9c9b24.ctex"]
+source_file="res://assets/characters/human/run/shorthair_run_strip8.png"
+dest_files=["res://.godot/imported/shorthair_run_strip8.png-0cea74720a712e06f27bc6e797742335.ctex"]
 
 [params]
 

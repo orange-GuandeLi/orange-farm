@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccmr0lglgi2ty"
-path="res://.godot/imported/curlyhair_doing_strip8.png-eda0d4b1a6cd808e1dac4f92510547c5.ctex"
+uid="uid://bc48gfdcf7sr2"
+path="res://.godot/imported/curlyhair_doing_strip8.png-f7f5e788161ee7a8f01ecaaa04e7ecca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DOING/curlyhair_doing_strip8.png"
-dest_files=["res://.godot/imported/curlyhair_doing_strip8.png-eda0d4b1a6cd808e1dac4f92510547c5.ctex"]
+source_file="res://assets/characters/human/doing/curlyhair_doing_strip8.png"
+dest_files=["res://.godot/imported/curlyhair_doing_strip8.png-f7f5e788161ee7a8f01ecaaa04e7ecca.ctex"]
 
 [params]
 

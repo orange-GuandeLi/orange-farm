@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cs0f2kakgy7iv"
-path="res://.godot/imported/spikeyhair_hurt_strip8.png-ff043c7f96e8b8a49ea4ef0fde41eebd.ctex"
+uid="uid://diol1viwn5x3g"
+path="res://.godot/imported/spikeyhair_hurt_strip8.png-35e9a96616ceceea4686e70132e3e96e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HURT/spikeyhair_hurt_strip8.png"
-dest_files=["res://.godot/imported/spikeyhair_hurt_strip8.png-ff043c7f96e8b8a49ea4ef0fde41eebd.ctex"]
+source_file="res://assets/characters/human/hurt/spikeyhair_hurt_strip8.png"
+dest_files=["res://.godot/imported/spikeyhair_hurt_strip8.png-35e9a96616ceceea4686e70132e3e96e.ctex"]
 
 [params]
 

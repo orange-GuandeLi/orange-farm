@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwqsjk71gwaon"
-path="res://.godot/imported/shorthair_waiting_strip9.png-a636fb4822ac852083318ddc9acf735d.ctex"
+uid="uid://ckl87fitddcxl"
+path="res://.godot/imported/shorthair_waiting_strip9.png-c04856b12fb86b152f8db550ef847492.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WAITING/shorthair_waiting_strip9.png"
-dest_files=["res://.godot/imported/shorthair_waiting_strip9.png-a636fb4822ac852083318ddc9acf735d.ctex"]
+source_file="res://assets/characters/human/waiting/shorthair_waiting_strip9.png"
+dest_files=["res://.godot/imported/shorthair_waiting_strip9.png-c04856b12fb86b152f8db550ef847492.ctex"]
 
 [params]
 

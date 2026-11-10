@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdvjcrnams8k7"
-path="res://.godot/imported/curlyhair_waiting_strip9.png-a6cdcfcb2c4b15615004fa628ebbdc13.ctex"
+uid="uid://d36lxycychxn1"
+path="res://.godot/imported/curlyhair_waiting_strip9.png-8d2495988bd4217727cac00e86aa23d8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WAITING/curlyhair_waiting_strip9.png"
-dest_files=["res://.godot/imported/curlyhair_waiting_strip9.png-a6cdcfcb2c4b15615004fa628ebbdc13.ctex"]
+source_file="res://assets/characters/human/waiting/curlyhair_waiting_strip9.png"
+dest_files=["res://.godot/imported/curlyhair_waiting_strip9.png-8d2495988bd4217727cac00e86aa23d8.ctex"]
 
 [params]
 

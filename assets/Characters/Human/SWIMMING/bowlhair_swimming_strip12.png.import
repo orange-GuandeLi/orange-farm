@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c04v5wak5rfmr"
-path="res://.godot/imported/bowlhair_swimming_strip12.png-6482b41b278a6fbcbe1a816e2318493e.ctex"
+uid="uid://2ypvdp1g1mmh"
+path="res://.godot/imported/bowlhair_swimming_strip12.png-345bbc4e284c6abfefb6c1dcd8bd76fc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/SWIMMING/bowlhair_swimming_strip12.png"
-dest_files=["res://.godot/imported/bowlhair_swimming_strip12.png-6482b41b278a6fbcbe1a816e2318493e.ctex"]
+source_file="res://assets/characters/human/swimming/bowlhair_swimming_strip12.png"
+dest_files=["res://.godot/imported/bowlhair_swimming_strip12.png-345bbc4e284c6abfefb6c1dcd8bd76fc.ctex"]
 
 [params]
 

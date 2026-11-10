@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnm4lcnxxfavk"
-path="res://.godot/imported/longhair_caught_strip10.png-0402c18c205cceb1c40e181544bd922b.ctex"
+uid="uid://d2wx4x08lkqyg"
+path="res://.godot/imported/longhair_caught_strip10.png-5518d60ed313eb63f9af05bef4632e60.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CAUGHT/longhair_caught_strip10.png"
-dest_files=["res://.godot/imported/longhair_caught_strip10.png-0402c18c205cceb1c40e181544bd922b.ctex"]
+source_file="res://assets/characters/human/caught/longhair_caught_strip10.png"
+dest_files=["res://.godot/imported/longhair_caught_strip10.png-5518d60ed313eb63f9af05bef4632e60.ctex"]
 
 [params]
 

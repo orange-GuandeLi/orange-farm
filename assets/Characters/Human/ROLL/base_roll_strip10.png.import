@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxbkrfqn1j8fm"
-path="res://.godot/imported/base_roll_strip10.png-80f9d31b9af0c382a952a7867ff0c87a.ctex"
+uid="uid://c3r1ch0bdswj3"
+path="res://.godot/imported/base_roll_strip10.png-ad256b6e75df47ab002f0f52f07044d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ROLL/base_roll_strip10.png"
-dest_files=["res://.godot/imported/base_roll_strip10.png-80f9d31b9af0c382a952a7867ff0c87a.ctex"]
+source_file="res://assets/characters/human/roll/base_roll_strip10.png"
+dest_files=["res://.godot/imported/base_roll_strip10.png-ad256b6e75df47ab002f0f52f07044d1.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg18muiueljxc"
-path="res://.godot/imported/base_dig_strip13.png-2014e519ad3165fb82dcc38b30bbbfde.ctex"
+uid="uid://jeoewwnohln7"
+path="res://.godot/imported/base_dig_strip13.png-28c6cf2b8059c14a6d9f1fbe7f6ea991.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DIG/base_dig_strip13.png"
-dest_files=["res://.godot/imported/base_dig_strip13.png-2014e519ad3165fb82dcc38b30bbbfde.ctex"]
+source_file="res://assets/characters/human/dig/base_dig_strip13.png"
+dest_files=["res://.godot/imported/base_dig_strip13.png-28c6cf2b8059c14a6d9f1fbe7f6ea991.ctex"]
 
 [params]
 

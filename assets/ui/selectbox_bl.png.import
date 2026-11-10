@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhw5sjl2cfk22"
-path="res://.godot/imported/selectbox_bl.png-83f20db9c8c65f55873e5a1e6ec60c75.ctex"
+uid="uid://cg3qwwoaqwph5"
+path="res://.godot/imported/selectbox_bl.png-d228b874179c7b782c59fd2bc1729fb8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/Select Box/selectbox_bl.png"
-dest_files=["res://.godot/imported/selectbox_bl.png-83f20db9c8c65f55873e5a1e6ec60c75.ctex"]
+source_file="res://assets/ui/selectbox_bl.png"
+dest_files=["res://.godot/imported/selectbox_bl.png-d228b874179c7b782c59fd2bc1729fb8.ctex"]
 
 [params]
 

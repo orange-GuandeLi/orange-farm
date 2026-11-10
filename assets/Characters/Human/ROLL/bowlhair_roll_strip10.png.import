@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcbadjwk4psm6"
-path="res://.godot/imported/bowlhair_roll_strip10.png-72b6897b7e7cf11aa3df022fca15a939.ctex"
+uid="uid://danamcj34rv3e"
+path="res://.godot/imported/bowlhair_roll_strip10.png-dfe7813886584003b36b7c8d6029ba79.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ROLL/bowlhair_roll_strip10.png"
-dest_files=["res://.godot/imported/bowlhair_roll_strip10.png-72b6897b7e7cf11aa3df022fca15a939.ctex"]
+source_file="res://assets/characters/human/roll/bowlhair_roll_strip10.png"
+dest_files=["res://.godot/imported/bowlhair_roll_strip10.png-dfe7813886584003b36b7c8d6029ba79.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2yk5q4qjilcj"
-path="res://.godot/imported/bowlhair_carry_strip8.png-03706517dd849e27d8ea8ff8e550985b.ctex"
+uid="uid://drbmdxt2rdnjk"
+path="res://.godot/imported/bowlhair_carry_strip8.png-fa17360d126324f97a487373e25a1af4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CARRY/bowlhair_carry_strip8.png"
-dest_files=["res://.godot/imported/bowlhair_carry_strip8.png-03706517dd849e27d8ea8ff8e550985b.ctex"]
+source_file="res://assets/characters/human/carry/bowlhair_carry_strip8.png"
+dest_files=["res://.godot/imported/bowlhair_carry_strip8.png-fa17360d126324f97a487373e25a1af4.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bx64dhyh82dcm"
-path="res://.godot/imported/shorthair_casting_strip15.png-8a0b0722b5c9b837e2d725d1f60dc128.ctex"
+uid="uid://bfr5manjeek0"
+path="res://.godot/imported/shorthair_casting_strip15.png-d3bb2406994bd2a47160b878446bf6ba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CASTING/shorthair_casting_strip15.png"
-dest_files=["res://.godot/imported/shorthair_casting_strip15.png-8a0b0722b5c9b837e2d725d1f60dc128.ctex"]
+source_file="res://assets/characters/human/casting/shorthair_casting_strip15.png"
+dest_files=["res://.godot/imported/shorthair_casting_strip15.png-d3bb2406994bd2a47160b878446bf6ba.ctex"]
 
 [params]
 

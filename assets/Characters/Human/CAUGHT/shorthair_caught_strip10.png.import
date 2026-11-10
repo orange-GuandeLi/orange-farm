@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w8fkh8ur2tvj"
-path="res://.godot/imported/shorthair_caught_strip10.png-81c7a8d23b02d4860928f272e87454a9.ctex"
+uid="uid://6po58581wwe7"
+path="res://.godot/imported/shorthair_caught_strip10.png-91a996f389e051b97e4c5a3f3920af92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CAUGHT/shorthair_caught_strip10.png"
-dest_files=["res://.godot/imported/shorthair_caught_strip10.png-81c7a8d23b02d4860928f272e87454a9.ctex"]
+source_file="res://assets/characters/human/caught/shorthair_caught_strip10.png"
+dest_files=["res://.godot/imported/shorthair_caught_strip10.png-91a996f389e051b97e4c5a3f3920af92.ctex"]
 
 [params]
 

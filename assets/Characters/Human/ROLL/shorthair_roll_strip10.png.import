@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmfif48utrt28"
-path="res://.godot/imported/shorthair_roll_strip10.png-eb32233ff925d640b8e00c8b16e33efa.ctex"
+uid="uid://bmqjael6jmlcc"
+path="res://.godot/imported/shorthair_roll_strip10.png-81eb68a13e79d3dbd61b108affbb6581.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/ROLL/shorthair_roll_strip10.png"
-dest_files=["res://.godot/imported/shorthair_roll_strip10.png-eb32233ff925d640b8e00c8b16e33efa.ctex"]
+source_file="res://assets/characters/human/roll/shorthair_roll_strip10.png"
+dest_files=["res://.godot/imported/shorthair_roll_strip10.png-81eb68a13e79d3dbd61b108affbb6581.ctex"]
 
 [params]
 

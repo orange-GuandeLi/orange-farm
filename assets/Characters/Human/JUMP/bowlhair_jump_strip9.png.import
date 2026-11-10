@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4ux1gdok7ynn"
-path="res://.godot/imported/bowlhair_jump_strip9.png-16241d572f2d1a63f36e49108477ea22.ctex"
+uid="uid://bl0hei60xd466"
+path="res://.godot/imported/bowlhair_jump_strip9.png-96423cb0ed812e5e9e3f1704ebda5472.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/JUMP/bowlhair_jump_strip9.png"
-dest_files=["res://.godot/imported/bowlhair_jump_strip9.png-16241d572f2d1a63f36e49108477ea22.ctex"]
+source_file="res://assets/characters/human/jump/bowlhair_jump_strip9.png"
+dest_files=["res://.godot/imported/bowlhair_jump_strip9.png-96423cb0ed812e5e9e3f1704ebda5472.ctex"]
 
 [params]
 

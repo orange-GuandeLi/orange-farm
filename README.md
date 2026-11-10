@@ -100,12 +100,12 @@ farm/
 │       ├── soil_data.gd          SoilData 资源（地块状态）
 │       └── farm_data.gd          FarmData 自动加载（地块仓库）
 ├── assets/
-│   ├── Characters/Human/         ★ 角色图层（body / 6 发型 / tools 手臂，按动作目录）
-│   ├── Characters/Human_v1/      ★★ 从作者 Aseprite 源文件提取的 310 帧 × 15 图层
-│   │                              （含作者尚未导出的 **四向移动动画** s/se/ne/n）
-│   ├── Tileset/                  ★ 16px 主图集
-│   └── game/                     ★ 耕地四态 / 体力条 / 表情 / 作物 / 特效 / UI 图标
-│       └── soil/                 ★ 耕地四态原图 soil_00/01/03/04（16×12，M2b 用）
+│   ├── characters/human/            ★ 角色图层（base / 发型 / tools 手臂，按动作目录）
+│   │   └── idle/ walking/ run/ dig/ ...  20 个动作目录
+│   ├── data/                        ★ 工具用数据（human_face_anchors.json）
+│   ├── game/fx/                     ★ 特效贴图（尘土）
+│   ├── tileset/                     ★ 16px 主图集
+│   └── ui/                          ★ UI 贴图（目标格四角框）
 ├── tools/                        素材处理脚本
 └── docs/                         全部开发文档（见下）
 ```
@@ -159,10 +159,11 @@ farm/
 | 5.5 步：逐格移动（吸附）+ 目标格高亮框 `SelectBox` | ✅ 已验收 |
 | M2b 播种 / 浇水 / 作物生长 / 体力条 / 存档 | ⏳ 待开始 |
 
-**已探明的可用素材**（M2b 备料）：`soil_00/01/03/04` 耕地四态（16×12，在 `assets/game/soil/`）·
-11 种作物 × 6 阶段 · `greenbar_00~06` 体力条 · `expression_*` 表情气泡 ·
-`dust_land/dust_run` 尘土特效 · `spr_deco_charactershadow` 角色阴影 ·
+**已探明的可用素材**（M2b 备料）：`greenbar_00~06` 体力条 · `expression_*` 表情气泡 ·
+`dust_run` 尘土特效 · `spr_deco_charactershadow` 角色阴影 ·
 动物（羊/鸡/牛/猪/鸭/鱼）· 矿物（煤/金/银/蓝石）· 家具装饰
+> 耕地四态 `soil_00/01/03/04`（16×12）与 11 种作物 × 6 阶段已从素材包备料，
+> 尚未入库 —— M2b 需要时重新从素材包取。
 
 ---
 

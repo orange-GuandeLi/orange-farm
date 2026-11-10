@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://peuypvsvo2f"
-path="res://.godot/imported/curlyhair_dig_strip13.png-f7f688e1df0208350147d09d32e0a159.ctex"
+uid="uid://dune0svqctdx4"
+path="res://.godot/imported/curlyhair_dig_strip13.png-39c90d1caa302122159b7675718a22ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DIG/curlyhair_dig_strip13.png"
-dest_files=["res://.godot/imported/curlyhair_dig_strip13.png-f7f688e1df0208350147d09d32e0a159.ctex"]
+source_file="res://assets/characters/human/dig/curlyhair_dig_strip13.png"
+dest_files=["res://.godot/imported/curlyhair_dig_strip13.png-39c90d1caa302122159b7675718a22ef.ctex"]
 
 [params]
 

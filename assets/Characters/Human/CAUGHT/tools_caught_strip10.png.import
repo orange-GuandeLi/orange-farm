@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuwjy8ss6v2pc"
-path="res://.godot/imported/tools_caught_strip10.png-358392a1c90e37914c792162a8fc7c86.ctex"
+uid="uid://blsueepepl1gk"
+path="res://.godot/imported/tools_caught_strip10.png-5fd66fa23c78c86a88928a092c2629fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CAUGHT/tools_caught_strip10.png"
-dest_files=["res://.godot/imported/tools_caught_strip10.png-358392a1c90e37914c792162a8fc7c86.ctex"]
+source_file="res://assets/characters/human/caught/tools_caught_strip10.png"
+dest_files=["res://.godot/imported/tools_caught_strip10.png-5fd66fa23c78c86a88928a092c2629fb.ctex"]
 
 [params]
 

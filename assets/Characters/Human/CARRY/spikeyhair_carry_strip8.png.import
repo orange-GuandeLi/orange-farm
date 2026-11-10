@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://g62e25nateci"
-path="res://.godot/imported/spikeyhair_carry_strip8.png-aecd2d31ece04a85120f1f0ef9edb633.ctex"
+uid="uid://ci46jgdx116dm"
+path="res://.godot/imported/spikeyhair_carry_strip8.png-4ac4f7781e433492e85d8cbabcf5ea7a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CARRY/spikeyhair_carry_strip8.png"
-dest_files=["res://.godot/imported/spikeyhair_carry_strip8.png-aecd2d31ece04a85120f1f0ef9edb633.ctex"]
+source_file="res://assets/characters/human/carry/spikeyhair_carry_strip8.png"
+dest_files=["res://.godot/imported/spikeyhair_carry_strip8.png-4ac4f7781e433492e85d8cbabcf5ea7a.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://daol1hu1xkjhl"
-path="res://.godot/imported/curlyhair_caught_strip10.png-a64e86ab2b572cd480ee805f4e23d31d.ctex"
+uid="uid://bks3vapf8sddm"
+path="res://.godot/imported/curlyhair_caught_strip10.png-34218e2eedf87bcf07af68b9773d6a97.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CAUGHT/curlyhair_caught_strip10.png"
-dest_files=["res://.godot/imported/curlyhair_caught_strip10.png-a64e86ab2b572cd480ee805f4e23d31d.ctex"]
+source_file="res://assets/characters/human/caught/curlyhair_caught_strip10.png"
+dest_files=["res://.godot/imported/curlyhair_caught_strip10.png-34218e2eedf87bcf07af68b9773d6a97.ctex"]
 
 [params]
 

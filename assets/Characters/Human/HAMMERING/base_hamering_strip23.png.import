@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckhegwstuqawk"
-path="res://.godot/imported/base_hamering_strip23.png-acf0d8bfc050d1b5ba471b1b2c1c8236.ctex"
+uid="uid://bqaamdwydbiah"
+path="res://.godot/imported/base_hamering_strip23.png-9da37f6335577aaed93a67127c160794.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/HAMMERING/base_hamering_strip23.png"
-dest_files=["res://.godot/imported/base_hamering_strip23.png-acf0d8bfc050d1b5ba471b1b2c1c8236.ctex"]
+source_file="res://assets/characters/human/hammering/base_hamering_strip23.png"
+dest_files=["res://.godot/imported/base_hamering_strip23.png-9da37f6335577aaed93a67127c160794.ctex"]
 
 [params]
 

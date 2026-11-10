@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b12lxj5ek7hp8"
-path="res://.godot/imported/bowlhair_dig_strip13.png-58d1f40e67a92795c93b80e5410053a2.ctex"
+uid="uid://ckny0ol5nx86u"
+path="res://.godot/imported/bowlhair_dig_strip13.png-67fca9e81912e747e0b5d96074585abd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/DIG/bowlhair_dig_strip13.png"
-dest_files=["res://.godot/imported/bowlhair_dig_strip13.png-58d1f40e67a92795c93b80e5410053a2.ctex"]
+source_file="res://assets/characters/human/dig/bowlhair_dig_strip13.png"
+dest_files=["res://.godot/imported/bowlhair_dig_strip13.png-67fca9e81912e747e0b5d96074585abd.ctex"]
 
 [params]
 

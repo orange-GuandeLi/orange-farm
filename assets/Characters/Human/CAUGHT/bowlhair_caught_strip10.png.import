@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvmpdabovttlf"
-path="res://.godot/imported/bowlhair_caught_strip10.png-c2d742a9f5c0fd4dd8f29ac922e001b5.ctex"
+uid="uid://bt5qouqi5x37"
+path="res://.godot/imported/bowlhair_caught_strip10.png-cd95919d1debb219493676ad6d7f08b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CAUGHT/bowlhair_caught_strip10.png"
-dest_files=["res://.godot/imported/bowlhair_caught_strip10.png-c2d742a9f5c0fd4dd8f29ac922e001b5.ctex"]
+source_file="res://assets/characters/human/caught/bowlhair_caught_strip10.png"
+dest_files=["res://.godot/imported/bowlhair_caught_strip10.png-cd95919d1debb219493676ad6d7f08b0.ctex"]
 
 [params]
 

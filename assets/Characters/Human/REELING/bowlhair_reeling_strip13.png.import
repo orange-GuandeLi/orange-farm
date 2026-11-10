@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cd80uajqgawa8"
-path="res://.godot/imported/bowlhair_reeling_strip13.png-1e8cd99b32045cd9346980bdf8a507ab.ctex"
+uid="uid://clptk5l8xnqs7"
+path="res://.godot/imported/bowlhair_reeling_strip13.png-3b53ecdcee3ab2834491f982dd2081bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/REELING/bowlhair_reeling_strip13.png"
-dest_files=["res://.godot/imported/bowlhair_reeling_strip13.png-1e8cd99b32045cd9346980bdf8a507ab.ctex"]
+source_file="res://assets/characters/human/reeling/bowlhair_reeling_strip13.png"
+dest_files=["res://.godot/imported/bowlhair_reeling_strip13.png-3b53ecdcee3ab2834491f982dd2081bf.ctex"]
 
 [params]
 

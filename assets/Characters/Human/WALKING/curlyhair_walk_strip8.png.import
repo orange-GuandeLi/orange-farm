@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1frxp4wet7ls"
-path="res://.godot/imported/curlyhair_walk_strip8.png-3212d8c9c7c00bda73675e1d61ba8f9f.ctex"
+uid="uid://bn3h32kdpv1v0"
+path="res://.godot/imported/curlyhair_walk_strip8.png-8ed3e9ac06445f58dab61f35c5c1c465.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WALKING/curlyhair_walk_strip8.png"
-dest_files=["res://.godot/imported/curlyhair_walk_strip8.png-3212d8c9c7c00bda73675e1d61ba8f9f.ctex"]
+source_file="res://assets/characters/human/walking/curlyhair_walk_strip8.png"
+dest_files=["res://.godot/imported/curlyhair_walk_strip8.png-8ed3e9ac06445f58dab61f35c5c1c465.ctex"]
 
 [params]
 

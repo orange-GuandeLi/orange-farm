@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8yf4dfuk7fcu"
-path="res://.godot/imported/mophair_carry_strip8.png-5aa05ce07a938da7c7407ea8f32f7dbd.ctex"
+uid="uid://ccj34fku5dw1s"
+path="res://.godot/imported/mophair_carry_strip8.png-e2bd4ff45560276b3f68cf4112aa5606.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CARRY/mophair_carry_strip8.png"
-dest_files=["res://.godot/imported/mophair_carry_strip8.png-5aa05ce07a938da7c7407ea8f32f7dbd.ctex"]
+source_file="res://assets/characters/human/carry/mophair_carry_strip8.png"
+dest_files=["res://.godot/imported/mophair_carry_strip8.png-e2bd4ff45560276b3f68cf4112aa5606.ctex"]
 
 [params]
 

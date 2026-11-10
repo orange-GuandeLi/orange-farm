@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2uj0vfc4rysa"
-path="res://.godot/imported/spikeyhair_casting_strip15.png-b182bb29a3fdab9644d445075c4151c6.ctex"
+uid="uid://clyuf3s51roqt"
+path="res://.godot/imported/spikeyhair_casting_strip15.png-cb578bcf77079e50454fd1612b2e2f67.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CASTING/spikeyhair_casting_strip15.png"
-dest_files=["res://.godot/imported/spikeyhair_casting_strip15.png-b182bb29a3fdab9644d445075c4151c6.ctex"]
+source_file="res://assets/characters/human/casting/spikeyhair_casting_strip15.png"
+dest_files=["res://.godot/imported/spikeyhair_casting_strip15.png-cb578bcf77079e50454fd1612b2e2f67.ctex"]
 
 [params]
 

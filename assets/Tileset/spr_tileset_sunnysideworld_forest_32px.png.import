@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccb7xk6p0fhhw"
-path="res://.godot/imported/spr_tileset_sunnysideworld_forest_32px.png-88be212e5fc2fbe31e0499dc43b83afb.ctex"
+uid="uid://cm6eep4cm6jwa"
+path="res://.godot/imported/spr_tileset_sunnysideworld_forest_32px.png-f5061df08589b7723597fc63eb5dc74d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Tileset/spr_tileset_sunnysideworld_forest_32px.png"
-dest_files=["res://.godot/imported/spr_tileset_sunnysideworld_forest_32px.png-88be212e5fc2fbe31e0499dc43b83afb.ctex"]
+source_file="res://assets/tileset/spr_tileset_sunnysideworld_forest_32px.png"
+dest_files=["res://.godot/imported/spr_tileset_sunnysideworld_forest_32px.png-f5061df08589b7723597fc63eb5dc74d.ctex"]
 
 [params]
 

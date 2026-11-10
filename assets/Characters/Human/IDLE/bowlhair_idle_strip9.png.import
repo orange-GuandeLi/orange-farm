@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b58nvhgorth0d"
-path="res://.godot/imported/bowlhair_idle_strip9.png-07dd2402440d96fddebd1ba2463b2cf6.ctex"
+uid="uid://cx5546la701g0"
+path="res://.godot/imported/bowlhair_idle_strip9.png-c9624f8e19fd799b4f26fc4611c66762.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/IDLE/bowlhair_idle_strip9.png"
-dest_files=["res://.godot/imported/bowlhair_idle_strip9.png-07dd2402440d96fddebd1ba2463b2cf6.ctex"]
+source_file="res://assets/characters/human/idle/bowlhair_idle_strip9.png"
+dest_files=["res://.godot/imported/bowlhair_idle_strip9.png-c9624f8e19fd799b4f26fc4611c66762.ctex"]
 
 [params]
 

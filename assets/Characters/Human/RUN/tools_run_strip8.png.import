@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsmeybfl831oe"
-path="res://.godot/imported/tools_run_strip8.png-4c577741f7f8d4393790d32a261d6e04.ctex"
+uid="uid://dv022lb2epyid"
+path="res://.godot/imported/tools_run_strip8.png-acf576cfeb501552f264d117226447db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/RUN/tools_run_strip8.png"
-dest_files=["res://.godot/imported/tools_run_strip8.png-4c577741f7f8d4393790d32a261d6e04.ctex"]
+source_file="res://assets/characters/human/run/tools_run_strip8.png"
+dest_files=["res://.godot/imported/tools_run_strip8.png-acf576cfeb501552f264d117226447db.ctex"]
 
 [params]
 

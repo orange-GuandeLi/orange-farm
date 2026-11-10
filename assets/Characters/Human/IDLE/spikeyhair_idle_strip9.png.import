@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://donata4fjngh"
-path="res://.godot/imported/spikeyhair_idle_strip9.png-e81a4a6699336d705d33c6dc23fcf233.ctex"
+uid="uid://py3et52vi8xv"
+path="res://.godot/imported/spikeyhair_idle_strip9.png-8b7678269f317dc01abeccc4e06f9848.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/IDLE/spikeyhair_idle_strip9.png"
-dest_files=["res://.godot/imported/spikeyhair_idle_strip9.png-e81a4a6699336d705d33c6dc23fcf233.ctex"]
+source_file="res://assets/characters/human/idle/spikeyhair_idle_strip9.png"
+dest_files=["res://.godot/imported/spikeyhair_idle_strip9.png-8b7678269f317dc01abeccc4e06f9848.ctex"]
 
 [params]
 

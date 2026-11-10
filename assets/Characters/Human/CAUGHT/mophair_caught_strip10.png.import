@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1sbg24rjx5q"
-path="res://.godot/imported/mophair_caught_strip10.png-3c714c4407d4253ab7fbcbff2bc13a84.ctex"
+uid="uid://dxwf58u42daw8"
+path="res://.godot/imported/mophair_caught_strip10.png-d19ba8848a90078a7a0e4b2f5cde7e58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/CAUGHT/mophair_caught_strip10.png"
-dest_files=["res://.godot/imported/mophair_caught_strip10.png-3c714c4407d4253ab7fbcbff2bc13a84.ctex"]
+source_file="res://assets/characters/human/caught/mophair_caught_strip10.png"
+dest_files=["res://.godot/imported/mophair_caught_strip10.png-d19ba8848a90078a7a0e4b2f5cde7e58.ctex"]
 
 [params]
 

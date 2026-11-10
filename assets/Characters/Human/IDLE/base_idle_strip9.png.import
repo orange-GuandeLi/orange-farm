@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxxq55nd0eshh"
-path="res://.godot/imported/base_idle_strip9.png-46d302fbb8fd97ba2dd11fea233dea43.ctex"
+uid="uid://bvyf0e4a5rcw0"
+path="res://.godot/imported/base_idle_strip9.png-a1c21e3fec1122ab6f6a9f7429cf222c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/IDLE/base_idle_strip9.png"
-dest_files=["res://.godot/imported/base_idle_strip9.png-46d302fbb8fd97ba2dd11fea233dea43.ctex"]
+source_file="res://assets/characters/human/idle/base_idle_strip9.png"
+dest_files=["res://.godot/imported/base_idle_strip9.png-a1c21e3fec1122ab6f6a9f7429cf222c.ctex"]
 
 [params]
 

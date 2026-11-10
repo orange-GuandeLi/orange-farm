@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djl50858gcte8"
-path="res://.godot/imported/spikeyhair_jump_strip9.png-63b7a8b430f88f5b1d646bc9bf03fa91.ctex"
+uid="uid://dxw1e11sc58vm"
+path="res://.godot/imported/spikeyhair_jump_strip9.png-78623370702a10c76c1cdced20d3cd15.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/JUMP/spikeyhair_jump_strip9.png"
-dest_files=["res://.godot/imported/spikeyhair_jump_strip9.png-63b7a8b430f88f5b1d646bc9bf03fa91.ctex"]
+source_file="res://assets/characters/human/jump/spikeyhair_jump_strip9.png"
+dest_files=["res://.godot/imported/spikeyhair_jump_strip9.png-78623370702a10c76c1cdced20d3cd15.ctex"]
 
 [params]
 

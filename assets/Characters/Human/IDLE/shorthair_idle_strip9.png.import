@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bf63gydwfub3h"
-path="res://.godot/imported/shorthair_idle_strip9.png-aaa988ec0ef0be5da5571252f02becac.ctex"
+uid="uid://cbgx5s50sltm7"
+path="res://.godot/imported/shorthair_idle_strip9.png-ecfaa07ad8c0908d4a329e72bff7e78a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/IDLE/shorthair_idle_strip9.png"
-dest_files=["res://.godot/imported/shorthair_idle_strip9.png-aaa988ec0ef0be5da5571252f02becac.ctex"]
+source_file="res://assets/characters/human/idle/shorthair_idle_strip9.png"
+dest_files=["res://.godot/imported/shorthair_idle_strip9.png-ecfaa07ad8c0908d4a329e72bff7e78a.ctex"]
 
 [params]
 

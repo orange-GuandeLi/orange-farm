@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxi30t0l8v1u2"
-path="res://.godot/imported/mophair_reeling_strip13.png-256f694d7fe6ca3e6547f6c26c95108b.ctex"
+uid="uid://bxkj0wywtrmr7"
+path="res://.godot/imported/mophair_reeling_strip13.png-28090cd951812b2a64a5944e215823db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/REELING/mophair_reeling_strip13.png"
-dest_files=["res://.godot/imported/mophair_reeling_strip13.png-256f694d7fe6ca3e6547f6c26c95108b.ctex"]
+source_file="res://assets/characters/human/reeling/mophair_reeling_strip13.png"
+dest_files=["res://.godot/imported/mophair_reeling_strip13.png-28090cd951812b2a64a5944e215823db.ctex"]
 
 [params]
 

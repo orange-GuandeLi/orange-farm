@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvkte0rvuhor7"
-path="res://.godot/imported/curlyhair_mining_strip10.png-34c2744d67d3a0c6e247bbe4da0eb5ef.ctex"
+uid="uid://cr3qdtndn8t4b"
+path="res://.godot/imported/curlyhair_mining_strip10.png-cb4cb80d8083a4230340bbc0aabeee1b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/MINING/curlyhair_mining_strip10.png"
-dest_files=["res://.godot/imported/curlyhair_mining_strip10.png-34c2744d67d3a0c6e247bbe4da0eb5ef.ctex"]
+source_file="res://assets/characters/human/mining/curlyhair_mining_strip10.png"
+dest_files=["res://.godot/imported/curlyhair_mining_strip10.png-cb4cb80d8083a4230340bbc0aabeee1b.ctex"]
 
 [params]
 

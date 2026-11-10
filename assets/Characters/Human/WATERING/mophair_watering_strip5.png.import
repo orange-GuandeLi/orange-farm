@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://i884wuvhyjjh"
-path="res://.godot/imported/mophair_watering_strip5.png-6b6c2f3d25d5e2268e7e15612f674588.ctex"
+uid="uid://da7rji8yqfjfj"
+path="res://.godot/imported/mophair_watering_strip5.png-1554685860f46d092d7aaebafb7b5a16.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Characters/Human/WATERING/mophair_watering_strip5.png"
-dest_files=["res://.godot/imported/mophair_watering_strip5.png-6b6c2f3d25d5e2268e7e15612f674588.ctex"]
+source_file="res://assets/characters/human/watering/mophair_watering_strip5.png"
+dest_files=["res://.godot/imported/mophair_watering_strip5.png-1554685860f46d092d7aaebafb7b5a16.ctex"]
 
 [params]
 
