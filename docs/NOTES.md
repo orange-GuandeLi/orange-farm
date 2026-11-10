@@ -453,8 +453,8 @@ get_vector(4向) = (0.0, 1.0)     ← 完全正常
 
 ### 实测证据
 
-1. 渲染 `WALKING/base_walk_strip8.png` 全部 8 帧 → **姿势完全相同，只有腿部交替**
-2. 渲染 `AXE/base_axe_strip10.png`（动作幅度最大）→ **斧头从右后方挥出、碎石向右飞散** → 确认朝右
+1. 渲染 `walking/base_walk_e.png` 全部 8 帧 → **姿势完全相同，只有腿部交替**
+2. 渲染 `axe/base_axe.png`（动作幅度最大）→ **斧头从右后方挥出、碎石向右飞散** → 确认朝右
 3. 目录结构：8 个变体全是**发型**（base/bowlhair/curlyhair/longhair/mophair/shorthair/spikeyhair/tools），
    **20 个动作文件夹里没有任何"朝向"变体**
 4. `_Source/` 的 aseprite 是**加密/自定义格式**（magic `9b18 0800` ≠ 标准 `A5E0`），无法解析/导出额外朝向
@@ -1236,7 +1236,7 @@ although the core animation set only features 4 directional animation for simpli
 
 ### 铲子动作接入方式（关键决策）
 **不要**双 AnimatedSprite2D 同步（经典 bug 源）。
-**要**把 `base_dig_strip13.png` + `tools_dig_strip13.png` alpha 预烘焙成一条 1248×64 strip，
+**要**把 `base_dig.png` + `tools_dig.png` alpha 预烘焙成一条 1248×64 strip，
 当普通动画用 → SpriteFrames 加一个 "dig" 动画，结构零改动。
 （已实测：DIG 身体底边全程=39，与 IDLE/WALK/WATERING 一致 → 切动画不跳，position(0,-5) 可复用）
 
@@ -1521,6 +1521,23 @@ strip 第 i 帧 = 该层有 cel 的 frame index 升序第 i 个（提取脚本�
 - bowlhair 缺背面走（暂用 turn 动画的背面段 8-15，共 8 帧）
 - 换色版轮廓仍是 bob 造型，与 bowlhair 不同款，混用违和
 
+### 🔄 后续修正（2026-11-10）
+
+上面这几条已被推翻，实际做法见 `docs/FOUR_DIRECTION_ASSETS.md`：
+
+- **aseprite 源文件没删**，在 `tmp/sunnyside_world_chatacter_anim_human_v1.0.aseprite`（310 帧）。
+  用 LibreSprite 打开，Tags 面板**能直接看到 tag 名**（`idle-s` / `idle-se` / `idle-ne` / `idle-n` /
+  `walk-s` / `walk-se` / `walk-ne` / `walk-n` 等），**tag 的官方语义是有的**。
+  只是文件里 tag 的 from/to 字段被破坏过，帧段要用「tag 顺序 + 像素比对」推。
+- **bowlhair 不缺正面走**：v1.0 里 `walk-s`（27–34，8 帧）就是正面朝下走。
+  之前「bowlhair 是橙色」这个前提是错的 —— 发色主色是 `[117,61,58]` 深棕，
+  `[224,115,23]` 那套是换色后的产物。
+- **背面走有**：`walk-n`（51–58，8 帧），不用再从 turn 动画里截。
+- **`assets/Characters/Human_v1/atlas/` 那批 atlas 没有真正落地**，方案换成了
+  「按层导出 → 三层各自一份 strip → 同一份 SpriteFrames 播同名动画」。
+- **命名统一成东南西北**：方向后缀 `_s` / `_n` / `_e` / `_w`，
+  文件名 `<层>_<动作>_<方向>.png`，动画名 `<动作>_<方向>`。
+
 ---
 
 ## 2026-11-09 · M2a 第 5 步（锄地）前置准备
@@ -1766,7 +1783,7 @@ Ground 整层向右偏 1px，Soil 层在 (0,0)。
 三个动画在同一个 `SpriteFrames_y8v0a` 里，帧数/speed 完全一致 →
 `_play_anim("dig")` 里已有的三行同步调用**天然对齐**，不需要写同步代码。
 
-素材：`assets/Characters/Human/DIG/{base,bowlhair,tools}_dig_strip13.png`（1248×64 = 13 帧 × 96×64）。
+素材：`assets/characters/human/dig/{base,bowlhair,tools}_dig.png`（1248×64 = 13 帧 × 96×64）。
 `use_tool` 输入映射 = 空格，已配好。
 
 ### ❌ 施工指南里的 4 处错误（已修正）

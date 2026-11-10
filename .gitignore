@@ -8,3 +8,6 @@
 # 临时验证目录（产物已归档到 assets/ 与 docs/images/）
 tmp_extract/
 tmp_review/
+
+# 所有临时工作区（素材解析 / 导出 / 验证产物）
+tmp/

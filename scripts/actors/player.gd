@@ -115,11 +115,7 @@ func _update_facing(direction: Vector2) -> void:
 			facing = Vector2i.LEFT if direction.x < 0.0 else Vector2i.RIGHT
 		else:
 			facing = Vector2i.UP if direction.y < 0.0 else Vector2i.DOWN
-	if facing.x != 0:
-		var flip := facing.x < 0
-		animation.flip_h = flip
-		hair_sprite.flip_h = flip
-		tool_sprite.flip_h = flip
+	# 翻不翻由 _play_one 按方向决定，这里不碰 flip_h
 
 func _start_tool(tool: String) -> void:
 	var cell := _target_cell()
@@ -136,9 +132,35 @@ func _start_tool(tool: String) -> void:
 	_apply_till(_target)
 
 func _play_anim(base_name: String) -> void:
-	animation.play(base_name)
-	hair_sprite.play("hair_" + base_name)
-	tool_sprite.play("tool_" + base_name)
+	var suffix := _dir_suffix()
+	_play_one(animation, base_name, suffix)
+	_play_one(hair_sprite, "hair_" + base_name, suffix)
+	_play_one(tool_sprite, "tool_" + base_name, suffix)
+
+## 播一个动作的方向版本：
+##   1. 有带方向的版本就直接播
+##   2. 没做这个方向 -> 借东(_e)顶替，朝西(_w)时再镜像一次
+##   3. 方向无关的动作(锄地等) -> 播不带后缀的
+func _play_one(sp: AnimatedSprite2D, anim_name: String, suffix: String) -> void:
+	if sp.sprite_frames.has_animation(anim_name + suffix):
+		sp.play(anim_name + suffix)
+		sp.flip_h = false
+		return
+	if sp.sprite_frames.has_animation(anim_name + "_e"):
+		sp.play(anim_name + "_e")
+		sp.flip_h = suffix == "_w"
+		return
+	if sp.sprite_frames.has_animation(anim_name):
+		sp.play(anim_name)
+		sp.flip_h = suffix == "_w"
+
+## 方向后缀：南 s=朝下 北 n=朝上 东 e=朝右 西 w=朝左
+func _dir_suffix() -> String:
+	match facing:
+		Vector2i.UP: return "_n"
+		Vector2i.LEFT: return "_w"
+		Vector2i.RIGHT: return "_e"
+	return "_s"
 
 func _on_animation_finished() -> void:
 	if animation.animation.begins_with("use_"):

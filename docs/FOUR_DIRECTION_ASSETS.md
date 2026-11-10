@@ -1,254 +1,217 @@
-# 四向移动素材 —— 完整盘点与接入方案
+# 四向移动素材 —— 盘点与接入方案
 
-> 日期：2026-11-09
-> 素材来源：原 `assets/Characters/Human_v1/`（从 `human_v1.0.aseprite` 提取；该目录已在素材清理阶段从项目移除，源文件现存于项目外 `~/Downloads/`）
-> 配套图：`docs/images/frame_index_310.png`（310 帧索引图）、`docs/images/swap_compare.png`（换色对比）
+> 最后更新：2026-11-10
+> 素材来源：`tmp/sunnyside_world_chatacter_anim_human_v1.0.aseprite`（作者 v1.0 源文件，310 帧，96×64）
+> 配套图：`tmp/CHECK_dirs_crop.png`（四向合成对照）、`tmp/CHECK_v21_idle9.png`、`tmp/CHECK_v21_walk8.png`
 
 ---
 
 ## 0. 一句话结论
 
-`human_v1.0` 的 310 帧**不是**"4 个方向各一套动画"，而是**两个不同发型角色版本的素材混装**：
+作者 v1.0 源文件里**四向素材齐全**，不用自己画侧身：
 
-| | bowlhair（橙色，游戏在用） | bob（深棕色） |
+- 文件内自带 frame tag：`idle-s` / `idle-se` / `idle-ne` / `idle-n`、`walk-s` / `walk-se` / `walk-ne` / `walk-n`、
+  以及 `run-s/se/ne/n`、`axe`、`roll`、`carry`、`watering`、`hurt`、`death`、`doing`、`jump`、`mining`、
+  `swimming`、`hamering`、`attack`、`casting`、`waiting`、`reeling`、`caught`、`dig` 等
+- 加上 V2.1 素材包自带的朝东（`_e`）那套，四个方向就凑齐了
+- 朝西（`_w`）不需要单独导出：`_e` 素材水平镜像即可，运行时用 `flip_h` 实现，视觉完全等价
+
+---
+
+## 1. 命名规范（2026-11-10 起统一）
+
+方向一律用**东南西北**，不再用 down / up / left / right / side：
+
+| 后缀 | 含义 | 游戏里的 `facing` |
 |---|---|---|
-| 正面走 | ✗ 没有 | 27–42 |
-| 背面走 | ✗ 没有 | 47–58 |
-| 侧身走 | **99–106** | ✗ 没有 |
-| 转身 | **0–15** | ✗ 没有 |
-| 正面跑 | **159–176** | 60–75 |
-| 背面跑 | ✗ 没有 | 80–91 |
+| `_s` | 南 = 朝下（面向镜头） | `Vector2i.DOWN` |
+| `_n` | 北 = 朝上（背对镜头） | `Vector2i.UP` |
+| `_e` | 东 = 朝右 | `Vector2i.RIGHT` |
+| `_w` | 西 = 朝左 | `Vector2i.LEFT` |
 
-**两套互补**。所以"四向移动"完全可以**只用原生 bowlhair** 拼出来，一个像素都不用改：
+**文件名** = `<层>_<动作>_<方向>.png`，层名 ∈ `base` / `bowlhair` / `tools`：
 
-- 向下走 → 现有 `assets/characters/human/walking/` 分层素材（本来就是 bowlhair）
-- 向左/右走 → v1.0 第 99–106 帧
-- 向上走 → v1.0 第 8–15 帧（转身动画里的背面段）
-- 转身切换 → v1.0 第 0–15 帧
+```
+assets/characters/human/idle/base_idle_s.png       assets/characters/human/walking/base_walk_s.png
+assets/characters/human/idle/bowlhair_idle_s.png   assets/characters/human/walking/bowlhair_walk_s.png
+assets/characters/human/idle/tools_idle_s.png      assets/characters/human/walking/tools_walk_s.png
+```
 
-> 现状补充：上述方案依赖按分层导出的单层 strip。实测该导出方式每个 (层,帧) 只保留最后一个 cel，base 层丢失躯干像素，需从源文件重新导出后方可使用。详见 `docs/ASEPRITE_EXTRACTION.md`。
+**动画名**（SpriteFrames 里）= `<动作>_<方向>`，头发层加 `hair_` 前缀、工具层加 `tool_` 前缀：
+
+```
+idle_s / hair_idle_s / tool_idle_s
+idle_e / hair_idle_e / tool_idle_e
+walk_s / hair_walk_s / tool_walk_s
+```
+
+代码里按 `"hair_" + base` / `"tool_" + base` 拼接，所以**名字必须严格一致**。
+
+方向无关的动作（`run` / `use_dig` 等）不加方向后缀，保持 `run` / `hair_run` / `tool_use_dig` 这样。
 
 ---
 
-## 1. 证据链（每条都可复验）
+## 2. 源文件的帧段（实测）
 
-### 1.1 310 帧里有两套角色
+作者文件里 tag 的 from/to 字段被破坏过（只坏 tag 的范围字段和 chunk size/type 的高位，**像素数据完好**），
+所以帧段是用「tag 顺序 + 像素比对」定的：
 
-按头发主色统计（bowlhair 橙 `[224,115,23]` / bob 深棕 `[117,61,58]`、`[62,38,48]`）：
+| tag | 帧段 | 帧数 | 画面 |
+|---|---|---|---|
+| `idle-s` | 0–3 | 4 | 正面朝下 |
+| `idle-se` | 4–7 | 4 | 斜下 |
+| `idle-ne` | 8–11 | 4 | 侧身（露右侧） |
+| `idle-n` | 12–15 | 4 | 背面朝上 |
+| `walk-s` | 27–34 | 8 | 正面朝下走 |
+| `walk-se` | 35–42 | 8 | 斜下走 |
+| `walk-ne` | 43–50 | 8 | 侧身走 |
+| `walk-n` | 51–58 | 8 | 背面走 |
 
-```
-ORANGE     0-15      (turn 转身)
-MID/DARK   27-92     (bob 四向移动)
-ORANGE     99-309    (bowlhair 其余全部动作)
-```
+**验证方式**：v1.0 的 base 层第 1–4 帧与已导出的 `assets/characters/human/idle/base_idle_s.png`
+**逐像素完全一致**（4/4 帧命中，其余 310 帧无一命中）。
+`tmp/CHECK_dirs_crop.png` 是把 base + bowlhair + tools 三层合成后按方向排的对照图。
 
-### 1.2 两套是**不同发型**，不只是配色不同
+源文件还有一批空白帧（16 / 25–26 / 59 / 92–98 等），是动作段之间的过渡空档。
 
-头部轮廓 IoU（只看 alpha 形状）：
+### 2.1 各层构成
 
-```
-bowlhair turn 1-7  vs  bob 27-33   →  0.72 ~ 0.79
-bowlhair turn 1-7  vs  bowlhair 159-165 → 0.82 ~ 0.94
-```
-
-同发型对比明显更高 → bob 是另一款发型（刘海+鬓角造型），bowlhair 是圆润的碗盖头。
-
-### 1.3 动作性质靠下半身运动量区分
-
-下半部分（脚/腿区域）相邻帧差异均值：
-
-| 帧段 | 运动量 | 判定 |
+| layer | 内容 | 帧数 |
 |---|---|---|
-| 27–42 | 0.333 | 走 |
-| 47–58 | 0.213 | 走 |
-| 60–75 | 0.755 | 跑 |
-| 80–91 | 0.537 | 跑 |
-| 99–106 | 0.255 | 走 |
-| 115–122 | 0.311 | 走 |
-| 159–176 | 0.901 | 跑 |
+| 4 | base（身体） | 293 |
+| 8 | bowlhair（游戏在用的头发） | 279 |
+| 9–13 | 另外 5 款发型 | 各 215 |
+| 14 | tools（手臂/工具） | 285 |
+| 0/1/2/6/16/17/18 | 背景与特效 | — |
 
-判据：走路 ≈ 0.2–0.45，跑步 > 0.5，静止 < 0.1。
-
-### 1.4 bowlhair 确实没有正面走
-
-对全部 310 帧做「橙发 + 可见脸 + 走路速度」的连续段搜索，**结果为空**（只有零散单帧命中，无任何长度 ≥3 的连续段）。
-
-### 1.5 肤色像素要按精确色值判断
-
-注意：衣服主色 `[192,203,220]` 满足 `R>190 且 G>140 且 B>110`，用宽阈值会把衣服误判成脸。
-正确的肤色是 `[233,173,125]` / `[232,173,125]`，必须用精确色值或 tol≤26。
+walk 段（27–58）里**没有那 5 款发型的图层**，只有 base + bowlhair + tools 三层。
+idle 段（0–15）有全部 8 层。
 
 ---
 
-## 2. 310 帧完整分段表
+## 3. 现有素材清单
 
-| 帧段 | 帧数 | 内容 | 发型 |
+`assets/characters/human/idle/`
+
+| 文件 | 帧数 | 来源 | 说明 |
 |---|---|---|---|
-| 0–15 | 16 | **转身**（1–7 正面，8–15 背面） | bowlhair |
-| 16 | 1 | 空白 | — |
-| 17–24 | 8 | 被抓（武器飞出） | — |
-| 25–26 | 2 | 空白 | — |
-| 27–42 | 16 | **正面走** | bob |
-| 43–58 | 16 | 转身尾 + **背面走**（47–58 是纯背面走） | bob |
-| 59 | 1 | 空白 | — |
-| 60–75 | 16 | **正面跑** | bob |
-| 76–91 | 16 | 转身尾 + **背面跑**（80–91 是纯背面跑） | bob |
-| 92 | 1 | 空壳（无头发无脸） | — |
-| 93–98 | 6 | 空白 | — |
-| 99–106 | 8 | **侧身走**（朝右） | bowlhair |
-| 107–114 | 8 | 搬运（顶箱子） | bowlhair |
-| 115–122 | 8 | **侧身走**（朝右，另一套） | bowlhair |
-| 123–129 | 7 | 浇水（蓝色水花） | bowlhair |
-| 130–149 | 20 | 死亡（红色→骷髅） | bowlhair |
-| 150–158 | 9 | 持白色道具 | bowlhair |
-| 159–176 | 18 | **正面跑** | bowlhair |
-| 177–180 | 4 | 翻滚 | bowlhair |
-| 181–204 | 24 | 攻击（斧/剑/鞭） | bowlhair |
-| 205–216 | 12 | 游泳 | bowlhair |
-| 217–230 | 14 | 挖矿 | bowlhair |
-| 231–278 | 48 | 钓鱼/抡绳/战斗 | bowlhair |
-| 279–309 | 31 | 钓鱼收线 | bowlhair |
+| `base_idle_s.png` / `bowlhair_idle_s.png` / `tools_idle_s.png` | 4 | v1.0 `idle-s`（0–3） | **游戏在用**，朝下 |
+| `base_idle_e.png` / `bowlhair_idle_e.png` / `tools_idle_e.png` | 9 | V2.1 `*_idle_strip9.png` | 朝东（V2.1 的老版本） |
+| `curlyhair/longhair/mophair/shorthair/spikeyhair_idle_e.png` | 9 | V2.1 | 其它发型的朝东版，游戏暂时不用 |
 
----
+`assets/characters/human/walking/`
 
-## 3. 已生成的素材
-
-目录：`assets/Characters/Human_v1/atlas/`，全部是 **96×64 一帧、横排** 的 PNG。
-
-| 文件 | 帧数 | 来源帧 | 说明 |
+| 文件 | 帧数 | 来源 | 说明 |
 |---|---|---|---|
-| `walk_side.png` | 8 | 99–106 | bowlhair 侧身走，朝**右**（向左用 flip_h） |
-| `walk_back_native.png` | 8 | 8–15 | bowlhair 背面（取自 turn 动画背面段） |
-| `turn.png` | 16 | 0–15 | bowlhair 转身（正面→背面） |
-| `run_front_native.png` | 18 | 159–176 | bowlhair 正面跑 |
-| `walk_front_swap.png` | 16 | 27–42 | **换色版** bob 正面走（备选） |
-| `walk_back_swap.png` | 12 | 47–58 | **换色版** bob 背面走（备选） |
-| `run_front_swap.png` | 16 | 60–75 | **换色版** bob 正面跑（备选） |
-| `run_back_swap.png` | 12 | 80–91 | **换色版** bob 背面跑（备选） |
+| `base_walk_e.png` / `bowlhair_walk_e.png` / `tools_walk_e.png` | 8 | V2.1 `*_walk_strip8.png` | 朝东，**游戏在用** |
+| `curlyhair/longhair/mophair/shorthair/spikeyhair_walk_e.png` | 8 | V2.1 | 其它发型的朝东版，游戏暂时不用 |
 
-### 3.1 换色映射表（palette swap）
-
-作者原话建议用 palette swapping 换发型颜色。实测色阶**一一对应**：
-
-```
-bob 发主色  [117,61,58] [117,60,57] [117,60,58]  →  bowlhair [224,115,23] [225,116,24] [225,116,23]
-bob 发暗色  [62,38,48]                          →  bowlhair [149,70,39]
-描边        [23,20,36] [24,20,36] [24,20,37]    →  保持不变
-皮肤        [233,173,125] [187,109,83]          →  保持不变
-```
-
-**风险**：换色后**轮廓仍是 bob 造型**，与 bowlhair 不同款。混用会明显违和，
-所以 `*_swap.png` 只在"愿意让主角改用 bob 造型"时才用（那样整套都得换成 bob）。
+> V2.1 那套朝东素材是**老版本**（角色更简化），v1.0 是作者重绘过的同一款角色。
+> 两者画风一致、体型一致，混用不会出现角色变形。
 
 ---
 
-## 4. 接入 Godot 的步骤（操作指南）
+## 4. 接入 Godot 的结构
 
-### 4.0 先理解一个结构约束
-
-新 atlas 是**合成单层图**（身体+头发+手臂已经叠在一起）。而现有角色是三层结构：
-
-```
-BodySprite  身体
-HairSprite  头发
-ToolSprite  手臂/工具
-```
-
-三层播同一份 SpriteFrames 的同名动画 → 自动帧同步。
-
-**所以新 atlas 只能给一个节点播**，不能三层都播（否则同一张图叠三遍，alpha 混合会把颜色叠暗）。
-
-### 4.1 建第二份 SpriteFrames
-
-1. 打开 `scenes/player.tscn`，选中 `BodySprite`
-2. 右侧 Inspector → `Sprite Frames` 旁边点 **"新建 SpriteFrames"**（或直接复制现有那份）
-3. 把新的命名为 `SpriteFrames_dir`（放 `assets/Characters/Human_v1/`）
-
-> **新建一份空的** SpriteFrames，仅放四向动画；原来的 `SpriteFrames_y8v0a` 留给三层用。
-
-### 4.2 往 SpriteFrames_dir 里加动画
-
-Godot 的 SpriteFrames 面板左上角有 **`Add Frame (from Sprite Sheet)`**：
-
-1. 点 `Add Frame (from Sprite Sheet)` → 选 `assets/Characters/Human_v1/atlas/walk_side.png`
-2. 弹窗里 **Horizontal** 填 `8`，**Vertical** 填 `1`
-3. **Select** → 会生成 8 帧，全部选中
-4. 点 **Add Animation**（面板顶部 `+`）→ 命名 `walk_side`
-5. 把这 8 帧加进 `walk_side` 动画
-6. **Animation Speed** 设为 `10`（与现有 walk 一致；跑用 `14`）
-7. **Loop** 打开
-
-重复以上步骤：
-
-| 动画名 | atlas 文件 | 切片数 | Speed | 用途 |
-|---|---|---|---|---|
-| `walk_side` | `walk_side.png` | 8 | 10 | 左/右走 |
-| `walk_back` | `walk_back_native.png` | 8 | 10 | 向上走（背面） |
-| `turn` | `turn.png` | 16 | 14 | 转身过渡 |
-| `run_front` | `run_front_native.png` | 18 | 14 | 向下跑（可选） |
-
-### 4.3 场景加节点
-
-在 `Player` 下、`BodySprite` **上面**（更靠后画）新增一个 `AnimatedSprite2D`：
-
-- Name: `DirSprite`
-- SpriteFrames: `SpriteFrames_dir`
-- Position: `(0, -5)`（和另外三层一致）
-- `Visible`: false（默认隐藏，四向时才显示）
-
-节点顺序（后面的画在上面）：
+### 4.1 三层结构不变
 
 ```
 Player
 ├── CollisionShape2D
-├── BodySprite    ← v0.07 分层，正面/动作用
-├── HairSprite    ← v0.07 分层
-├── ToolSprite    ← v0.07 分层
-├── DirSprite     ← v1.0 合成图，四向移动用（新建）
+├── BodySprite    ← base 层
+├── HairSprite    ← bowlhair 层
+├── ToolSprite    ← tools 层
 └── Camera2D
 ```
 
-### 4.4 player.gd 的切换逻辑
+三层播同一份 SpriteFrames 的同名动画 → 自动帧同步。
+**不要用「合成单层图 + 额外节点」的方案**：同一张图叠三遍会被 alpha 叠暗。
 
-思路很简单：
-
-- **facing 是 left / right** → 显示 `DirSprite`，播 `walk_side`；`flip_h` 决定朝左还是朝右
-- **facing 是 up** → 显示 `DirSprite`，播 `walk_back`
-- **facing 是 down** → 隐藏 `DirSprite`，三层照旧播 `walk` / `run`
-
-伪代码：
+### 4.2 player.gd 的方向切换
 
 ```gdscript
-func _update_move_animation() -> void:
-    var use_dir := facing == Vector2i.LEFT or facing == Vector2i.RIGHT or facing == Vector2i.UP
-    dir_sprite.visible = use_dir
-    body_sprite.visible = not use_dir
-    hair_sprite.visible = not use_dir
-    tool_sprite.visible = not use_dir
-    if not use_dir:
-        return
-    var anim := "walk_side"
-    if facing == Vector2i.UP:
-        anim = "walk_back"
-    dir_sprite.play(anim)
-    dir_sprite.flip_h = (facing == Vector2i.LEFT)
+func _play_anim(base_name: String) -> void:
+	var suffix := _dir_suffix()
+	_play_one(animation, base_name, suffix)
+	_play_one(hair_sprite, "hair_" + base_name, suffix)
+	_play_one(tool_sprite, "tool_" + base_name, suffix)
+
+## 播一个动作的方向版本：
+##   1. 有带方向的版本就直接播
+##   2. 没做这个方向 -> 借东(_e)顶替，朝西(_w)时再镜像一次
+##   3. 方向无关的动作(锄地等) -> 播不带后缀的
+func _play_one(sp: AnimatedSprite2D, anim_name: String, suffix: String) -> void:
+	if sp.sprite_frames.has_animation(anim_name + suffix):
+		sp.play(anim_name + suffix)
+		sp.flip_h = false
+		return
+	if sp.sprite_frames.has_animation(anim_name + "_e"):
+		sp.play(anim_name + "_e")
+		sp.flip_h = suffix == "_w"
+		return
+	if sp.sprite_frames.has_animation(anim_name):
+		sp.play(anim_name)
+		sp.flip_h = suffix == "_w"
+
+## 方向后缀：南 s=朝下 北 n=朝上 东 e=朝右 西 w=朝左
+func _dir_suffix() -> String:
+	match facing:
+		Vector2i.UP: return "_n"
+		Vector2i.LEFT: return "_w"
+		Vector2i.RIGHT: return "_e"
+	return "_s"
 ```
 
-> 三层和单层**不要同时显示**，否则画面会重影。
+三点说明：
 
-### 4.5 需要注意的点
+1. **`flip_h` 归 `_play_one` 管**，`_update_facing()` 不再碰 `flip_h`。
+   否则会出现「朝向是西、但动画是东的素材」和「朝向是西、但没翻」两种状态打架。
+2. **朝西靠镜像**：`_w` 没有独立素材，播 `_e` 并 `flip_h = true`。
+   预先把 PNG 水平翻转成静态 `_w` 素材，视觉上和 `flip_h` 完全等价，所以没必要多一套文件。
+3. **回退链的顺序**：带方向 → `_e` → 不带后缀。
+   第三级是给 `use_dig` 这类方向无关的动作用的，它们没有方向版本。
 
-- `DirSprite` 的 `flip_h` 独立于三层，不要让两边的 flip 逻辑互相干扰
-- 三层的 `flip_h` 同步逻辑照旧保留
-- `turn`（转身）动画可以以后再接：检测到 facing 变化时先播 turn，播完再切方向
+### 4.3 各动作的现状
+
+| 动作 | 方向版本 | 备注 |
+|---|---|---|
+| `idle` | `_s` ✓ / `_e` ✓ / `_n` ✗ / `_w`（镜像 `_e`） | 4 帧 idle speed 2.67（1.5 秒一轮）；9 帧 idle speed 6.0 |
+| `walk` | `_e` ✓ / `_s` ✗ / `_n` ✗ / `_w`（镜像 `_e`） | 8 帧，speed 10.0 |
+| `run` / `use_dig` 等 18 个动作 | 无方向版本 | 保持原样 |
 
 ---
 
 ## 5. 还没解决的 / 下一步
 
-- **bowlhair 没有正面走**：向下走继续用 v0.07 分层素材。若嫌两套身体动画风格不一致，需要另想办法。
-- **背面走只有 8 帧**（取自 turn 动画的背面段），可能看起来偏"转身"而非"走路"。若不接受，可用 `walk_back_swap.png`（bob 换色，12 帧），代价是发型变成 bob 造型。
-- **`turn` 动画完整 16 帧**已备好，可用于 4 向之间的转身过渡（比瞬间切换自然）。
-- **run 背面**（80–91）只有 bob 版本。
-- 其它 6 款发型（v0.07 的 curlyhair / longhair / mophair / shorthair / spikeyhair）**都没有 v1.0 的四向帧**。
-- aseprite 源文件已删，**frame tag 的官方语义无法再还原**；上表的分段全部靠像素特征反推，已逐项目视复核。
+### 5.1 要补的素材（从 v1.0 源文件导出）
+
+| 目标 | 源 tag | 帧段 | 层 |
+|---|---|---|---|
+| `_s` 的 walk | `walk-s` | 27–34 | base / bowlhair / tools |
+| `_n` 的 idle | `idle-n` | 12–15 | base / bowlhair / tools |
+| `_n` 的 walk | `walk-n` | 51–58 | base / bowlhair / tools |
+| `_e` 的 v1.0 版（可选） | `idle-ne` / `walk-ne` | 8–11 / 43–50 | base / bowlhair / tools |
+
+导出操作（LibreSprite 1.3）：
+
+1. `View → Zoom → 8x`，勾上 Pixel-perfect
+2. Tags 面板点标签 → 选中该段所有帧
+3. `File → Export Sprite Sheet...`
+   - Sprites = `Selected sprite`
+   - Frames = `Selected frames`
+   - Layout = `Horizontal`
+   - **Trim sprite 不勾**（否则帧宽会不一致，切不出 96×64）
+   - **Export Layers 勾上**
+   - Split Layers 不勾
+   - Format = PNG
+4. 每次导出改文件名，避免覆盖
+5. **导 walk 段时要把 5 款其它发型的图层眼睛关掉** —— walk 帧里它们是空的，不然会多出一堆透明条
+
+### 5.2 其它待办
+
+- **朝下 idle 是 4 帧、朝东 idle 是 9 帧**，帧数不统一。后果只有一个：转身停下时 idle 动画会重启一次，
+  站姿轮廓接近所以跳变很轻微。真要统一就把朝东也换成 v1.0 的 4 帧。
+- **走路的帧数统一（8 帧）**，但 `_s` 的 walk 还缺，朝下走目前显示的是朝东那套。
+- 角色**逐格吸附移动**：按下方向键后要先把当前这一步走到格子中心才切 idle，
+  一格 16px ÷ `SPEED 40` = **0.4 秒**。这段等待不是动画 bug，是移动方式决定的。
+- `turn`（转身过渡）动画没接：现在是瞬间切换。
+- 其它 5 款发型**只有朝东版本**（来自 V2.1），v1.0 的 walk 段里也没有它们的图层。

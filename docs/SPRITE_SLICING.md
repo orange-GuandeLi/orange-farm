@@ -15,10 +15,10 @@ assets/characters/
 │   ├── Human/..._condensed.aseprite
 │   └── Goblin/sunnyside_world_chatacter_anim_GOBLIN.aseprite
 ├── Human/            ← 人类角色，按【动作】分文件夹
-│   ├── IDLE/base_idle_strip9.png
-│   ├── WALKING/base_walk_strip8.png
+│   ├── idle/base_idle_e.png
+│   ├── walking/base_walk_e.png
 │   ├── ATTACK/base_attack_strip10.png
-│   ├── AXE/base_axe_strip10.png
+│   ├── axe/base_axe.png
 │   └── ... 共 20 个动作文件夹
 ├── Goblin/PNG/       ← 哥布林
 └── Skeleton/PNG/     ← 骷髅
@@ -105,10 +105,10 @@ assets/characters/
 
 像素数对比：
 ```
-AXE/base_axe_strip10.png   不透明像素 = 2158
-AXE/tools_axe_strip10.png  不透明像素 = 1275   ← 少 883
-IDLE/base_idle_strip9.png   不透明像素 = 1359
-IDLE/tools_idle_strip9.png  不透明像素 =  112   ← 少 1247（几乎是空的！）
+axe/base_axe.png   不透明像素 = 2158
+axe/tools_axe.png  不透明像素 = 1275   ← 少 883
+idle/base_idle_e.png   不透明像素 = 1359
+idle/tools_idle_e.png  不透明像素 =  112   ← 少 1247（几乎是空的！）
 ```
 
 `tools_idle` 只有 112 个不透明像素 —— 说明 **`tools_` 系列在 IDLE 这类"没有明显工具动作"的帧上是空的**。

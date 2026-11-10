@@ -52,7 +52,7 @@
 
 - 三个动画**帧数、speed 完全一致**（13 帧 / speed 20 / loop=false），
   所以 `_play_anim()` 里按 `"hair_"` / `"tool_"` 前缀拼名字**天然就对齐**，不需要写任何同步代码
-- 素材：`assets/Characters/Human/DIG/{base,bowlhair,tools}_dig_strip13.png`（1248×64 = 13 帧 × 96×64）
+- 素材：`assets/characters/human/dig/{base,bowlhair,tools}_dig.png`（1248×64 = 13 帧 × 96×64）
 - `use_tool` 输入映射 = **空格**，已配好
 - **实测三层同步：40 帧 0 次失步** ✅
 

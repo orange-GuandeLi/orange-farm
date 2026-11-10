@@ -380,7 +380,7 @@ soil.set_cell(cell, 0, Vector2i(atlas_x, atlas_y))   # 替换为目标泥土贴�
 ### 5.4 贴图来源
 - **耕地贴图**：主图集里就有现成的棕色泥土 tile（`c19 r7` / `c20 r7` / `c19 r8` / `c20 r8`，16×16，四张随机拼成田地）
 - **铲子图标**（道具栏用）：16×16 左右
-- **铲子动画**：现有的 `assets/characters/human/dig/tools_dig_strip13.png` 就是一把铲子，可以直接用；
+- **铲子动画**：现有的 `assets/characters/human/dig/tools_dig.png` 就是一把铲子，可以直接用；
   如果要换，保持**13 帧 / 每帧 96×64 / 帧内铲子位置不变**就行
 
 ---

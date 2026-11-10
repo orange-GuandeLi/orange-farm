@@ -63,19 +63,22 @@ IDLE 帧头部逐像素字符图：
 ### 实测证据 4：目录里没有任何"朝向"变体
 
 ```
-Human/WALKING/
-├── base_walk_strip8.png       ← 变体是"发型"
-├── bowlhair_walk_strip8.png
-├── curlyhair_walk_strip8.png
-├── longhair_walk_strip8.png
-├── mophair_walk_strip8.png
-├── shorthair_walk_strip8.png
-├── spikeyhair_walk_strip8.png
-└── tools_walk_strip8.png
+assets/characters/human/walking/
+├── base_walk_e.png       ← 变体是"发型"
+├── bowlhair_walk_e.png
+├── curlyhair_walk_e.png
+├── longhair_walk_e.png
+├── mophair_walk_e.png
+├── shorthair_walk_e.png
+├── spikeyhair_walk_e.png
+└── tools_walk_e.png
 ```
 
 **8 个变体全是发型（+ tools），没有一个是朝向。**
 20 个动作文件夹全部如此。
+
+> 2026-11-10 补充：V2.1 素材包本身只有朝东（`_e`）一个方向。
+> 朝下（`_s`）用作者 v1.0 源文件导出，朝上（`_n`）同理，朝西（`_w`）靠镜像。详见 `docs/FOUR_DIRECTION_ASSETS.md`。
 
 ### 实测证据 5：源 aseprite 里的图层结构
 
@@ -217,7 +220,8 @@ func _physics_process(delta: float) -> void:
 - `farm game character sprite 4 dir`
 - `top down character sprite sheet`
 
-这类素材通常是：`walk_down.png` / `walk_left.png` / `walk_up.png` / `walk_right.png` 各一份。
+这类素材通常是每个方向一份。本项目统一用东南西北命名：
+`walk_s.png`（朝下）/ `walk_n.png`（朝上）/ `walk_e.png`（朝右）/ `walk_w.png`（朝左）。
 
 ### 《星露谷》自己是怎么做的
 
