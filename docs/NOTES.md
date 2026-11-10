@@ -1715,7 +1715,7 @@ set_cell 铺 5×5，真实渲染截图 → **格子与角色格/目标格严丝�
 ```
 Ground 的 (20,12) 格 覆盖世界坐标 x = 321 .. 337
 Soil   的 (20,12) 格 覆盖世界坐标 x = 320 .. 336
-                            ↑ 差 1 像素
+							↑ 差 1 像素
 ```
 
 Ground 整层向右偏 1px，Soil 层在 (0,0)。
@@ -1741,3 +1741,210 @@ Ground 整层向右偏 1px，Soil 层在 (0,0)。
 - `docs/images/atlas_soil_pick.png` —— 主图集 atlas 坐标定位图
   （col 9~12 × row 1~4 放大 20 倍，每格标注坐标，红框标 11,3）
 - `docs/images/atlas_soil_candidates_detail.png` —— 12 个候选 tile 的放大对照
+
+---
+
+## 2026-11-09 · 【第 5 步核对】铲子动画已就绪 + 修正施工指南里的 4 处错误
+
+### 用户澄清
+
+> "我想你理解错了，我不是真的要画，而是通过铲子动画之后填上对吗？所以先做铲子动画？"
+
+对，理解正确：**按空格 → 铲子动画 → 落地时那一格变成土**。
+所以重点不是"手画土块"，而是"铲子动画 + 填土"的链路。
+
+### ✅ 好消息：铲子动画早就接好了，不用做
+
+实测 `scenes/player.tscn` + `scripts/actors/player.gd`：
+
+| 动画名 | 用途 | 帧数 | speed | loop | 时长 |
+|---|---|---|---|---|---|
+| `dig` | 身体层 | 13 | 20 | false | 0.65s |
+| `hair_dig` | 头发层 | 13 | 20 | false | 0.65s |
+| `tool_dig` | **工具层（铲子）** | 13 | 20 | false | 0.65s |
+
+三个动画在同一个 `SpriteFrames_y8v0a` 里，帧数/speed 完全一致 →
+`_play_anim("dig")` 里已有的三行同步调用**天然对齐**，不需要写同步代码。
+
+素材：`assets/Characters/Human/DIG/{base,bowlhair,tools}_dig_strip13.png`（1248×64 = 13 帧 × 96×64）。
+`use_tool` 输入映射 = 空格，已配好。
+
+### ❌ 施工指南里的 4 处错误（已修正）
+
+**1. dig 动画时长写错了**
+
+原文写"20 帧 / speed 20 = 1.0 秒"，**实测是 13 帧 / speed 20 = 0.65 秒**。
+（之前的记录来自旧素材，Human_v1 的 310 帧合成版；现在用的是原版分层 strip。）
+
+**2. 落地帧位置**
+
+逐帧导出 base/hair/tool 三层合成后目视 + 像素分析：
+
+| 帧 | 时间 | 画面 |
+|---|---|---|
+| f0~f6 | 0.00~0.30s | 弯腰，铲子从右往左平推，铲头贴着地面线 |
+| f7 | 0.35s | 铲头（灰色）从身侧甩出 |
+| f8 | 0.40s | 铲子举起 |
+| **f9** | **0.45s** | **铲子举到最高 + 土块飞出 ← 落地帧** |
+| f10~f12 | 0.50~0.60s | 土块散开，铲子收回 |
+
+**落地帧 = f9 = t 0.45 秒整**（= 9/20）。
+真实运行实测到达 f9 的时刻是 0.4667s（因为 `await process_frame` 的粒度是 1/60s），
+落在 f9 内，误差可接受。
+
+图：`docs/images/dig_timeline.png`（原色合成 + 黄线脚底线 + 红框标 f9）
+
+**3. `AnimatedSprite2D` 在 Godot 4.7 没有 `texture` / `hframes`**
+
+原文的尘土代码是 Godot 3 写法，实际会报：
+`Invalid assignment of property or key 'texture' with value of type 'CompressedTexture2D'`
+
+查 Godot 4.7 官方 class 文档确认，`AnimatedSprite2D` 的属性只有：
+`animation / autoplay / centered / flip_h / flip_v / frame / frame_progress /
+offset / speed_scale / sprite_frames`
+
+正确做法：`SpriteFrames` + `AtlasTexture` 切帧。
+**另外**：`SpriteFrames.new()` 自带一个名为 `"default"` 的空动画，
+再调 `add_animation("default")` 会报 `SpriteFrames already has animation 'default'`。
+
+**4. `animation_finished` 信号在 Godot 4.7 不带参数**
+
+原文回调写的是 `func _on_anim_finished(anim_name: String)` → 报
+`Method expected 1 argument(s), but called with 0`。
+正确写法是无参函数，判断动画名用 `animation.animation` 属性。
+
+### 💡 顺带发现的隐藏坑：`_busy` 的 `return` 是"让 dig 动画活下来"的必要条件
+
+实测（不加锁）：
+
+```
+=== A. 不加 _busy 锁的后果 ===
+  播 dig 后 2 帧，body.animation = idle
+  ⚠ 确认：player.gd 的 _play_anim("idle") 会覆盖 dig
+```
+
+`player.gd` 现在的 `_physics_process` 每帧都调 `_play_anim("idle"/"walk")`。
+**如果不提前 `return`，dig 动画下一帧就被覆盖了**，根本播不出来。
+所以 `_busy` 的 `return` 不只是"锁朝向"，还兼着"保住 dig 动画"的作用。
+
+### ✅ 端到端验证通过（模拟完整链路，真实渲染）
+
+```
+f9 实际时刻 = 0.4667 s
+animation_finished 触发 = true
+Soil used_cells = 1
+Main 子节点顺序: [Ground, Soil, Boundary, Entities]
+  => Soil 在 Entities 之前 => 土画在草上、角色下 ✅
+尘土自动释放 = true
+```
+
+### 📎 本轮新增
+
+- `docs/images/dig_timeline.png` —— dig 动画 13 帧时序表（原色合成）
+- `docs/M2A_STEP5_HOE.md` —— 修正上述 4 处错误 + 补上"铲子动画已就绪"的说明
+
+---
+
+## 2026-11-10 · 【第 5 步完成】锄地流程打通 + 架构重构（用户主导）
+
+### 用户的学习方式（重要约定）
+
+用户明确反馈：**"你就教我怎么做，做出来不对我就跟你说，你再来测试"**
+和 **"坑要我自己踩，不然我学会了啥"**。
+
+→ 后续调整：**少测试、少长篇解释，一次给一小步，让用户自己写、自己跑，
+出错再回来问我**。不要一口气把完整方案 + 全部注意事项都倒出来。
+
+### 最终架构（用户自己定的，比我原方案好）
+
+```
+scripts/actors/player.gd     算锄哪一格、播动画、锁移动
+scripts/data/farm_data.gd    记录地块状态（autoload）
+scripts/world/soil.gd        ← 新增：Soil 自己的脚本，画土块 + 尘土
+```
+
+**Soil 挂自己的脚本，`player.gd` 用 `@export var soil: TileMapLayer` 拿引用。**
+
+比我的原方案（`get_tree().get_first_node_in_group("soil")`）好在哪：
+1. 不用手动加 group（我原方案的 group 名大小写还搞错过一次：
+   代码找 `"soil"`，实际加的是 `"Soil"` → 返回 null → 静默失败）
+2. Inspector 里拖引用，类型检查 + **节点顺序随便调**
+3. 节点改名/删除时 Inspector 会显示失效引用，不会静默出错
+
+> 踩过的弯路：`@onready var soil = $../Soil`
+> - `$..` 在 Godot 4 解析有问题（`Expected node path as string or identifier after "$"`）
+> - 而且层级就错了：Player → Entities → Main，Soil 在 Main 下面，要往上两级
+> - 即使用 `get_node("../../Soil")` 能取到，但依然是路径依赖
+
+### 动画命名统一：`base` / `hair_base` / `tool_base`
+
+| 身体层 | 头发层 | 工具层 |
+|---|---|---|
+| `idle` | `hair_idle` | `tool_idle` |
+| `walk` | `hair_walk` | `tool_walk` |
+| `run` | `hair_run` | `tool_run` |
+| `use_dig` | `hair_use_dig` | `tool_use_dig` |
+
+`_play_anim()` 直接拼前缀，不用解析：
+
+```gdscript
+func _play_anim(base_name: String) -> void:
+	animation.play(base_name)
+	hair_sprite.play("hair_" + base_name)
+	tool_sprite.play("tool_" + base_name)
+```
+
+> ❌ 我中间给过一版用 `name.split("_")[1]` 取后缀的写法 ——
+> `"idle".split("_")` 返回长度 1 的数组，访问 `[1]` **越界崩溃**，角色一动就报错。
+> 命名统一后根本不需要 split。
+
+### 其他修正
+
+- `_target` 全局变量删除 → `cell` 局部变量直接传（`await` 不改变作用域，
+  局部变量在 await 前后是同一个值）
+- `_start_dig()` → `_start_tool(tool: String)`，为以后加水/斧头留口子
+- `SOIL_TILE` 常量挪进 `soil.gd`
+- 尘土贴图改成 `@export var tex: Texture2D`，从 Inspector 拖进去（不再代码里 load）
+
+### ✅ 实测验证
+
+```
+=== 命名规则 ===
+  idle     body=true  hair_idle=true    tool_idle=true
+  walk     body=true  hair_walk=true    tool_walk=true
+  run      body=true  hair_run=true     tool_run=true
+  use_dig  body=true  hair_use_dig=true tool_use_dig=true
+
+=== 三层同步 ===
+  不同步帧数 = 0 / 40 -> 完美同步 ✅
+  use_dig frames=13 speed=20.0 loop=false
+
+=== 主场景启动 ===
+  零错误
+```
+
+### 🧪 测试方法上的坑（下次注意）
+
+**`--script` 模式下 autoload 全局标识符不注册**：
+用 `Godot --headless --script xxx.gd` 跑时，`player.gd` 里引用 `FarmData`
+会报 `Compile Error: Identifier not found: FarmData` —— 这是**测试假象**，
+不是真 bug。正常启动主场景（`--quit-after N`）是零错误的。
+
+同理，`--script` 模式下 `get_tree()` 的行为也和正常游戏不同。
+
+→ 以后验证项目内逻辑，要么：
+1. 用 `--headless --quit-after N` 跑主场景，看有没有报错
+2. 要么在项目内建临时场景挂测试节点（但要注意清理）
+
+### 📎 本轮改动
+
+- `scripts/world/soil.gd` —— 新增，Soil 层脚本（till + 尘土）
+- `scripts/actors/player.gd` —— 锄地流程 + `_busy` 锁 + export soil 引用
+- `scenes/player.tscn` —— 动画改名统一（`use_dig` / `hair_use_dig` / `tool_use_dig`）
+- `scenes/main.tscn` —— Soil 挂脚本 + tex 赋值；Player 的 soil 引用赋值
+- `docs/M2A_STEP5_HOE.md` —— 按最终架构重写第 2、3 节
+- `docs/images/dig_timeline.png` —— dig 13 帧时序表
+
+### 🗑 清理
+
+删掉本轮临时测试目录 `tmp_test/`（`exp_test.tscn` / `scene_test.gd` / `test_scene.tscn`）。
