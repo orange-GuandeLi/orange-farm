@@ -8,6 +8,8 @@ extends CharacterBody2D
 
 var facing := Vector2i.DOWN # 面向那里
 const SPEED = 40.0 # 速度
+## 工具动作里"入土"那一刻占总时长的比例（use_dig 的落地帧 f9 在 0.69 处，取 0.7）
+const TOOL_IMPACT_RATIO := 0.7
 var _busy := false # 是否在播放工具动画
 var _target := Vector2i.ZERO # 目标块
 
@@ -125,34 +127,56 @@ func _start_tool(tool: String) -> void:
 		return
 
 	_busy = true
-	_play_anim("use_" + tool)
+	var anim := _play_anim("use_" + tool)
 	_target = cell
+	if anim == &"":
+		# 没有这个工具动画：别把玩家锁死，也不改地块
+		_busy = false
+		return
 
-	await get_tree().create_timer(0.45).timeout
+	# 等锄头落地再改地块：时长从动画本身算，改帧数/速度时不用再动这里
+	await get_tree().create_timer(_anim_duration(animation, anim) * TOOL_IMPACT_RATIO).timeout
 	_apply_till(_target)
 
-func _play_anim(base_name: String) -> void:
+## 三层一起播；返回身体层实际播放的动画名（回退链解析后的结果）
+func _play_anim(base_name: String) -> StringName:
 	var suffix := _dir_suffix()
-	_play_one(animation, base_name, suffix)
+	var body_anim := _play_one(animation, base_name, suffix)
 	_play_one(hair_sprite, "hair_" + base_name, suffix)
 	_play_one(tool_sprite, "tool_" + base_name, suffix)
+	return body_anim
 
 ## 播一个动作的方向版本：
 ##   1. 有带方向的版本就直接播
 ##   2. 没做这个方向 -> 借东(_e)顶替，朝西(_w)时再镜像一次
 ##   3. 方向无关的动作(锄地等) -> 播不带后缀的
-func _play_one(sp: AnimatedSprite2D, anim_name: String, suffix: String) -> void:
-	if sp.sprite_frames.has_animation(anim_name + suffix):
-		sp.play(anim_name + suffix)
+func _play_one(sp: AnimatedSprite2D, anim_name: String, suffix: String) -> StringName:
+	var dir_anim := StringName(anim_name + suffix)
+	if sp.sprite_frames.has_animation(dir_anim):
+		sp.play(dir_anim)
 		sp.flip_h = false
-		return
-	if sp.sprite_frames.has_animation(anim_name + "_e"):
-		sp.play(anim_name + "_e")
+		return dir_anim
+	var east_anim := StringName(anim_name + "_e")
+	if sp.sprite_frames.has_animation(east_anim):
+		sp.play(east_anim)
 		sp.flip_h = suffix == "_w"
-		return
-	if sp.sprite_frames.has_animation(anim_name):
-		sp.play(anim_name)
+		return east_anim
+	var plain_anim := StringName(anim_name)
+	if sp.sprite_frames.has_animation(plain_anim):
+		sp.play(plain_anim)
 		sp.flip_h = suffix == "_w"
+		return plain_anim
+	return &""
+
+## 一个动画播一遍要多久（秒）；动画不存在或速度非正时返回 0
+func _anim_duration(sp: AnimatedSprite2D, anim: StringName) -> float:
+	if sp.sprite_frames == null or anim == &"":
+		return 0.0
+	var frames := sp.sprite_frames.get_frame_count(anim)
+	var fps := sp.sprite_frames.get_animation_speed(anim)
+	if frames <= 0 or fps <= 0.0 or sp.speed_scale <= 0.0:
+		return 0.0
+	return float(frames) / fps / sp.speed_scale
 
 ## 方向后缀：南 s=朝下 北 n=朝上 东 e=朝右 西 w=朝左
 func _dir_suffix() -> String:
