@@ -2096,3 +2096,104 @@ y 用脚底 `-6.0`）、撤掉 Ground 的 `position = Vector2(1, 0)`。
 
 对照图：`docs/images/soil_target_right.png`（横向，紧贴 ✅）/
 `docs/images/soil_target_down.png`（纵向，偏半格 ❌）
+
+---
+
+## 2026-11-10 12:00 选中框（SelectBox）方案
+
+### 决定：放弃网格吸附
+
+用户选择**放弃吸附**。吸附的唯一正确相位是 `position.x ≡ 8 (mod 16)`（人物横跨
+`[x-8, x+8)` 正好填满一格），吸附后会让人物每 0.1 秒跳 8px，16px 宽的角色跳半个身子，
+顿挫感明显。放弃后纵向半格错位保留现状，等实际玩起来觉得碍眼再说。
+
+### 素材考古：用户带来的 Select Box 只有 4 个角
+
+`assets/game/Select Box/` 下只有 `selectbox_tl/tr/bl/br.png`，各 8×9。
+
+像素形状（`.` = 透明）：
+
+```
+selectbox_tl            selectbox_tr
+..######                ######..
+.#######                #######.
+########                ########
+########                ########
+########                ########
+#######.                .#######
+#####...                ...#####
+#####...                ...#####
+.###....                ....###.
+```
+
+→ 每张自带深蓝外框 + 米白高光 + 棕色内角，**右下角是斜切**（圆角框风格）。
+
+四张横排拼 16×16（纵向重叠 1px）得到的是 **米白十字 + 棕色角 + 中间镂空**，
+不是干净的方框 —— 说明这 4 张是**框的角**，中间那两条米白带其实是**横边/竖边对接的位置**。
+即：原包大概率还有 4 条边（`t`/`b`/`l`/`r`）。
+
+**`.godot/imported/` 里的证据**（Nov 9 17:04 的旧导入记录，源文件 md5 与现在这批不同，
+说明当时在**别的路径**下导入过）：
+
+```
+select_dots.png-87afa554abb71baa67e79e653bf2596c.md5
+select_dots_large.png-5d6c42a88614561677ecd9a39a64da57.md5
+selectbox_tl.png-f35a99a3d7f53090a54f026d8935acb4.md5   ← 旧路径版
+```
+
+用户确认：**包里没有边条**，只有这 4 张角。
+
+### 最终方案：四角取景框
+
+没有边条时，把 4 个角当**独立角标**用，多格时中间镂空：
+
+| 覆盖范围 | 效果 |
+|---|---|
+| 1 格 | 四角拼成完整小框（米白十字样式，中间透出地面） |
+| 3×3 等多格 | 四角取景框，中间镂空 —— 比缺边条的烂框好看 |
+
+预览：`docs/images/selectbox_preview.png`（1 格）/
+`docs/images/selectbox_3x3.png`（3×3）
+
+### 架构：脚本独立于 Player
+
+用户提出选中框应该有**自己的脚本**，不写在 player.gd 里 —— 位置和脉冲动画都由它自己管，
+Player 只负责"告诉它去哪儿"。
+
+```
+scripts/world/select_box.gd   (class_name SelectBox)
+├── move_to(cell, cells = ONE)   移动 + 定位四角
+├── hide_box()                   隐藏
+└── _play_pulse()                Tween 脉冲（弹大 -> 收回，set_loops 无限循环）
+```
+
+Player 侧只剩 `@export var select_box: SelectBox` + 每帧 `move_to()` / `hide_box()`。
+
+好处：换工具换颜色、换素材、多实例（不同工具不同框）都不用动 Player。
+
+### 关键实现细节
+
+- **Sprite2D 必须关掉 `Centered`**：默认 `centered = true`（position = 贴图中心），
+  而四角的偏移是按"左上角对齐 position"算的，不关会每个角偏 4px
+- **框的原点 = 矩形中心**：脉冲用 `scale` 缩放，pivot 不在中心会歪
+- **纵向角偏移是 -1 不是 0**：贴图 9 高，上下各重叠 1px 才凑满 16
+- **尺寸用 `Vector2i` 格数**：`move_to(cell, Vector2i(3, 3))` 框 3×3（房子那种）
+- **缩放幅度 `@export var pulse_amount := 0.2`**：框越大溢出越多，可以调小
+
+### 全局常量
+
+用户提出 `TILE_SIZE` 每个脚本放一份太重复。最终用 **`class_name` + `const`**：
+
+```gdscript
+# scripts/core/game_config.gd
+class_name GameConfig
+const TILE_SIZE := 16
+const FARM_SIZE := Vector2i(42, 28)
+```
+
+> ⚠️ **不用 Autoload 存常量**：Autoload 的 `const` **不能**当全局标识符直接访问，
+> 只有 `var` 成员才能（`FarmData.tiles` 那样）。分界线：
+> **会被改的 → Autoload；不会变的 → class_name + const**。
+
+注意 `class_name` 需要编辑器扫过文件才注册进全局类表；在编辑器外新建文件后
+回到编辑器可能报 `Could not find type "GameConfig"`，切一下窗口即可。
