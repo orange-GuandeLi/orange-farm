@@ -4,18 +4,19 @@ extends CharacterBody2D
 @onready var hair_sprite: AnimatedSprite2D = $HairSprite # 头发动画
 @onready var tool_sprite: AnimatedSprite2D = $ToolSprite # 工具动画
 @export var soil: TileMapLayer
+@export var select_box: SelectBox # 目标格高亮框
 
 var facing := Vector2i.DOWN # 面向那里
 const SPEED = 80.0 # 速度
 var _busy := false # 是否在播放工具动画
-const TILE_SIZE := 16 # 每个格子大小
-const FARM_SIZE := Vector2i(42, 28) # 农场大小，用于判断是不是超出农场了
 var _target := Vector2i.ZERO # 目标块
 
 func _ready() -> void:
 	animation.animation_finished.connect(_on_animation_finished) # 身体动画播放完毕之后通知一个函数
 
 func _physics_process(delta: float) -> void:
+	_update_select_box() # 先更新高亮框（播动画期间也要跟着动）
+
 	if _busy: # 如果在播工具动画，不响应其他动画
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -56,9 +57,8 @@ func _start_tool(tool: String) -> void:
 	_busy = true
 	_play_anim("use_" + tool)
 
-
 	var cell := _target_cell()
-	if cell.x < 0 or cell.x >= FARM_SIZE.x or cell.y < 0 or cell.y >= FARM_SIZE.y:
+	if cell.x < 0 or cell.x >= GameConfig.FARM_SIZE.x or cell.y < 0 or cell.y >= GameConfig.FARM_SIZE.y:
 		return
 	if FarmData.is_tilled(cell):
 		return
@@ -74,12 +74,12 @@ func _play_anim(base_name: String) -> void:
 
 func _on_animation_finished() -> void:
 	if animation.animation.begins_with("use_"):
-		_busy = false;
+		_busy = false
 
 func _player_cell() -> Vector2i:
 	return Vector2i(
-		int(floor((position.x - 8.0) / TILE_SIZE)),
-		int(floor((position.y - 6.0) / TILE_SIZE))
+		int(floor((position.x - 8.0) / GameConfig.TILE_SIZE)),
+		int(floor((position.y - 6.0) / GameConfig.TILE_SIZE))
 	)
 
 func _target_cell() -> Vector2i:
@@ -90,6 +90,19 @@ func _target_cell() -> Vector2i:
 		Vector2i.LEFT:  return c + Vector2i(-1, 0)
 		Vector2i.RIGHT: return c + Vector2i(1, 0)
 	return Vector2i(-999, -999)
+
+## 更新目标格高亮框：能锄才显示，锄过的和越界的都藏起来
+func _update_select_box() -> void:
+	if select_box == null:
+		return
+	var cell := _target_cell()
+	var can_dig: bool = cell.x >= 0 and cell.x < GameConfig.FARM_SIZE.x \
+		and cell.y >= 0 and cell.y < GameConfig.FARM_SIZE.y \
+		and not FarmData.is_tilled(cell)
+	if can_dig:
+		select_box.move_to(cell)
+	else:
+		select_box.hide_box()
 
 func _apply_till(cell: Vector2i) -> void:
 	if not FarmData.till(cell):

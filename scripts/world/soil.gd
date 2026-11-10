@@ -22,7 +22,10 @@ func _spawn_dust(cell: Vector2i) -> void:
 	var dust := AnimatedSprite2D.new()
 	dust.sprite_frames = sf
 	dust.centered = false
-	dust.position = Vector2(cell.x * 16 + 8, cell.y * 16 + 10)
+	dust.position = Vector2(
+		cell.x * GameConfig.TILE_SIZE + 8,
+		cell.y * GameConfig.TILE_SIZE + 10
+	)
 	add_child(dust)
 	dust.play("default")
 	dust.animation_finished.connect(dust.queue_free)
