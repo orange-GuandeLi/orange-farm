@@ -2415,3 +2415,17 @@ UP    → target(21,12) y=192..208   紧贴头顶
 - 可活动范围：列 1~78 / 行 1~42。
 - 铺地用一次性 `EditorScript` `tools/paint_checker.gd`（`@tool`，编辑器 File → Run，跑完 Ctrl+S）。
 - 第一次跑没生效：EditorScript 只改内存，不保存场景；重跑并在场景里 Ctrl+S 后 Ground 变 3600 格。
+
+---
+
+## 2026-11-10 23:20 移动改为自由移动（8 向）+ 实时目标格
+
+- 去掉逐格吸附/强制走完：`velocity + move_and_slide()`，松手即停；`SPEED = 60`。
+- `walk` 三层动画 speed 10 → 15，与 60px/s 对齐（4 帧/格，8 帧一轮）。
+- 目标格 = 脚底格 + `facing`；`_cell_of` 用脚底（`y - 1`），`SelectBox` 每帧跟随。
+- 实测：点右 0.25s 走 15px 停；四面墙 x∈[16.07,1263.92]、y∈[16.08,703.92]；
+  斜走 0.5s 位移 (21.2,21.2)（总速度 60）；`(100,100)` → 格 (6,6)，朝下目标 (6,7)，锄地正确。
+- 现状：8 向输入 + 4 向动画/朝向；斜走时朝向取主轴，等 8 向素材再补。
+- BodySprite 默认动画从 `tool_idle_n` / `walk_s` 修正为 `idle_s`。
+- 文档：README / ROADMAP / FOUR_DIRECTION_ASSETS / TOOL_TARGET_RULES / M2A_PLAN /
+  M2A_STEP5_HOE / FARM_SIZE 已同步。

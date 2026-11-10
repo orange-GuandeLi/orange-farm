@@ -1,7 +1,7 @@
 # 🌾 Farm
 
 > Godot 4.7.2 驱动的星露谷式农场游戏。
-> 16px 像素 · 俯视角 · 逐格移动 / 4 向朝向 · 图层化角色系统
+> 16px 像素 · 俯视角 · 自由移动（8 向）/ 4 向朝向 · 图层化角色系统
 
 ---
 
@@ -73,8 +73,8 @@ BETA 包内含作者制作的多方向移动动画，无需自行绘制。
 |---|---|
 | 引擎 | Godot **4.7.2** stable |
 | 视图 | 2D 俯视，16px 网格，视口 640×360（窗口 1920×1080，3×） |
-| 移动 | **逐格移动**（吸附到格中心，一次走一格），**4 向朝向**（`Vector2i`） |
-| 农田尺寸 | 地面 **80 × 45 格**，农夫可活动 **列 1~78 / 行 1~42**（`GameConfig.FARM_SIZE`） |
+| 移动 | **自由移动**（8 向输入，60px/s），**4 向朝向**（`Vector2i`）；目标格 = 脚底格 + 朝向 |
+| 农田尺寸 | 地面 **80 × 45 格**，脚底可活动 **x∈[16,1264] / y∈[16,704]**（`GameConfig.FARM_SIZE`） |
 | 锄地规则 | 星露谷式：**面朝方向那一格**，不是脚下 |
 | 角色结构 | 三层 `AnimatedSprite2D`：Body / Hair / Tool |
 | 素材分层 | 每层单独一个 `AnimatedSprite2D`，共用一个 `SpriteFrames` |
@@ -158,6 +158,7 @@ farm/
 | 4 步：三层角色（Body/Hair/Tool）+ dig 动画 | ✅ 已验收（真实渲染零错位） |
 | 5 步：锄地流程（锁移动锁朝向 → `FarmData.till()` → `Soil.set_cell()` → 播放尘土） | ✅ 已验收 |
 | 5.5 步：逐格移动（吸附）+ 目标格高亮框 `SelectBox` | ✅ 已验收 |
+| M2a 移动改版：自由移动（8 向）+ 实时目标格 | ✅ 已验收（2026-11-10） |
 | M2b 播种 / 浇水 / 作物生长 / 体力条 / 存档 | ⏳ 待开始 |
 
 **已探明的可用素材**（M2b 备料）：`greenbar_00~06` 体力条 · `expression_*` 表情气泡 ·
@@ -178,7 +179,7 @@ farm/
 | [`M2A_PLAN.md`](docs/M2A_PLAN.md) | **M2a 实施手册**：4 向朝向 / 星露谷锄地规则 / 三层角色 / 动画参数 |
 | [`M2A_STEP5_HOE.md`](docs/M2A_STEP5_HOE.md) | **第 5 步施工指南**：锄地流程 / 土壤贴图选型 / 尘土特效 |
 | [`M2A_SOIL_PAINTING.md`](docs/M2A_SOIL_PAINTING.md) | 耕地绘制方案 |
-| [`TOOL_TARGET_RULES.md`](docs/TOOL_TARGET_RULES.md) | **目标格规则**：星露谷锄地考证 / 几何实测 / 逐格移动方案 |
+| [`TOOL_TARGET_RULES.md`](docs/TOOL_TARGET_RULES.md) | **目标格规则**：星露谷锄地考证 / 自由移动下的目标格 / 旧逐格方案存档 |
 | [`GAMEMAKER_ASSETS.md`](docs/GAMEMAKER_ASSETS.md) | **GameMaker 工程勘察报告**：475 个 sprite 清单 / 元数据格式 / 资产目录 |
 | [`ASEPRITE_EXTRACTION.md`](docs/ASEPRITE_EXTRACTION.md) | 从 Aseprite 源文件提取帧的方法 |
 | [`FOUR_DIRECTION_ASSETS.md`](docs/FOUR_DIRECTION_ASSETS.md) | 四向移动动画素材提取 |

@@ -261,8 +261,8 @@ func _play_anim(base_name: String) -> void:
 
 ## 3. player.gd 的改动
 
-> ⚠️ 本章是第 5 步当时的版本：移动还是 `velocity + move_and_slide()`，`TILE_SIZE` / `FARM_SIZE`
-> 也还写在 `player.gd` 里。现在的实现已改为逐格吸附（无 velocity），常量移入 `GameConfig`
+> ⚠️ 本章是第 5 步当时的版本：当时用 `velocity + move_and_slide()`，中间一度改成逐格吸附，
+> 2026-11-10 又改回自由移动（8 向输入 + 实时目标格）。常量已移入 `GameConfig`
 > （`FARM_SIZE = 80×45`），另加了 `SelectBox`。**改代码前以 `scripts/actors/player.gd` 为准**，
 > 本章只保留锄地流程的思路。
 
