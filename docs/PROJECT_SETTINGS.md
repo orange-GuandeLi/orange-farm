@@ -2,6 +2,9 @@
 
 > 说明每项设置的原因、修改后的影响，以及在编辑器中的对应位置。
 > 本文所有设置键名都从 Godot 4.7.2 源码 `core/config/project_settings.cpp` 核对过。
+>
+> **最后同步：2026-11-10** —— 视口改为 **640×360**，窗口 override 为 **1920×1080**（3×）。
+> 本文写于 M0，§一 的帧校验数据早于四向改造；当前设置值以 `project.godot` 为准。
 
 ---
 
@@ -31,12 +34,8 @@
 
 ## 二、必须改的项目设置（4 项）
 
-> 当前 `project.godot` 只有：
-> ```
-> window/stretch/mode="canvas_items"
-> window/stretch/aspect="expand"
-> ```
-> **其余全是缺省值**，其中两项对像素风是致命的。
+> 本节记录 M0 时补的 4 项设置；现在 `project.godot` 已包含全部正确值。
+> 下面保留每项的原因说明，改动前先看影响。
 
 ### 设置 1 · 基准分辨率（最重要）
 
@@ -44,17 +43,17 @@
 
 | 键 | 值 | 说明 |
 |---|---|---|
-| `display/window/size/viewport_width` | **320** | 虚拟画布宽度 |
-| `display/window/size/viewport_height` | **180** | 虚拟画布高度 |
+| `display/window/size/viewport_width` | **640** | 虚拟画布宽度 |
+| `display/window/size/viewport_height` | **360** | 虚拟画布高度 |
 
-**为什么是 320×180？**
+**为什么是 640×360？**
 
-角色实际尺寸为 **11×16 像素**（逐帧测量）。
-- 640×360 → 角色只占屏高 1/22，几乎看不见
-- 320×180 → 角色占屏高 1/11，配 16×16 地块比例正好
+角色可见尺寸约 **13×18 像素**（身体 11×16 + 头发），地块 16×16。
+- 2560×1440 窗口 → 4×，角色约 72 px 高（参考图的 4× 角色约 68 px）
+- 1920×1080 窗口 → 3×，角色约 54 px 高
+- 320×180 在 2560×1440 下是 8×、角色 144 px，实测画面过近（2026-11-10 改成 640×360）
 
-**这就是《星露谷》的原始思路**：16×16 地块 + 小人物，靠整数倍放大填满屏幕。
-地块美术确定后可再调整，但**现在先用这个**。
+代价：一次看到 **40×22.5 格**；农场 80×45 格，镜头余量 **640×360 px**（正好一屏，见 `FARM_SIZE.md`）。
 
 ### 设置 2 · 拉伸模式与宽高比
 
@@ -63,19 +62,19 @@
 | 键 | 当前值 | 改成 | 说明 |
 |---|---|---|---|
 | `display/window/stretch/mode` | `canvas_items` | **保持 `canvas_items`** | ✓ 已符合 |
-| `display/window/stretch/aspect` | `expand` | **改成 `keep`** | ⚠️ 见下 |
-| `display/window/stretch/scale_mode` | `fractional`（缺省） | **改成 `integer`** | ⚠️ 见下 |
+| `display/window/stretch/aspect` | 未设置（默认 `keep`） | **保持 `keep`** | ✓ 已符合 |
+| `display/window/stretch/scale_mode` | `integer` | **保持 `integer`** | ✓ 已符合 |
 
-#### ⚠️ `aspect` 为什么从 `expand` 改成 `keep`
+#### `aspect` 为什么必须是 `keep`
 
-当前为 `expand`（扩展）—— 意思是**视口尺寸跟着窗口变**，
-窗口拉多宽，视口就多宽。这对像素游戏是灾难：
+`expand`（扩展）会让**视口尺寸跟着窗口变**，窗口拉多宽视口就多宽。这对像素游戏是灾难：
 
-- 窗口拉宽 → 视口变成 500×180 → 角色位置和 UI 布局全乱
+- 窗口拉宽 → 视口变成 1000×360 → 角色位置和 UI 布局全乱
 - 玩家拖动窗口大小 → 游戏画面比例失控
 
-改成 `keep` 后，**视口永远保持 320×180 的 16:9 比例**，窗口多出来的部分用黑边填充。
-游戏内坐标永远稳定。
+`keep` 下**视口永远保持 640×360 的 16:9 比例**，窗口多出来的部分用黑边填充，游戏内坐标永远稳定。
+
+> 本项目没有再显式写 `stretch/aspect`，因为 Godot 的默认值就是 `keep`。
 
 #### ⚠️ `scale_mode` 为什么必须改成 `integer`
 
@@ -152,7 +151,7 @@
 
 ## 四、窗口在屏幕上显示多大？（可选但建议）
 
-分辨率设成 320×180 后，**游戏窗口在屏幕上会变得非常小**（320×180 像素）。
+视口设成 640×360 后，如果没设窗口 override，**游戏窗口在屏幕上只有 640×360 像素**。
 
 ### 📍 具体在哪改
 
@@ -206,16 +205,16 @@
 
 | 编辑器界面上的名字 | 对应配置键 | 当前值 |
 |---|---|---|
-| **Viewport Width** | `display/window/size/viewport_width` | 320 ✓ 已设 |
-| **Viewport Height** | `display/window/size/viewport_height` | 180 ✓ 已设 |
-| Window Width Override | `display/window/size/window_width_override` | **2560 ✓ 已设** |
-| Window Height Override | `display/window/size/window_height_override` | **1440 ✓ 已设** |
+| **Viewport Width** | `display/window/size/viewport_width` | 640 ✓ 已设 |
+| **Viewport Height** | `display/window/size/viewport_height` | 360 ✓ 已设 |
+| Window Width Override | `display/window/size/window_width_override` | **1920 ✓ 已设** |
+| Window Height Override | `display/window/size/window_height_override` | **1080 ✓ 已设** |
 | Mode | `display/window/size/mode` | Windowed ✓ |
 
 > **注意**：这个选项**不在「拉伸」那一页**，在**「尺寸」那一页**。
 > 两个页面长得有点像，很容易看错地方。
 
-### 为什么这两个数字必须是 8 倍
+### 为什么窗口必须是视口的整数倍
 
 Godot 编辑器运行游戏时的逻辑（源码 `editor/run/editor_run.cpp:280`）：
 ```cpp
@@ -226,14 +225,16 @@ if (desired_size.x > 0 && desired_size.y > 0) {
 }
 ```
 
-配合 `scale_mode = integer`，Godot 会把 320×180 的视口**整数放大 8 倍**填进 2560×1440 的窗口。
+配合 `scale_mode = integer`，Godot 会把 640×360 的视口**整数放大 3 倍**填进 1920×1080 的窗口。
 
 ```
-2560 ÷ 320 = 8  ✓ 整数
-1440 ÷ 180 = 8  ✓ 整数
+1920 ÷ 640 = 3  ✓ 整数
+1080 ÷ 360 = 3  ✓ 整数
 ```
 
 **必须是整数倍**，否则 `integer` 模式失效，画面又会糊。
+
+> 想要 2560×1440 全屏就是 4×（角色约 72px）：把 override 改回 2560 / 1440 即可。
 
 ### 另一个办法：直接拖窗口
 
@@ -253,18 +254,18 @@ if (desired_size.x > 0 && desired_size.y > 0) {
 [application]
 
 config/name="farm"
-run/main_scene="res://scenes/player.tscn"      ← ★ 还需要加这个（见 §七）
+run/main_scene="uid://d1flhep88ywh0"      # 主场景 scenes/main.tscn
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [display]
 
-window/size/viewport_width=320
-window/size/viewport_height=180
-window/size/window_width_override=2560          ← 窗口大小覆盖
-window/size/window_height_override=1440
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1920          ← 窗口大小覆盖
+window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 window/stretch/scale_mode="integer"
+# stretch/aspect 未显式设置，默认就是 keep
 
 [rendering]
 
@@ -275,29 +276,24 @@ textures/canvas_textures/default_texture_filter=0
 
 ---
 
-## 六、还缺一步：主场景
+## 六、主场景（已完成）
 
-当前 `project.godot` **没有 `run/main_scene`**，所以运行游戏会报：
-```
-Error: Can't run project: no main scene defined in the project.
-```
+`project.godot` 的 `run/main_scene` 已指向 `scenes/main.tscn`（UID `uid://d1flhep88ywh0`），按 F5 直接进游戏。
 
-两种做法：
+早期步骤（已不需要，保留作记录）：
 
-1. **编辑器里**：`项目设置 → 应用 → 运行 → 主场景` → 选 `player.tscn`
-2. **或者**：把 `player.tscn` 拖到 Scene 面板顶部（场景树上方），它会成为主场景
+1. **编辑器里**：`项目设置 → 应用 → 运行 → 主场景` → 选目标场景
+2. **或者**：把场景拖到 Scene 面板顶部（场景树上方），它会成为主场景
 
-> 但先等一下 —— `player.tscn` 适合当主场景吗？
-> 现在它只是个角色，没有地面、没有摄像机。
-> **更合理的做法**：建一个 `Main.tscn` 作为主场景，里面放地面 + 摄像机 + Player 实例。
-> 不过这是 M1 的事，先把主场景指向 player.tscn 跑通动画也完全可以。
+> 现在的 `scenes/main.tscn` 已包含 Ground / Soil / Boundary / Entities（Player + Camera），
+> 不再用 `player.tscn` 当主场景。
 
 ---
 
 ## 七、改完之后的自检清单
 
 - [ ] 运行游戏，**画面不糊**（像素硬边，不是模糊的）
-- [ ] 窗口大小正常（2560×1440 或手动拖拽的尺寸），而非 320×180 的小窗口
+- [ ] 窗口大小正常（1920×1080 或手动拖拽的尺寸），而非 640×360 的小窗口
 - [ ] 角色**在动**（idle 呼吸动画循环播放）
 - [ ] 角色**清晰可见**，大小合理（不是一个小点）
 - [ ] 拖动窗口边缘，画面比例**不变形**、角色不闪烁

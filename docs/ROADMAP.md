@@ -347,18 +347,17 @@ enum State { UNTILLED, TILLED, SEEDED, GROWING, MATURE }
 
 `项目设置 → 显示 → 窗口`
 ```
-display/window/size/viewport_width   = 320      （★ 见下方说明）
-display/window/size/viewport_height  = 180
+display/window/size/viewport_width   = 640      （★ 见下方说明）
+display/window/size/viewport_height  = 360
 display/window/stretch/mode           = canvas_items
 display/window/stretch/aspect        = keep
 display/window/stretch/scale_mode     = integer
 ```
 
-> **采用 320×180 而非 640×360 的原因**：Sunnyside 角色素材中
-> 角色实际只有 **11×16 像素**（格子 96×64，95% 是透明空白）。
-> 640×360 视口下角色只有屏高的 1/22，几乎看不见；
-> 320×180 下是 1/11，配合 16×16 地块比例正好 —— 这也是《星露谷》的原始思路。
-> 详见 `docs/SPRITE_SLICING.md` §4.2.1。
+> **采用 640×360 的原因**：Sunnyside 角色可见尺寸约 **13×18 像素**，地块 16×16。
+> 2560×1440 下是 4×（角色约 72px），1920×1080 下是 3×（角色约 54px），观感接近参考图。
+> 早期版本用 320×180（2560 下 8×、角色 144px），实测画面过近，2026-11-10 改为 640×360。
+> 代价：可见 40×22.5 格；农场 80×45 格，镜头余量 640×360px（一屏）—— 见 `docs/FARM_SIZE.md`。
 
 `项目设置 → 渲染 → 纹理 → 画布纹理`
 ```
