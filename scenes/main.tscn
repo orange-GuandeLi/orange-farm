@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://brfn5tph55jud" path="res://assets/ui/selectbox_tr.png" id="4_85g3d"]
 [ext_resource type="Texture2D" uid="uid://m2xx7lvkwha5" path="res://assets/ui/selectbox_br.png" id="5_85g3d"]
 [ext_resource type="Texture2D" uid="uid://hidlwhcv3fs0" path="res://assets/ui/selectbox_bl.png" id="6_85g3d"]
-[ext_resource type="Texture2D" uid="uid://up8ov17h6v4d" path="res://assets/game/fx/dust_land.png" id="8_85g3d"]
+[ext_resource type="Texture2D" uid="uid://decwbadwdap2j" path="res://assets/game/fx/dust_land.png" id="8_85g3d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
