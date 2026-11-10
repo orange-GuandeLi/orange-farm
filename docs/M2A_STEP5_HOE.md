@@ -82,8 +82,8 @@ dur = 13 帧 / speed 20 = 0.65 秒
 > f9 铲子抡到最高、**同时有土块（棕色小块）飞出画面**，这就是"这一锄落地"的瞬间。
 > f10~f12 是土块飞散和收铲的后摇。
 
-> 巧合但确实：f9 的起始时间 0.45s 正好等于 `dur * 0.69`，
-> 而 0.45 秒这个绝对值也是文档第 4 节时间线里用的落点。
+> f9 的起始时间 0.45s 正好等于 `dur * 0.69`。代码里按 `dur × 0.7` 推算（≈0.455 秒），
+> 仍落在 f9 内，不用再写死 0.45。
 
 ### 0.4 尘土特效
 
@@ -229,6 +229,9 @@ func _play_anim(base_name: String) -> void:
 	tool_sprite.play("tool_" + base_name)
 ```
 
+> 实际实现带方向回退（`_play_one`）并返回身体层实际播放的动画名（用于算落地时机），
+> 完整代码见 `scripts/actors/player.gd`。
+
 > ❌ 最初的版本尝试用 `name.split("_")[1]` 取后缀：
 > ```gdscript
 > var split_name := name_str.split("_")
@@ -257,6 +260,11 @@ func _play_anim(base_name: String) -> void:
 ---
 
 ## 3. player.gd 的改动
+
+> ⚠️ 本章是第 5 步当时的版本：移动还是 `velocity + move_and_slide()`，`TILE_SIZE` / `FARM_SIZE`
+> 也还写在 `player.gd` 里。现在的实现已改为逐格吸附（无 velocity），常量移入 `GameConfig`
+> （`FARM_SIZE = 42×28`），另加了 `SelectBox`。**改代码前以 `scripts/actors/player.gd` 为准**，
+> 本章只保留锄地流程的思路。
 
 ### 3.1 新增常量与变量
 
@@ -325,11 +333,11 @@ func _start_tool(tool: String) -> void:
 		return
 
 	_busy = true
-	_play_anim("use_" + tool)
+	var anim := _play_anim("use_" + tool)
 
 	# 等到"锄头落地"那一刻再改地块
-	# use_dig = 13 帧 / speed 20 = 0.65 秒；f9（落地帧）起始正好是 0.45 秒
-	await get_tree().create_timer(0.45).timeout
+	# 时长从动画本身算：use_dig = 13 帧 / speed 20 = 0.65 秒；× 0.7 ≈ 0.455 秒（f9 落地帧）
+	await get_tree().create_timer(_anim_duration(animation, anim) * TOOL_IMPACT_RATIO).timeout
 	_apply_till(cell)
 
 
@@ -369,6 +377,9 @@ func _on_animation_finished() -> void:
 - **`_on_animation_finished` 必须无参**：Godot 4.7 的 `animation_finished` 信号**不带参数**。
   写成 `func _on_animation_finished(anim_name: String)` 会报
   `Method expected 1 argument(s), but called with 0`。
+- **`_anim_duration()`**：用 `SpriteFrames` 的帧数 / speed 算动画时长（实现见 `scripts/actors/player.gd`）。
+  `_play_anim()` 返回身体层实际播放的动画名，计时与动画同源，改帧数或 speed 后不用再同步常数。
+- **`TOOL_IMPACT_RATIO = 0.7`**：落地帧 f9 占总时长的 0.69，取 0.7 仍落在 f9（0.45~0.50 秒）内。
 - **只有 `use_*` 动画会触发这个信号**：`idle`/`walk`/`run` 是循环动画，永远不触发。
 - **信号必须在 `_ready()` 里连**：`animation.animation_finished.connect(_on_animation_finished)`
 
@@ -376,7 +387,7 @@ func _on_animation_finished() -> void:
 
 ```
 t=0.00  按空格 → _start_tool("dig")：_busy=true，播 use_dig
-t=0.45  落地(f9) → FarmData.till() + soil.till() + 尘土出现
+t≈0.455 落地(f9) → FarmData.till() + soil.till() + 尘土出现
 t=0.65  use_dig 播完 → animation_finished → _busy=false，恢复移动
 ```
 

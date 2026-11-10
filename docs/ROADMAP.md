@@ -10,12 +10,12 @@
 
 | 项目 | 情况 |
 |---|---|
-| Godot 版本 | 4.7.2.stable.official (macOS arm64) |
-| 项目路径 | `/Users/orange/my/godot/farm` |
+| Godot 版本 | 4.7.2.stable.official（Windows 官方 win64 构建） |
+| 项目路径 | 仓库根目录 `farm/` |
 | 引擎特性标签 | `config/features=PackedStringArray("4.7", "Forward Plus")` |
-| 主场景 | **尚未设置**（运行会报 "no main scene defined"） |
-| 无头运行 | 可用，可执行 `godot --headless` 查错 |
-| 素材 | 由使用方自行准备 |
+| 主场景 | `res://scenes/main.tscn`（已写入 `project.godot`） |
+| 无头运行 | 可用 `godot --headless --path .`；Godot 不在 PATH 时写全路径 |
+| 素材 | Sunnyside World 已入库，授权见 README |
 
 ### 4.7 的破坏性变更对 2D 项目的影响
 
@@ -78,6 +78,9 @@ Main (Node)                      ← 主场景
 ---
 
 ## 2. 目录结构（骨架）
+
+> 这是最初的规划骨架，实际目录（`scenes/`、`scripts/actors`、`scripts/data` 等）以 README 的「目录结构」为准；
+> 本节保留作对照，不再逐个同步。
 
 ```
 farm/
@@ -160,7 +163,7 @@ extends Resource
 
 ---
 
-### M0 · 骨架与地牢 ✅ 当前阶段
+### M0 · 骨架与地牢 ✅
 
 **目标**：项目能跑起来，屏幕显示一块地面。
 
@@ -170,9 +173,9 @@ extends Resource
 - 像素风项目设置（见 §4）
 
 **验收**
-- [ ] 运行游戏，不报 "no main scene defined"
-- [ ] 窗口里能看到一个色块或一张图
-- [ ] 窗口标题改为游戏名称
+- [x] 运行游戏，不报 "no main scene defined"
+- [x] 窗口里能看到一个色块或一张图
+- [x] 窗口标题使用项目名 `farm`
 
 ---
 
@@ -187,9 +190,12 @@ extends Resource
 - **输入映射（Input Map）**：`项目设置 → 输入映射`，自己定义 `move_left` 等动作，而不是写死键盘码
 
 **验收**
-- [ ] 四向移动 + 斜向不加速
-- [ ] 摄像机跟随有平滑感，不生硬
-- [ ] 角色不会走出地面边界（有碰撞）
+- [x] 四向逐格移动（斜向输入按主轴走一格，不会斜穿）
+- [x] 摄像机跟随（硬跟随，`Camera2D` 限制在农场范围内）
+- [x] 角色不会走出地面边界（有碰撞）
+
+> 原计划的"平滑跟随"已放弃：平滑会让镜头发到小数坐标，与整数缩放冲突、把抖动换回来。
+> 逐格吸附 + 硬跟随是像素游戏的常见做法，理由见 `JITTER_DIAGNOSIS.md`。
 
 **参考写法（仅示意结构）**
 ```gdscript
@@ -225,9 +231,12 @@ func _physics_process(delta: float) -> void:
 > `{state: 枚举, crop_id: StringName, growth: int}`，视觉上用不同的 TileMapLayer 层切换显示。
 > 该组合使土壤状态与美术资源解耦，更换素材时无需修改逻辑代码。
 
-**地块状态的枚举**
+**地块状态的枚举**（实际实现见 `scripts/data/soil_data.gd`）
 ```gdscript
-enum SoilState { UNTILLED, TILLED, WATERED, GROWING, MATURE }
+enum State { UNTILLED, TILLED, SEEDED, GROWING, MATURE }
+
+# 浇水与生长阶段正交，不单独占一个状态
+@export var watered := false
 ```
 
 **API（已核实存在于 4.7）**
@@ -239,11 +248,11 @@ enum SoilState { UNTILLED, TILLED, WATERED, GROWING, MATURE }
 - **注意**：TileMapLayer 的更新是**帧末批处理**的；要立刻生效需调 `update_internals()`
 
 **验收**
-- [ ] 锄头能锄地，且只有空地能被锄
-- [ ] 能播种，种子数量正确扣减
-- [ ] 浇过的地颜色变深
-- [ ] 作物每天推进生长阶段
-- [ ] 成熟后收获，物品进背包
+- [x] 锄头能锄地，且只有空地能被锄（M2a 已验收）
+- [ ] 能播种，种子数量正确扣减（M2b）
+- [ ] 浇过的地颜色变深（M2b）
+- [ ] 作物每天推进生长阶段（M2b）
+- [ ] 成熟后收获，物品进背包（M2b）
 
 ---
 
@@ -403,13 +412,22 @@ rendering/2d/snap/snap_2d_transforms_to_pixel = true    （可选，让角色移
 
 ## 6. 现在的下一步
 
-**由实现方完成 M0**（不参与实现，代码由实现方编写）：
+M1 / M2a 已验收（进度见 README「当前进度」），当前停在 **M2b**：
 
-1. 打开 Godot，把 `project.godot` 的主场景设好
-2. 按 §4 配好像素风设置
-3. 创建一个 `Main` 场景，里面放一个能看到东西的节点
-4. 按 §2 建好目录骨架
+1. 背包与物品数据（`ItemData` + `Inventory` 单例）
+2. 播种（种子扣减 + `FarmData.plant()`）
+3. 浇水（`watered` 标记 + 土壤贴图切换）
+4. 作物生长（`CropData` + 天数推进）
+5. 体力条 HUD（`greenbar_00~06` 已备料）
+6. 存档（`user://`，序列化 `FarmData` 与背包）
 
-完成后提交 review，验收通过后进入 M1。
+施工细节：
 
-> **遇到阻塞直接提出**。若某一步不明确，可将该步骤进一步拆分，必要时提供实现代码 —— 不主动编写代码与按需提供实现并不矛盾。
+| 主题 | 文档 |
+|---|---|
+| M2a 实施手册（四向 / 锄地 / 三层角色） | `M2A_PLAN.md` |
+| 第 5 步锄地流程 | `M2A_STEP5_HOE.md` |
+| 目标格规则 / 逐格移动 | `TOOL_TARGET_RULES.md` |
+| 四向素材现状 | `FOUR_DIRECTION_ASSETS.md` |
+
+> 本文件只维护里程碑目标与验收标准；逐轮施工记录写在 `NOTES.md`。
