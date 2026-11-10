@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var select_box: SelectBox # 目标格高亮框
 
 var facing := Vector2i.DOWN # 面向那里
-const SPEED = 80.0 # 速度
+const SPEED = 40.0 # 速度
 var _busy := false # 是否在播放工具动画
 var _target := Vector2i.ZERO # 目标块
 
