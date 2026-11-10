@@ -556,7 +556,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"hair_idle_e",
-"speed": 2.67
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -573,7 +573,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"hair_idle_s",
-"speed": 5.0
+"speed": 2.67
 }, {
 "frames": [{
 "duration": 1.0,
