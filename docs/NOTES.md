@@ -2197,3 +2197,26 @@ const FARM_SIZE := Vector2i(42, 28)
 
 注意 `class_name` 需要编辑器扫过文件才注册进全局类表；在编辑器外新建文件后
 回到编辑器可能报 `Could not find type "GameConfig"`，切一下窗口即可。
+
+### 复验（真实渲染）
+
+启动零错误。临时场景实测数据：
+
+```
+常态   pos=(328.0, 232.0)  scale=1.108  visible=true
+  TL=(-8,-8)  TR=(0,-8)  BL=(-8,-1)  BR=(0,-1)      ← 四角偏移全对
+脉冲中 scale=1.178  pos=(328.0, 232.0)               ← 放大时中心不歪 ✅
+锄完后 visible=false  soil=[(20, 14)]                 ← 锄过的格子框会隐藏 ✅
+最右面右 visible=true  target=(41, 13)                ← 最后一列仍然可锄 ✅
+```
+
+实拍：`docs/images/selectbox_in_game.png`
+
+### 踩到的坑：节点命名两边对不上
+
+脚本里写 `$LT/$RT/$LB/$RB`，场景里实际是 `TL/TR/BR/BL` —— 启动时刷了一屏
+`Node not found: "LT"`。**脚本里的 `$节点名` 和场景里的节点名必须完全一致**，
+GDScript 不会报错说"你可能拼错了"，只会一直报 not found。
+
+约定：四角统一用 `TL / TR / BL / BR`（Top-Left / Top-Right / Bottom-Left / Bottom-Right），
+跟 CSS 的 `border-*-*-radius` 一致，不容易混。
