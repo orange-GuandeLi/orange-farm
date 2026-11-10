@@ -196,7 +196,7 @@
 > 1. 打开 `项目设置`
 > 2. **右上角勾选 `Advanced Settings`** ← 关键
 > 3. 左侧树选 **`显示`** → **`窗口`** → **`尺寸`**
-> 4. 找到 **`Window Width Override`** = 1280、**`Window Height Override`** = 720
+> 4. 找到 **`Window Width Override`** = 2560、**`Window Height Override`** = 1440
 >
 > （或者：直接在顶部搜索框输入 `override`，搜索时高级设置会自动显示）
 
@@ -208,14 +208,14 @@
 |---|---|---|
 | **Viewport Width** | `display/window/size/viewport_width` | 320 ✓ 已设 |
 | **Viewport Height** | `display/window/size/viewport_height` | 180 ✓ 已设 |
-| Window Width Override | `display/window/size/window_width_override` | **1280 ✓ 已设** |
-| Window Height Override | `display/window/size/window_height_override` | **720 ✓ 已设** |
+| Window Width Override | `display/window/size/window_width_override` | **2560 ✓ 已设** |
+| Window Height Override | `display/window/size/window_height_override` | **1440 ✓ 已设** |
 | Mode | `display/window/size/mode` | Windowed ✓ |
 
 > **注意**：这个选项**不在「拉伸」那一页**，在**「尺寸」那一页**。
 > 两个页面长得有点像，很容易看错地方。
 
-### 为什么这两个数字必须是 4 倍
+### 为什么这两个数字必须是 8 倍
 
 Godot 编辑器运行游戏时的逻辑（源码 `editor/run/editor_run.cpp:280`）：
 ```cpp
@@ -226,11 +226,11 @@ if (desired_size.x > 0 && desired_size.y > 0) {
 }
 ```
 
-配合 `scale_mode = integer`，Godot 会把 320×180 的视口**整数放大 4 倍**填进 1280×720 的窗口。
+配合 `scale_mode = integer`，Godot 会把 320×180 的视口**整数放大 8 倍**填进 2560×1440 的窗口。
 
 ```
-1280 ÷ 320 = 4  ✓ 整数
- 720 ÷ 180 = 4  ✓ 整数
+2560 ÷ 320 = 8  ✓ 整数
+1440 ÷ 180 = 8  ✓ 整数
 ```
 
 **必须是整数倍**，否则 `integer` 模式失效，画面又会糊。
@@ -260,8 +260,8 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 
 window/size/viewport_width=320
 window/size/viewport_height=180
-window/size/window_width_override=1280          ← 窗口大小覆盖
-window/size/window_height_override=720
+window/size/window_width_override=2560          ← 窗口大小覆盖
+window/size/window_height_override=1440
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
 window/stretch/scale_mode="integer"
@@ -297,7 +297,7 @@ Error: Can't run project: no main scene defined in the project.
 ## 七、改完之后的自检清单
 
 - [ ] 运行游戏，**画面不糊**（像素硬边，不是模糊的）
-- [ ] 窗口大小正常（1280×720 或手动拖拽的尺寸），而非 320×180 的小窗口
+- [ ] 窗口大小正常（2560×1440 或手动拖拽的尺寸），而非 320×180 的小窗口
 - [ ] 角色**在动**（idle 呼吸动画循环播放）
 - [ ] 角色**清晰可见**，大小合理（不是一个小点）
 - [ ] 拖动窗口边缘，画面比例**不变形**、角色不闪烁
