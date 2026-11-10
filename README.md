@@ -73,8 +73,8 @@ itch.io 下载页里除了 V2.1 主包，还有作者单独提供的：
 |---|---|
 | 引擎 | Godot **4.7.2** stable |
 | 视图 | 2D 俯视，16px 网格，视口 320×180（窗口 1280×720） |
-| 移动 | **8 向移动**（自由 `Input.get_vector`），**4 向朝向**（`Vector2i`） |
-| 农田尺寸 | 40 × 26 格，脚底可活动范围 x∈[16,656] y∈[16,432] |
+| 移动 | **逐格移动**（吸附到格中心，一次走一格），**4 向朝向**（`Vector2i`） |
+| 农田尺寸 | 地面 **42 × 28 格**，农夫可活动 **列 1~40 / 行 1~25**（`GameConfig.FARM_SIZE`） |
 | 锄地规则 | 星露谷式：**面朝方向那一格**，不是脚下 |
 | 角色结构 | 三层 `AnimatedSprite2D`：Body / Hair / Tool |
 | 素材分层 | 每层单独一个 `AnimatedSprite2D`，共用一个 `SpriteFrames` |
@@ -91,7 +91,11 @@ farm/
 │   ├── main.tscn                 主场景：Ground / Soil / Boundary / Entities
 │   └── player.tscn               玩家：BodySprite / HairSprite / ToolSprite
 ├── scripts/
-│   ├── actors/player.gd          移动 + 朝向 + 动画切换
+│   ├── actors/player.gd          移动 + 朝向 + 动画切换 + 锄地
+│   ├── core/game_config.gd       全局常量（TILE_SIZE / FARM_SIZE）
+│   ├── world/
+│   │   ├── soil.gd               耕地层：翻土 + 尘土特效
+│   │   └── select_box.gd         目标格高亮框（四角贴图 + 脉冲）
 │   └── data/
 │       ├── soil_data.gd          SoilData 资源（地块状态）
 │       └── farm_data.gd          FarmData 自动加载（地块仓库）
@@ -101,6 +105,7 @@ farm/
 │   │                              （含作者尚未导出的 **四向移动动画** s/se/ne/n）
 │   ├── Tileset/                  ★ 16px 主图集
 │   └── game/                     ★ 耕地四态 / 体力条 / 表情 / 作物 / 特效 / UI 图标
+│       └── soil/                 ★ 耕地四态原图 soil_00/01/03/04（16×12，M2b 用）
 ├── tools/                        素材处理脚本
 └── docs/                         全部开发文档（见下）
 ```
@@ -134,28 +139,30 @@ farm/
 | 三层同名动画的 **speed / loop 必须完全一致** | 不一致会逐帧漂移 |
 | **不需要**写 `hair.frame = body.frame` 同步代码 | Godot `_process` 父先子后，那样反而慢一帧；同名动画 + 相同 speed 就自动同步 |
 | `dig` 动画的 **loop 必须关** | `loop=true` 时 `animation_finished` 永不发出 |
-| Autoload 一律用 `*res://` 路径，别用 `uid://` | 未被扫描过的脚本没有 UID，会报 `Unrecognized UID` |
+| Autoload 用 `*uid://` 或 `*res://` 都可以，**保持现状别动** | 实测两者等价：`.uid` 边车文件已入 git，克隆后 UID 能重建。**唯一硬前提是克隆后必须 import 一次**（`.godot/` 被 gitignore，两种写法在未 import 的新克隆里都会失败） |
 | GDScript `format()` 不支持 `%g` / `%-12s` | 只用 `%s` / `%d` / `%f` |
 
 ---
 
 ## 📈 当前进度
 
-> 更新于 2026-11-09
+> 更新于 2026-11-10
 
 | 里程碑 | 状态 |
 |---|---|
 | M1 移动 / 摄像机 / 4 向朝向 / 翻转 | ✅ 已验收 |
-| 农场放大到 40×26 格 | ✅ 已验收（真实渲染逐像素验过） |
+| 农场放大到 42×28 格 | ✅ 已验收（真实渲染逐像素验过） |
 | 边界围栏 + Y 排序规则 | ✅ 已验收 |
 | 数据层 `SoilData` / `FarmData` | ✅ 已验收 |
 | 4 步：三层角色（Body/Hair/Tool）+ dig 动画 | ✅ 已验收（真实渲染零错位） |
-| **5 步：锄地流程**（锁移动锁朝向 → `FarmData.till()` → `Soil.set_cell()` → 播放尘土） | ⏳ **进行中** |
+| 5 步：锄地流程（锁移动锁朝向 → `FarmData.till()` → `Soil.set_cell()` → 播放尘土） | ✅ 已验收 |
+| 5.5 步：逐格移动（吸附）+ 目标格高亮框 `SelectBox` | ✅ 已验收 |
 | M2b 播种 / 浇水 / 作物生长 / 体力条 / 存档 | ⏳ 待开始 |
 
-**已探明的可用素材**（M2b 备料）：`soil_00/01/03/04` 耕地四态 · 11 种作物 × 6 阶段 ·
-`greenbar_00~06` 体力条 · `expression_*` 表情气泡 · `dust_land/dust_run` 尘土特效 ·
-`spr_deco_charactershadow` 角色阴影 · 动物（羊/鸡/牛/猪/鸭/鱼）· 矿物（煤/金/银/蓝石）· 家具装饰
+**已探明的可用素材**（M2b 备料）：`soil_00/01/03/04` 耕地四态（16×12，在 `assets/game/soil/`）·
+11 种作物 × 6 阶段 · `greenbar_00~06` 体力条 · `expression_*` 表情气泡 ·
+`dust_land/dust_run` 尘土特效 · `spr_deco_charactershadow` 角色阴影 ·
+动物（羊/鸡/牛/猪/鸭/鱼）· 矿物（煤/金/银/蓝石）· 家具装饰
 
 ---
 
@@ -167,7 +174,12 @@ farm/
 |---|---|
 | [`ROADMAP.md`](docs/ROADMAP.md) | 总路线图 |
 | [`M2A_PLAN.md`](docs/M2A_PLAN.md) | **M2a 实施手册**：4 向朝向 / 星露谷锄地规则 / 三层角色 / 动画参数 |
+| [`M2A_STEP5_HOE.md`](docs/M2A_STEP5_HOE.md) | **第 5 步施工指南**：锄地流程 / 土壤贴图选型 / 尘土特效 |
+| [`M2A_SOIL_PAINTING.md`](docs/M2A_SOIL_PAINTING.md) | 耕地绘制方案 |
+| [`TOOL_TARGET_RULES.md`](docs/TOOL_TARGET_RULES.md) | **目标格规则**：星露谷锄地考证 / 几何实测 / 逐格移动方案 |
 | [`GAMEMAKER_ASSETS.md`](docs/GAMEMAKER_ASSETS.md) | **GameMaker 工程勘察报告**：475 个 sprite 清单 / 元数据格式 / 资产目录 |
+| [`ASEPRITE_EXTRACTION.md`](docs/ASEPRITE_EXTRACTION.md) | 从 Aseprite 源文件提取帧的方法 |
+| [`FOUR_DIRECTION_ASSETS.md`](docs/FOUR_DIRECTION_ASSETS.md) | 四向移动动画素材提取 |
 | [`NOTES.md`](docs/NOTES.md) | 逐条开发日志（含所有踩坑记录和实测数据） |
 | [`REVIEW_M1.md`](docs/REVIEW_M1.md) | M1 代码 review |
 | [`Y_SORT.md`](docs/Y_SORT.md) | Godot Y 排序与 z_index 源码级结论 |
