@@ -9,7 +9,7 @@ var facing := Vector2i.DOWN # 面向那里
 const SPEED = 80.0 # 速度
 var _busy := false # 是否在播放工具动画
 const TILE_SIZE := 16 # 每个格子大小
-const FARM_SIZE := Vector2i(40, 26) # 农场大小，用于判断是不是超出农场了
+const FARM_SIZE := Vector2i(42, 28) # 农场大小，用于判断是不是超出农场了
 var _target := Vector2i.ZERO # 目标块
 
 func _ready() -> void:
@@ -78,8 +78,8 @@ func _on_animation_finished() -> void:
 
 func _player_cell() -> Vector2i:
 	return Vector2i(
-		int(floor(position.x / TILE_SIZE)),
-		int(floor((position.y - 4.0) / TILE_SIZE))
+		int(floor((position.x - 8.0) / TILE_SIZE)),
+		int(floor((position.y - 6.0) / TILE_SIZE))
 	)
 
 func _target_cell() -> Vector2i:

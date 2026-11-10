@@ -1948,3 +1948,151 @@ func _play_anim(base_name: String) -> void:
 ### 🗑 清理
 
 删掉本轮临时测试目录 `tmp_test/`（`exp_test.tscn` / `scene_test.gd` / `test_scene.tscn`）。
+
+---
+
+## 2026-11-10 11:00 锄地流程 review：目标格偏移 + 右边边缘锄不了
+
+用户反馈两个现象：**「选择操作地块有问题」** + **「右边边缘没办法铲」**。
+
+### 实测方法（这次学到的姿势）
+
+新建临时场景 `tmp_test/exp.tscn`（Node2D + 脚本），脚本里
+`load("res://scenes/main.tscn").instantiate()`，然后：
+
+```bash
+/Applications/Godot.app/Contents/MacOS/Godot --path <项目> tmp_test/exp.tscn
+```
+
+> ✅ 关键发现：`godot --path <项目> <场景.tscn>` 这种启动方式 **autoload 正常注册**（FarmData 可用），
+> 而 `--script` 模式不注册（之前踩过 `Identifier not found: FarmData` 的假 bug）。
+> 以后测项目内逻辑一律用这个姿势。截图用 `get_viewport().get_texture().get_image().save_png()`，
+> **不能加 `--headless`**，否则没有像素。
+
+### 证据 1：地面实际铺了 42×28，代码只允许 40×26
+
+```
+ground cells: x 0..41  y 0..27  (count=1176)   # 42 列 × 28 行
+```
+
+边界墙碰撞体：FenceLeft `x∈[-6,10]`、FenceRight `x∈[662,678]`、FenceTop `y∈[-8,8]`、
+FenceBottom `y∈[432,448]`。玩家碰撞体 12×8（挂在节点 `(0,-4)`）→ 玩家中心可走
+`x∈[16,656]`、`y∈[16,432]`。
+
+但 `player.gd` 里 `FARM_SIZE = Vector2i(40, 26)` 只允许 cell 0..39 / 0..25：
+
+```
+pos=(640,224)  cell=(40,13)  target(RIGHT)=(41,13)   → 锄不了 ❌
+pos=(656,224)  cell=(41,13)  target(RIGHT)=(42,13)   → 锄不了（这列本来就没有）
+```
+
+地面明明铺到第 41 列，代码只让锄到第 39 列 → **右边两列 + 下面一行永远锄不了**。
+
+### 证据 2：目标格跟人物差半格
+
+人物 sprite 是 96×64 的合成图，**人物只占中间 16px**。
+所以人物实际横跨 `[position.x-8, position.x+8]`，node 的 `position.x` 是**人物中心**。
+
+而 `_player_cell()` 用 `floor(position.x / 16)` = "中心所在格"。
+中心不在格子中心时（几乎所有时候），目标格就跟人物脚边差半格。
+
+实测（面向右锄，间隙 = 土块左边缘 − 人物右边缘）：
+
+```
+pos.x=320  人物占[312..328]  脚下格=20  target=21  土块[336..352]  间隙=8
+pos.x=328  人物占[320..336]  脚下格=20  target=21  土块[336..352]  间隙=0
+pos.x=336  人物占[328..344]  脚下格=21  target=22  土块[352..368]  间隙=8
+pos.x=344  人物占[336..352]  脚下格=21  target=22  土块[352..368]  间隙=0
+```
+
+间隙在 0 / 8 之间跳 → **锄出来的地块时远时近**。
+对照图：`docs/images/soil_target_gap.png`（pos.x=336，差半格）、
+`docs/images/soil_target_fit.png`（pos.x=344，紧贴）。
+
+### 修法
+
+**1. `FARM_SIZE` 跟地面对齐**
+
+```gdscript
+const FARM_SIZE := Vector2i(42, 28)
+```
+
+**2. `_player_cell()` 减半格宽 + 改用脚底**
+
+```gdscript
+func _player_cell() -> Vector2i:
+	# 人物视觉宽 16px（96 宽 sprite 里居中），脚底比节点高 6px
+	# 减半格宽 → 让「脚下格」落在人物实际占据的那一格
+	return Vector2i(
+		int(floor((position.x - 8.0) / TILE_SIZE)),
+		int(floor((position.y - 6.0) / TILE_SIZE))
+	)
+```
+
+离线验算（新公式 + `FARM_SIZE(42,28)`）：
+
+```
+最左 x=16  面左: target=(-1,13)  ❌ 正确拦截
+最右 x=656 面右: target=(41,13)  ✅ 可锄
+最上 y=16  面上: target=(0,-1)   ❌ 正确拦截
+最下 y=432 面下: target=(0,27)   ✅ 可锄
+```
+
+目标格与人物间隙恒为 0（紧贴），边界也在地面范围内。
+
+### 遗留
+
+- `main.tscn` 里 Ground 的 `position = Vector2(1, 0)` 还在
+  （地面层右移 1px，Soil 层没移 → 土块跟草地错开 1px）
+
+### 🗑 清理
+
+删掉 `tmp_test/`（`exp.gd` / `exp.tscn` / `exp2.gd` / `exp2.tscn` + 4 张临时截图），
+保留 `docs/images/soil_target_gap.png` / `soil_target_fit.png` 作为证据。
+
+---
+
+## 2026-11-10 11:40 修复复验
+
+用户自己改了三处：`FARM_SIZE` → `(42, 28)`、`_player_cell()` 减去半格宽（x 用 `-8.0`、
+y 用脚底 `-6.0`）、撤掉 Ground 的 `position = Vector2(1, 0)`。
+
+复验（临时场景 `tmp_test/verify.tscn`，跑完已清理）：
+
+```
+=== 目标格贴合度（面向右）===
+  pos.x=320  人物[312..328]  脚下格=19  target=20  土块[320..336]  间隙=-8
+  pos.x=328  人物[320..336]  脚下格=20  target=21  土块[336..352]  间隙=0
+  pos.x=336  人物[328..344]  脚下格=20  target=21  土块[336..352]  间隙=-8
+  pos.x=344  人物[336..352]  脚下格=21  target=22  土块[352..368]  间隙=0
+  pos.x=352  人物[344..360]  脚下格=21  target=22  土块[352..368]  间隙=-8
+
+=== 边界 ===
+  x=640 面右  target=(40,13)  -> 锄成功 ✅
+  x=656 面右  target=(41,13)  -> 锄成功 ✅（地面最后一列）
+  x=16  面左  target=(-1,13)  -> 正确拦截 ✅
+  y=432 面下  target=(20,27)  -> 锄成功 ✅（地面最后一行）
+```
+
+- ✅ 横向：间隙恒为 0 或 -8（永远紧贴），不再出现 +8 的空隙
+- ✅ 边界：右边两列、下面一行都能锄了；越界正确拦截
+- ✅ Ground 的 1px 偏移已撤
+
+### 剩余现象：纵向半格错位
+
+面向下/上时土块**横向**会偏半格。根因：人物 sprite 是 96 宽居中，人物视觉只有 16px 宽，
+横跨 `[position.x-8, position.x+8]`。当 `position.x` 不是 8 的倍数时人物跨在两格边界上，
+而土块列取自「脚下格」= `floor((x-8)/16)`，于是土块落在人物**左边**那格。
+
+- 横向（左右锄）：土块取脚下格 ±1 → 永远紧贴 ✅
+- 纵向（上下锄）：土块列也取脚下格的 x → 偏半格 ❌
+
+数学上：**16px 角色 + 16px 格子 + 自由移动，人物跨格是常态**，任何"脚下格"判定都会在
+边界处差半格。要彻底对齐只有两条路：
+1. **移动时吸附**（`position.x` 量化到 8 的倍数）→ 人物永远占满一格，所有方向完美，
+   代价是移动有轻微顿挫
+2. **改 sprite 偏移 + 换判定相位**（`offset.x = 8` + 判定退回 `floor(x/16)`）→ 把"完美相位"
+   从 `x ≡ 8` 挪到 `x ≡ 0`，不吸附也会漂
+
+对照图：`docs/images/soil_target_right.png`（横向，紧贴 ✅）/
+`docs/images/soil_target_down.png`（纵向，偏半格 ❌）
