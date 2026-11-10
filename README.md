@@ -1,7 +1,7 @@
 # 🌾 Farm
 
-> 一个从零开始做的、Godot 4.7.2 驱动的星露谷式农场游戏。
-> 16px 像素 · 俯视角 · 8 向移动 / 4 向朝向 · 图层化角色系统
+> Godot 4.7.2 驱动的星露谷式农场游戏。
+> 16px 像素 · 俯视角 · 逐格移动 / 4 向朝向 · 图层化角色系统
 
 ---
 
@@ -13,15 +13,15 @@
 
 **作者：[Daniel Diggle](http://danieldiggle.com/sunnysideworld.php)** · [@DanielDiggle](https://twitter.com/danielDiggle) · itch.io 用户名 [`danieldiggle`](https://danieldiggle.itch.io)
 
-> **非常感谢 Daniel 做出并公开这套素材。**
->
-> 这套素材之所以能撑起整个项目，是因为它做得极其克制又极其完整：角色被拆成**身体 / 头发 / 手臂工具**三层独立图层，
-> 每个动作目录都自带配套的手臂层，20 个动作 × 7 种发型可以自由组合。
-> 作者还贴心地附上了 **GameMaker 示例工程**（475 个 sprite 的完整元数据）和 **Aseprite 源文件**，
-> 并且在 itch.io 上**免费**发布（"pay what you think it's fair"，欢迎打赏）。
->
-> 本项目的三层角色系统，正是照着作者的原始工程还原出来的 —— 实测我们合成的画面与作者自己合成的
-> `spr_dig468` **差异 0 像素**。
+素材包的结构特征：
+
+- 角色拆分为**身体 / 头发 / 手臂工具**三层独立图层，每个动作目录自带配套手臂层
+- 20 个动作 × 7 种发型可自由组合
+- 附带 **GameMaker 示例工程**（475 个 sprite 的完整元数据）和 **Aseprite 源文件**
+- itch.io 上以 "pay what you think it's fair" 方式免费发布
+
+本项目的三层角色系统按作者的原始工程还原，实测合成画面与作者合成的
+`spr_dig468` **差异 0 像素**。
 
 **素材包版本**：`Sunnyside_World_ASSET_PACK_V2.1.zip`（10 MB）
 
@@ -44,8 +44,8 @@
 | ❌ | 不得重新打包 / 转售（无论修改多少），**包括做成 NFT** |
 | ❌ | 不得用这套素材**训练 AI** |
 
-> ⚠️ 关于最后一条「不得用于训练 AI」：本项目把素材用在**游戏画面里**，由 AI 辅助写业务代码，
-> 不涉及把素材用作模型训练数据。若将来要做数据集，请自行确认条款边界。
+> ⚠️ 关于最后一条「不得用于训练 AI」：本项目把素材用于**游戏画面渲染**，
+> 由 AI 辅助编写业务代码，不涉及将素材用作模型训练数据。若将来要做数据集，需自行确认条款边界。
 
 ### 相关链接
 
@@ -56,14 +56,14 @@
 | 开发者日志 | [Sunnyside World - EX](https://danieldiggle.itch.io/sunnyside/devlog/979630/sunnyside-world-ex) · [4, 6... 8 Way Character Movement ?!](https://danieldiggle.itch.io/sunnyside/devlog/816790/4-6-8-way-character-movement-) |
 | 下载页 | https://danieldiggle.itch.io/sunnyside/purchase |
 
-### 💡 还有个没拿的包
+### 📦 其他可用素材包
 
-itch.io 下载页里除了 V2.1 主包，还有作者单独提供的：
+itch.io 下载页除 V2.1 主包外还提供：
 
-- **`Sunnyside World - Human - 4,6,8 way movement - BETA`（404 kB）** ← **多方向移动的 BETA 版本**
+- **`Sunnyside World - Human - 4,6,8 way movement - BETA`（404 kB）** —— 多方向移动的 BETA 版本
 - `Sunnyside_World_ARCHIVED_ASSETS.zip`（10 MB）—— 历史归档
 
-也就是说**角色朝向动画作者自己做了**，不需要自己画。
+BETA 包内含作者制作的多方向移动动画，无需自行绘制。
 
 ---
 
@@ -86,7 +86,7 @@ itch.io 下载页里除了 V2.1 主包，还有作者单独提供的：
 ```
 farm/
 ├── project.godot
-├── README.md                     ← 你在这里
+├── README.md                     ← 本文件
 ├── scenes/
 │   ├── main.tscn                 主场景：Ground / Soil / Boundary / Entities
 │   └── player.tscn               玩家：BodySprite / HairSprite / ToolSprite
@@ -128,19 +128,19 @@ farm/
 
 ## 🔧 关键技术约定
 
-这些是踩过坑之后定下来的规矩，**改代码前先看一眼**：
+以下约定来自已验证的问题修复，修改相关代码前需确认：
 
 | 约定 | 原因 |
 |---|---|
-| 参与 Y 排序的层 `z_index` **必须为 0** | `z_index` 优先级**高于** Y 排序，非 0 会让玩家永远在树前面 |
-| 树的 tile 必须设 `y_sort_origin` = 格高 | 默认 0 = 按**格顶**排序，遮挡不对；设成格高才按树脚排序 |
-| 耕地层 `Soil` 必须在 `Entities` **外面** | 靠树序天然画在玩家下面 |
+| 参与 Y 排序的层 `z_index` **必须为 0** | `z_index` 优先级**高于** Y 排序，非 0 会让玩家始终绘制在树前方 |
+| 树的 tile 必须设 `y_sort_origin` = 格高 | 默认 0 = 按**格顶**排序，遮挡关系不符预期；设为格高才按树脚排序 |
+| 耕地层 `Soil` 必须在 `Entities` **外面** | 依靠树序保证绘制在玩家下方 |
 | 三层角色节点 `position` 全部 `(0,-5)`、`Centered` 保持 true | 否则三层错位 |
 | 三层同名动画的 **speed / loop 必须完全一致** | 不一致会逐帧漂移 |
-| **不需要**写 `hair.frame = body.frame` 同步代码 | Godot `_process` 父先子后，那样反而慢一帧；同名动画 + 相同 speed 就自动同步 |
+| **不需要**写 `hair.frame = body.frame` 同步代码 | Godot `_process` 父先子后，手动同步反而慢一帧；同名动画 + 相同 speed 即自动同步 |
 | `dig` 动画的 **loop 必须关** | `loop=true` 时 `animation_finished` 永不发出 |
-| Autoload 用 `*uid://` 或 `*res://` 都可以，**保持现状别动** | 实测两者等价：`.uid` 边车文件已入 git，克隆后 UID 能重建。**唯一硬前提是克隆后必须 import 一次**（`.godot/` 被 gitignore，两种写法在未 import 的新克隆里都会失败） |
-| GDScript `format()` 不支持 `%g` / `%-12s` | 只用 `%s` / `%d` / `%f` |
+| Autoload 用 `*uid://` 或 `*res://` 均可 | 实测两者等价：`.uid` 边车文件已入 git，克隆后 UID 可重建。**前提是克隆后必须 import 一次**（`.godot/` 被 gitignore，两种写法在未 import 的新克隆中均无法加载） |
+| GDScript `format()` 不支持 `%g` / `%-12s` | 仅支持 `%s` / `%d` / `%f` |
 
 ---
 
@@ -196,19 +196,18 @@ farm/
 
 ---
 
-## 🧡 再一次谢谢
+## 素材授权说明
 
-Daniel Diggle 的 [Sunnyside World](https://danieldiggle.itch.io/sunnyside) 是开源世界里
-难得的、**分层清晰、附赠源工程、明确允许商业使用、还免费**的像素素材包。
+Daniel Diggle 的 [Sunnyside World](https://danieldiggle.itch.io/sunnyside) 允许免费与商业使用，
+并允许任意修改素材。作者作品页说明：*"This asset pack is available entirely free - donations welcome"*。
 
-如果你也喜欢它，记得去 [itch.io 页面](https://danieldiggle.itch.io/sunnyside) 给他打个分、
-留条评论，或者请他喝杯咖啡 ☕ —— 作品页写着 *"This asset pack is available entirely free - donations welcome"*。
+本项目选择署名以尊重作者。素材页链接见上方「素材致谢与授权」。
 
 ---
 
 <div align="center">
 
 **素材 © [Daniel Diggle](http://danieldiggle.com/sunnysideworld.php) · [Sunnyside World](https://danieldiggle.itch.io/sunnyside)**
-*本页面包含指向素材页的链接，符合作者 LICENCE V1 中关于再分发时附带 itch.io 页面链接的要求。*
+*本页面包含指向素材页的链接，符合 LICENCE V1 中关于再分发时附带 itch.io 页面链接的要求。*
 
 </div>

@@ -12,7 +12,7 @@
 
 **主图集 `assets/Tileset/spr_tileset_sunnysideworld_16px.png` 里有现成的翻土纹理**。
 
-我把 4096 个 16px tile 全筛了一遍（可无缝平铺 + 棕色主导 + 无绿色），
+对 4096 个 16px tile 做了完整筛选（可无缝平铺 + 棕色主导 + 无绿色），
 聚类出 35 种质感，其中 **`atlas(11,3)`** 是实心横向犁沟土：
 
 | atlas 坐标 | 外观 | 判定 |
@@ -56,9 +56,9 @@
 - `use_tool` 输入映射 = **空格**，已配好
 - **实测三层同步：40 帧 0 次失步** ✅
 
-> 命名规则（`base` / `hair_base` / `tool_base`）和踩过的坑见第 2.2 节。
+> 命名规则（`base` / `hair_base` / `tool_base`）和已解决的问题见第 2.2 节。
 
-**所以这一环你什么都不用做，直接进第 3 节写代码。**
+**因此该步骤无需额外操作，直接进入第 3 节编写代码。**
 
 #### use_dig 动画的时序（已逐帧实测）
 
@@ -99,8 +99,8 @@ dur = 13 帧 / speed 20 = 0.65 秒
 
 ### 0.5 尘土帧序
 
-原 GameMaker 工程已删，**真实帧序无法恢复**。我按"面积从小到大"重排了一版
-（尘土扬起的过程），**顺序是推测的**，你在 Godot 里看着不对可以直接拖动调整。
+原 GameMaker 工程已删，**真实帧序无法恢复**。按"面积从小到大"重排了一版
+（对应尘土扬起的过程），**顺序为推测值**，可在 Godot 中直接拖动调整。
 
 ```
 原文件序面积: [96, 5, 64, 44, 80, 23]
@@ -154,7 +154,7 @@ func _player_cell() -> Vector2i:
 
 **关键决策：Soil 层挂自己的脚本，`player.gd` 通过 `@export` 拿到引用。**
 
-一开始我让 `player.gd` 用 `get_tree().get_first_node_in_group("soil")` 找 Soil，
+最初方案为让 `player.gd` 通过 `get_tree().get_first_node_in_group("soil")` 查找 Soil，
 两个问题：
 1. 要手动给节点加 group，容易忘、容易写错大小写（**group 名大小写敏感**）
 2. Soil 节点被删了/改名了，`player.gd` 里的 `set_cell` 就找不到对象
@@ -164,7 +164,7 @@ func _player_cell() -> Vector2i:
 - Inspector 会做类型检查，拖错节点类型立刻报错
 - **节点顺序随便调**，拖的是引用不是路径
 
-> 踩过的坑：先试过 `@onready var soil = $../Soil`，
+> 已解决的问题：先试过 `@onready var soil = $../Soil`，
 > 但 `$..` 在 Godot 4 的解析有问题，而且 Player → Entities → Main，
 > Soil 在 Main 下面，得往上两级。**export 比路径好得多。**
 
@@ -209,7 +209,7 @@ func _spawn_dust(cell: Vector2i) -> void:
 2. 打开 `scenes/main.tscn` → 选中 `Soil` → Inspector 顶部脚本图标 → 挂 `soil.gd`
 3. Inspector 里把 `assets/game/fx/dust_land.png` 拖进 `tex` 槽
 
-### 2.2 动画命名规则（本次踩的坑）
+### 2.2 动画命名规则（本次遇到的问题）
 
 三层 SpriteFrames 的命名必须是 **`base` / `hair_base` / `tool_base`**：
 
@@ -229,7 +229,7 @@ func _play_anim(base_name: String) -> void:
 	tool_sprite.play("tool_" + base_name)
 ```
 
-> ❌ 我一开始写的版本试图用 `name.split("_")[1]` 取后缀：
+> ❌ 最初的版本尝试用 `name.split("_")[1]` 取后缀：
 > ```gdscript
 > var split_name := name_str.split("_")
 > var base_name := split_name[1]      # ← "idle".split("_") 只有 1 个元素 → 越界崩溃
@@ -286,10 +286,10 @@ func _physics_process(delta: float) -> void:
 > 目标格在开始时锁存（锁目标）。
 > **少了任何一个，按住方向键就会在锄地过程中改变落锄位置。**
 
-#### ⚠️ 这个 `return` 还顺手解决了另一个坑（实测确认）
+#### ⚠️ 这个 `return` 还同时解决了另一个问题（实测确认）
 
 `player.gd` 的 `_physics_process` 每帧都会调 `_play_anim("idle")` 或 `_play_anim("walk")`。
-**如果你不加这个 `return`，动画会在下一帧立刻被覆盖成 idle：**
+**缺少该 `return` 会导致动画在下一帧立即被覆盖为 idle：**
 
 ```
 === A. 不加 _busy 锁的后果 ===

@@ -9,7 +9,7 @@
 
 ### 现象
 
-我写了无头模拟测试，结果：
+无头模拟测试结果：
 
 ```
 === 按住 ui_right 60 帧 ===
@@ -36,12 +36,12 @@ script = <null>
 script 路径 = null
 ```
 
-你创建了 `scripts/actors/player.gd` 文件，**但没有把它绑定到 Player 节点**。
+已创建 `scripts/actors/player.gd` 文件，**但未绑定到 Player 节点**。
 Godot 里「文件存在」和「节点使用它」是两件独立的事。
 
 ### 怎么修（三种，任选一种）
 
-**方法 A（推荐）**：在编辑器里
+**方法 A**：在编辑器里
 1. 打开 `scenes/player.tscn`
 2. 选中 **Player** 节点（最外层那个，不是子节点）
 3. 检视器（Inspector）顶部会有一排图标，点 **卷轴图标**（Attach Script）
@@ -64,11 +64,11 @@ script = ExtResource("1_script")
 
 ---
 
-## 二、🔴 用了 `ui_*` 内置动作，你白配了输入映射
+## 二、🔴 使用了 `ui_*` 内置动作，输入映射未生效
 
 ### 问题
 
-你的 `project.godot` 里配了 4 个自定义动作：
+本项目的 `project.godot` 里配了 4 个自定义动作：
 ```ini
 move_left / move_right / move_up / move_down  ← 绑定 A / D / W / S
 ```
@@ -81,10 +81,10 @@ var direction := Input.get_axis("ui_left", "ui_right")   # ← 内置动作
 实测：
 ```
 get_axis('ui_left','ui_right')      = 1.0
-get_axis('move_left','move_right')  = 0.0   ← 你配的那些没被用
+get_axis('move_left','move_right')  = 0.0   ← 已配置的映射未被使用
 ```
 
-**结果**：你配的 WASD 键**完全不起作用**，玩家只能靠**方向键**移动。
+**结果**：所配置的 WASD 键**完全不起作用**，玩家只能靠**方向键**移动。
 （`ui_left` 等内置动作默认绑定了方向键）
 
 ### 为什么必须用自定义动作
@@ -100,7 +100,7 @@ get_axis('move_left','move_right')  = 0.0   ← 你配的那些没被用
 | 将来做「交互键 E」「工具键 Q」 | 天然统一管理 |
 
 > Godot 官方模板代码里那句注释 `# As good practice, you should replace UI actions with custom gameplay actions.`
-> **就是 Godot 自己在提醒你这件事** —— 你正好留了这行注释没改。
+> **Godot 自身的提示已指出该问题** —— 对应注释保留未改。
 
 ### 改法
 
@@ -114,7 +114,7 @@ var direction := Input.get_vector("move_left", "move_right", "move_up", "move_do
 
 `Input.get_axis(negative, positive)` 是**一维**的，只能返回一个 x 分量。
 
-所以你现在的脚本：
+因此当前脚本：
 - ← → 能动
 - **↑ ↓ 完全没反应**
 
@@ -140,7 +140,7 @@ var dir := Vector2(
 
 ## 四、🟡 没有动画切换逻辑
 
-你的脚本完全没有碰 `AnimatedSprite2D`。所以：
+脚本未涉及 `AnimatedSprite2D`。因此：
 
 - 动画停在场景里预设的 `animation = &"run"`，第 7 帧
 - 不会根据移动状态切换 idle / walk / run
@@ -172,7 +172,7 @@ if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 
 这是 **3D 平台跳跃模板**的代码。星露谷式游戏是俯视视角，**角色不能跳**。
 
-更要紧的是：**你的场景里没有地面**（没有 StaticBody2D），
+更要紧的是：**场景中缺少地面**（没有 StaticBody2D），
 所以 `is_on_floor()` 永远返回 `false`：
 ```
 is_on_floor: false
@@ -200,16 +200,16 @@ func _physics_process(delta: float) -> void:
 > 俯视游戏里角色是"贴在地面平面上"的角色，Y 轴代表**屏幕上的前后位置**，不是高度。
 > 如果加重力，角色会一直往下掉出屏幕 —— 这是新手做 2D 农场游戏最经典的翻车点。
 >
-> `get_gravity()` 在 `CharacterBody2D` 上确实存在（我实测 `has_method` 返回 true），
+> `get_gravity()` 在 `CharacterBody2D` 上确实存在（实测 `has_method` 返回 true），
 > 所以这段代码**不会报错**，它会静静地让角色掉出屏幕 —— 更难查。
 
 ---
 
 ## 六、🟡 摄像机位置可能偏了
 
-你在 `Camera2D` 上设了 `position = Vector2(0, -5)`。
+`Camera2D` 上设置了 `position = Vector2(0, -5)`。
 
-这个 `-5` 是你给 `AnimatedSprite2D` 对齐脚底用的。摄像机**不需要**这个偏移：
+该 `-5` 用于将 `AnimatedSprite2D` 对齐脚底。摄像机**不需要**这个偏移：
 摄像机应该对准角色的**脚底**（也就是 Player 的原点），而不是角色图像中心。
 
 如果摄像机偏 5 像素，画面会看起来"镜头稍微往下偏"，角色不在正中。
@@ -238,7 +238,7 @@ func _physics_process(delta: float) -> void:
 
 ---
 
-## 八、你的脚本改造清单
+## 八、脚本改造清单
 
 按优先级：
 
@@ -256,9 +256,9 @@ func _physics_process(delta: float) -> void:
 ### 1. 没有地面，角色会走出屏幕
 
 现在场景里**没有任何 StaticBody2D**，所以角色可以无限往任何方向走。
-等你要做农场地图时，需要加地面碰撞体。
+实现农场地图时需添加地面碰撞体。
 
-但现在（验证移动阶段）**不用加** —— 让角色飞着反而方便你看它动。
+当前（移动验证阶段）**无需添加** —— 角色不受地面约束便于观察移动表现。
 
 ### 2. `delta` 是干嘛的
 
@@ -276,7 +276,7 @@ func _physics_process(delta: float) -> void:
 
 ---
 
-## 十、我怎么验证的（可复现）
+## 十、验证方法（可复现）
 
 ```bash
 # 无头加载场景 + 模拟输入
@@ -289,7 +289,7 @@ func _physics_process(delta: float) -> void:
 get_root().add_child(main)   # ← 加进树，节点才会跑 _physics_process
 await process_frame
 ```
-否则 `is_inside_tree() = false`，物理帧根本不会执行 —— 我第一次写测试就踩了这个坑。
+否则 `is_inside_tree() = false`，物理帧不会执行 —— 首次编写测试时即遇到该问题。
 
 ---
 
@@ -324,7 +324,7 @@ is_physics_processing(): true
 
 ### 1. `get_axis` 改成了 `get_vector` 吗？——**只改了一半**
 
-你现在写的是：
+当前写法为：
 ```gdscript
 var direction := Input.get_axis("move_left", "move_right")
 ```
@@ -346,7 +346,7 @@ var direction := Input.get_axis("move_left", "move_right")
   位置变化: (300.0, 0.0)    ← 只有横向
 ```
 
-### 但你的输入配置完全正确
+### 但输入配置本身正确
 
 ```
 move_left:  physical_keycode=65  (A)
@@ -359,10 +359,10 @@ move_down:  physical_keycode=83  (S)
 ```
 is_action_pressed('move_down') = true
 get_axis('move_left','move_right') = 0.0
-get_vector(4向) = (0.0, 1.0)      ← 完美
+get_vector(4向) = (0.0, 1.0)      ← 完全
 ```
 
-**所以问题 100% 在函数选择，不在你的配置。**
+**因此问题出在函数选择，与配置无关。**
 
 ### 改法
 
@@ -400,7 +400,7 @@ else:
 > **不需要先判断当前是不是别的动画**。
 
 **顺带提醒**：`velocity.x` 只控制横向，
-所以你现在**只写了 `velocity.x`**。改成 `get_vector` 后，
+因此当前**仅设置了 `velocity.x`**。改用 `get_vector` 后，
 要同时设置 `velocity.y`：
 
 ```gdscript
@@ -408,7 +408,7 @@ velocity = direction * SPEED
 ```
 （一步到位，x 和 y 都设好）
 
-或者保持你的写法但补上 y：
+或保持现有写法但补上 y：
 ```gdscript
 velocity.x = direction.x * SPEED
 velocity.y = direction.y * SPEED
@@ -418,9 +418,9 @@ velocity.y = direction.y * SPEED
 
 ## 🟡 附带建议
 
-### SPEED = 300 在你的视口下偏快
+### SPEED = 300 在当前视口下偏快
 
-你的视口是 **320×180**。SPEED=300 意味着：
+当前视口为 **320×180**。SPEED=300 意味着：
 - 横穿屏幕需要 320/300 ≈ **1.07 秒**
 - 角色 11 像素宽，1 秒跑 300 像素 = **每秒 27 个身位**
 
@@ -430,13 +430,13 @@ velocity.y = direction.y * SPEED
 
 ### `velocity.y` 也要能归零
 
-你现在的减速逻辑只处理了 x：
+当前减速逻辑仅处理 x 轴：
 ```gdscript
 else:
     velocity.x = move_toward(velocity.x, 0, SPEED)
 ```
 如果只按上下松开，`velocity.y` 会**一直是 0**（因为从没设过），
-这没问题。但如果后面你加了别的逻辑，记得两个轴都要处理。
+此处无问题。但后续若加入其他逻辑，需注意两个轴均需处理。
 
 用 `velocity = direction * SPEED` 一步到位就没这问题 ——
 `direction` 是零向量时，velocity 两个轴自然都是零。
@@ -448,7 +448,7 @@ else:
 
 ---
 
-## 修改后的完整脚本骨架（供参考，你可以自己写）
+## 修改后的完整脚本骨架（供参考）
 
 ```gdscript
 extends CharacterBody2D

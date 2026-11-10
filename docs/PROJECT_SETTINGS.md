@@ -1,13 +1,13 @@
 # 项目设置配置手册（Godot 4.7.2）
 
-> 面向：你自己在编辑器里点，我负责讲清每一步**为什么**这么设，以及改了会怎样。
+> 说明每项设置的原因、修改后的影响，以及在编辑器中的对应位置。
 > 本文所有设置键名都从 Godot 4.7.2 源码 `core/config/project_settings.cpp` 核对过。
 
 ---
 
-## 一、你的切图成果：先验收（已通过 ✓）
+## 一、切图成果验收（已通过 ✓）
 
-我读了你保存的 `scenes/player.tscn`，逐帧校验了 25 个 AtlasTexture：
+对 `scenes/player.tscn` 逐帧校验了 25 个 AtlasTexture：
 
 ```
 === idle: 9帧 loop=1 speed=9.0
@@ -31,7 +31,7 @@
 
 ## 二、必须改的项目设置（4 项）
 
-> 你现在的 `project.godot` 只有：
+> 当前 `project.godot` 只有：
 > ```
 > window/stretch/mode="canvas_items"
 > window/stretch/aspect="expand"
@@ -49,12 +49,12 @@
 
 **为什么是 320×180？**
 
-你的角色实际只有 **11×16 像素**（我逐帧量的）。
+角色实际尺寸为 **11×16 像素**（逐帧测量）。
 - 640×360 → 角色只占屏高 1/22，几乎看不见
 - 320×180 → 角色占屏高 1/11，配 16×16 地块比例正好
 
 **这就是《星露谷》的原始思路**：16×16 地块 + 小人物，靠整数倍放大填满屏幕。
-你的地块美术到位后可以再调整，但**现在先用这个**。
+地块美术确定后可再调整，但**现在先用这个**。
 
 ### 设置 2 · 拉伸模式与宽高比
 
@@ -62,13 +62,13 @@
 
 | 键 | 当前值 | 改成 | 说明 |
 |---|---|---|---|
-| `display/window/stretch/mode` | `canvas_items` | **保持 `canvas_items`** | ✓ 你已经对了 |
+| `display/window/stretch/mode` | `canvas_items` | **保持 `canvas_items`** | ✓ 已符合 |
 | `display/window/stretch/aspect` | `expand` | **改成 `keep`** | ⚠️ 见下 |
 | `display/window/stretch/scale_mode` | `fractional`（缺省） | **改成 `integer`** | ⚠️ 见下 |
 
 #### ⚠️ `aspect` 为什么从 `expand` 改成 `keep`
 
-你当前是 `expand`（扩展）—— 意思是**视口尺寸跟着窗口变**，
+当前为 `expand`（扩展）—— 意思是**视口尺寸跟着窗口变**，
 窗口拉多宽，视口就多宽。这对像素游戏是灾难：
 
 - 窗口拉宽 → 视口变成 500×180 → 角色位置和 UI 布局全乱
@@ -80,7 +80,7 @@
 #### ⚠️ `scale_mode` 为什么必须改成 `integer`
 
 `fractional`（缺省）允许 **1.5 倍、2.7 倍**这种非整数缩放。
-后果是：你的像素画被拉伸到非整数倍 → 每个像素变成 1.5 个像素宽 → **画面糊、边缘抖动**。
+后果是：像素画被拉伸到非整数倍 → 每个像素变成 1.5 个像素宽 → **画面糊、边缘抖动**。
 
 `integer` 只允许 1×、2×、3×、4× 这样的整数倍 → **像素永远整齐对齐，不会糊**。
 
@@ -127,26 +127,26 @@
 
 `项目设置 → 渲染 → 渲染器 → 渲染方法`
 
-你当前是 **`Forward Plus`**（来自 `config/features=PackedStringArray("4.7", "Forward Plus")`）。
+当前为 **`Forward Plus`**（来自 `config/features=PackedStringArray("4.7", "Forward Plus")`）。
 
-| 渲染器 | 特点 | 你的项目适合吗 |
+| 渲染器 | 特点 | 本项目是否适用 |
 |---|---|---|
 | Forward+ | 功能最全，Vulkan | 能用，但对 2D 农场游戏**是浪费** |
 | Mobile | 移动端优化 | 中等规模 2D 项目够用 |
 | **Compatibility** | OpenGL，兼容性最好 | ✅ **2D 项目的稳妥选择** |
 
-**我的建议**：**先不换**。
+**处理方式**：**暂不更换**。
 
 理由：
-- Forward+ 在桌面 macOS 上跑你的 2D 游戏**毫无性能问题**
+- Forward+ 在桌面 macOS 上运行本 2D 游戏**毫无性能问题**
 - 换渲染器会改变部分 2D 效果（灯光、CanvasItem shader 的行为）
-- 等你要**导出到手机/网页**时再换不迟 —— 那时候 Compatibility 更合适
+- 待需要**导出到手机/网页**时再更换 —— 此时 Compatibility 更合适
 
 > 顺带一提：`project.godot` 里这行
 > ```
 > rendering_device/driver.windows="d3d12"
 > ```
-> 是 Godot 生成器模板留下的默认值，**只影响 Windows 导出**，你在 macOS 上开发完全用不到它。
+> 是 Godot 生成器模板留下的默认值，**只影响 Windows 导出**，macOS 开发环境不涉及该配置。
 
 ---
 
@@ -187,7 +187,7 @@
 > ```cpp
 > (p_filter.is_empty() && restrict_to_basic && !(p.usage & PROPERTY_USAGE_EDITOR_BASIC_SETTING))
 > ```
-> 注意 `p_filter.is_empty()` —— **一旦你往搜索框里输入任何东西，
+> 注意 `p_filter.is_empty()` —— **一旦在搜索框中输入内容，
 > 高级设置就会全部显示出来**（因为搜索时不再过滤）。
 > 这也是「用搜索框找 override」能直接找到它的原因。
 >
@@ -202,9 +202,9 @@
 
 `项目设置` → 左侧选 **`显示`** → **`窗口`** → **`尺寸`**
 
-在这一页你会看到这些字段：
+该页面包含以下字段：
 
-| 编辑器界面上的名字 | 对应配置键 | 你的值 |
+| 编辑器界面上的名字 | 对应配置键 | 当前值 |
 |---|---|---|
 | **Viewport Width** | `display/window/size/viewport_width` | 320 ✓ 已设 |
 | **Viewport Height** | `display/window/size/viewport_height` | 180 ✓ 已设 |
@@ -247,7 +247,7 @@ if (desired_size.x > 0 && desired_size.y > 0) {
 
 ## 五、设置改完后的完整 project.godot
 
-改完之后，你的 `project.godot` 应该长这样（**你也可以直接在编辑器里改，效果一样**）：
+改完之后，本项目的 `project.godot` 应该长这样（**也可直接在编辑器中修改，效果一致**）：
 
 ```ini
 [application]
@@ -277,7 +277,7 @@ textures/canvas_textures/default_texture_filter=0
 
 ## 六、还缺一步：主场景
 
-你现在的 `project.godot` **没有 `run/main_scene`**，所以运行游戏会报：
+当前 `project.godot` **没有 `run/main_scene`**，所以运行游戏会报：
 ```
 Error: Can't run project: no main scene defined in the project.
 ```
@@ -297,7 +297,7 @@ Error: Can't run project: no main scene defined in the project.
 ## 七、改完之后的自检清单
 
 - [ ] 运行游戏，**画面不糊**（像素硬边，不是模糊的）
-- [ ] 窗口大小正常（1280×720 或你拖的大小），不是 320×180 的小窗口
+- [ ] 窗口大小正常（1280×720 或手动拖拽的尺寸），而非 320×180 的小窗口
 - [ ] 角色**在动**（idle 呼吸动画循环播放）
 - [ ] 角色**清晰可见**，大小合理（不是一个小点）
 - [ ] 拖动窗口边缘，画面比例**不变形**、角色不闪烁
@@ -314,7 +314,7 @@ Error: Can't run project: no main scene defined in the project.
 3. 再加 `player.gd` 脚本做移动
 4. 再做摄像机
 
-如果先写代码再改设置，你会分不清"画面糊"是设置问题还是代码问题。
+如果先写代码再改设置，将难以区分"画面糊"是设置问题还是代码问题。
 
 ---
 

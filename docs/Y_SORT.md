@@ -67,7 +67,7 @@ Entities (Node2D)
 所以：
 - `Entities` 开了 → Player / Tree / Rock 互相排序 ✅
 - 如果 Player 里面还有 Sprite2D，**Sprite2D 不会单独参与排序**，
-  它跟着 Player 一起（画在 Player 的位置上）—— 这正是我们要的
+  它跟随 Player 绘制（位于 Player 的位置）—— 该行为符合预期
 
 ---
 
@@ -82,7 +82,7 @@ Entities (Node2D)
 | 栅栏 | **底边**（贴地线） |
 | 石头 / 箱子 | **底边** |
 
-**你的 Player 已经是对的**：实测可见脚底在节点空间 y = +1，碰撞盒下沿在 y = 0，
+**当前 Player 设置正确**：实测可见脚底在节点空间 y = +1，碰撞盒下沿在 y = 0，
 基本就是脚底。**不用改。**
 
 **反面例子**：树如果用 `Sprite2D` 默认的 `centered = true`，原点就在树冠中心，
@@ -94,7 +94,7 @@ Entities (Node2D)
 
 ---
 
-## 五、在你的项目里
+## 五、在本项目中
 
 ```
 Main (Node2D)

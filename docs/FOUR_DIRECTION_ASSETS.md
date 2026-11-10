@@ -1,7 +1,7 @@
 # 四向移动素材 —— 完整盘点与接入方案
 
 > 日期：2026-11-09
-> 素材来源：`assets/Characters/Human_v1/`（从 `human_v1.0.aseprite` 提取，源文件已从项目移除，此处为唯一副本）
+> 素材来源：原 `assets/Characters/Human_v1/`（从 `human_v1.0.aseprite` 提取；该目录已在素材清理阶段从项目移除，源文件现存于项目外 `~/Downloads/`）
 > 配套图：`docs/images/frame_index_310.png`（310 帧索引图）、`docs/images/swap_compare.png`（换色对比）
 
 ---
@@ -21,10 +21,12 @@
 
 **两套互补**。所以"四向移动"完全可以**只用原生 bowlhair** 拼出来，一个像素都不用改：
 
-- 向下走 → 现有 `assets/Characters/Human/WALKING/` 分层素材（本来就是 bowlhair）
+- 向下走 → 现有 `assets/characters/human/walking/` 分层素材（本来就是 bowlhair）
 - 向左/右走 → v1.0 第 99–106 帧
 - 向上走 → v1.0 第 8–15 帧（转身动画里的背面段）
 - 转身切换 → v1.0 第 0–15 帧
+
+> 现状补充：上述方案依赖按分层导出的单层 strip。实测该导出方式每个 (层,帧) 只保留最后一个 cel，base 层丢失躯干像素，需从源文件重新导出后方可使用。详见 `docs/ASEPRITE_EXTRACTION.md`。
 
 ---
 
@@ -73,7 +75,7 @@ bowlhair turn 1-7  vs  bowlhair 159-165 → 0.82 ~ 0.94
 
 ### 1.5 肤色像素要按精确色值判断
 
-坑：衣服主色 `[192,203,220]` 满足 `R>190 且 G>140 且 B>110`，用宽阈值会把衣服误判成脸。
+注意：衣服主色 `[192,203,220]` 满足 `R>190 且 G>140 且 B>110`，用宽阈值会把衣服误判成脸。
 正确的肤色是 `[233,173,125]` / `[232,173,125]`，必须用精确色值或 tol≤26。
 
 ---
@@ -162,7 +164,7 @@ ToolSprite  手臂/工具
 2. 右侧 Inspector → `Sprite Frames` 旁边点 **"新建 SpriteFrames"**（或直接复制现有那份）
 3. 把新的命名为 `SpriteFrames_dir`（放 `assets/Characters/Human_v1/`）
 
-> 建议**新建一份空的**，只放四向动画；原来的 `SpriteFrames_y8v0a` 留给三层用。
+> **新建一份空的** SpriteFrames，仅放四向动画；原来的 `SpriteFrames_y8v0a` 留给三层用。
 
 ### 4.2 往 SpriteFrames_dir 里加动画
 
@@ -173,7 +175,7 @@ Godot 的 SpriteFrames 面板左上角有 **`Add Frame (from Sprite Sheet)`**：
 3. **Select** → 会生成 8 帧，全部选中
 4. 点 **Add Animation**（面板顶部 `+`）→ 命名 `walk_side`
 5. 把这 8 帧加进 `walk_side` 动画
-6. **Animation Speed** 建议 `10`（和现有 walk 一致；跑用 `14`）
+6. **Animation Speed** 设为 `10`（与现有 walk 一致；跑用 `14`）
 7. **Loop** 打开
 
 重复以上步骤：

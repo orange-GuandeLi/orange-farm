@@ -33,7 +33,7 @@
 ## 一、素材包全貌
 
 ```
-assets/Characters/
+assets/characters/
 ├── _Source/       加密 .aseprite（magic 9b18 0800，不可解析）
 ├── Human/         20 动作 × 8 变体 = 160 PNG
 ├── Goblin/PNG/    20 动作，无变体
@@ -74,7 +74,7 @@ MINING=镐、REELING=鱼竿、CASTING=法杖。IDLE/WALKING 里只有一只小�
 
 ## 三、头发怎么用
 
-### 3.1 运行时多层（推荐，能做换装系统）
+### 3.1 运行时多层（，能做换装系统）
 
 ```
 Player (CharacterBody2D)
@@ -95,11 +95,11 @@ Player (CharacterBody2D)
 ### 3.2 离线烘焙（切图量不变，最省事）
 
 用 `tools/hat_layer.py bake` 把 base+hair+tools 合成成一张最终 strip，
-你只切这一张 —— **切图工作量和现在完全一样**。
+仅需切图一张 —— **切图工作量与当前相同**。
 
 代价：换发型要重新烘焙 + 重新切图。
 
-### 3.3 建议
+### 3.3 处理方式
 
 M1/M2 阶段用 **3.2**（切图量不变）；等做「角色创建 / 换装界面」时再上 **3.1**。
 
@@ -143,26 +143,26 @@ M1/M2 阶段用 **3.2**（切图量不变）；等做「角色创建 / 换装界
 ```bash
 # 1) 参考帧 → 交给美术画帽子
 python3 tools/hat_layer.py ref \
-    --dir assets/Characters/Human --hair bowlhair \
+    --dir assets/characters/human --hair bowlhair \
     --out /tmp/ref_bowlhair.png --zoom 8
 
 # 2) 锚点表（已生成过一次，改素材后重跑）
 python3 tools/hat_layer.py anchor \
-    --dir assets/Characters/Human --variant base \
+    --dir assets/characters/human --variant base \
     --out assets/data/human_face_anchors.json
 
 # 3) 合成
 python3 tools/hat_layer.py bake \
-    --dir assets/Characters/Human \
+    --dir assets/characters/human \
     --hair bowlhair --tools \
     --hat /path/to/hat.png \
     --anchors assets/data/human_face_anchors.json \
-    --out-dir assets/Characters/Human_baked \
+    --out-dir assets/characters/human_baked \
     --actions IDLE WALKING RUN AXE WATERING DIG
 
 # 4) 预览验收
 python3 tools/hat_layer.py preview \
-    --dir assets/Characters/Human \
+    --dir assets/characters/human \
     --hair bowlhair --tools --hat /path/to/hat.png \
     --anchors assets/data/human_face_anchors.json \
     --out /tmp/preview.png --actions IDLE AXE HAMMERING --zoom 6
@@ -192,7 +192,7 @@ python3 tools/hat_layer.py preview \
    （附带发现：完整源文件有 `afro hair` / `red hair` / `roll hair coloured`
    三种额外发型，导出的 PNG 里没有。）
 5. **帽子素材仍然要自己找或画**。这个包一个道具都没有。
-   素材来源建议：LimeZu Sunnyside World 的**完整发行版**（含作物、家具、道具），
+   素材来源：LimeZu Sunnyside World 的**完整发行版**（含作物、家具、道具），
    当前下载的只是 Characters 部分。
 
 ---

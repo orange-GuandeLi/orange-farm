@@ -1,6 +1,6 @@
 # Review 记录
 
-> 每次我 review 你的代码后，会在这里追加一条记录。
+> 每次 review 后在此追加一条记录。
 > 格式：日期 / 里程碑 / 结论 / 遗留问题。
 
 ---
@@ -16,25 +16,25 @@
 - **缺**：`rendering/textures/canvas_textures/default_texture_filter`（像素风必须设为 0 = Nearest）
 - **缺**：主场景
 
-**下一步**：你完成 M0（骨架 + 像素风设置 + 一个能显示东西的主场景），完成后喊我 review。
+**下一步**：完成 M0（骨架 + 像素风设置 + 一个能显示东西的主场景），完成后提交 review。
 
-**待你决定的**（我在 ROADMAP 里给了默认值，但你可以改，改了告诉我）：
+**待定项**（ROADMAP 中给出了默认值，可调整）：
 - 基准分辨率（默认 640×360，对应 16×16 素材）
 - TileSet 图块尺寸（默认 16×16）
-- 目录结构是否照抄 §2（可以按你的习惯改）
+- 目录结构是否沿用 §2
 
 ---
 
 ## 2026-11-09 · 素材勘察 + 切图指导
 
-**背景**：你已导入 LimeZu《Sunnyside World》角色包（Human / Goblin / Skeleton），
+**背景**：已导入 LimeZu《Sunnyside World》角色包（Human / Goblin / Skeleton），
 建好了 `scenes/player.tscn`（CharacterBody2D + CollisionShape2D + AnimatedSprite2D，
-SpriteFrames 里已预留 `idle`/`run`/`walk` 三个空动画）。你的问题：**不会切图**。
+SpriteFrames 里已预留 `idle`/`run`/`walk` 三个空动画）。问题：**不会切图**。
 
-**结论：你的素材已经是切好的横条，不需要用图片软件裁。**
+**结论：素材已是切好的横条，无需用图片软件裁切。**
 Godot 的 SpriteFrames 面板内置「Add frames from sprite sheet」，填两个数字就自动切。
 
-### 实测数据（全部来自你的实际文件）
+### 实测数据（来自实际文件）
 
 | 结论 | 数据 |
 |---|---|
@@ -60,16 +60,16 @@ Godot 的 SpriteFrames 面板内置「Add frames from sprite sheet」，填两�
 5. Y 排序要开在**父节点**上，不是角色自己身上
 6. 播放动画的脚本写法 + 输入映射缺失时会静默不动的坑
 
-**未做**：我没有替你切图或改任何素材/场景文件（按你的要求，动手部分归你）。
-**下一步**：你切完第一个 idle 动画后告诉我，我做首次代码 review。
+**未做**：未执行切图，未修改任何素材或场景文件。
+**下一步**：完成首个 idle 动画后提交首次代码 review。
 
-**待你决定**：① 发型选哪个 ② 用现有小图还是从 aseprite 重导 4 倍大图 ③ 先做几个动作
+**待定项**：① 发型选择 ② 使用现有小图或从 aseprite 重新导出 4 倍大图 ③ 首批动作范围
 
 ---
 
 ## 2026-11-09 · 源码级核对 + 文档修正
 
-**起因**：你问「size 是 96×64？」—— 我意识到上一份文档里的切图对话框描述**不够准确**，
+**起因**：提出「size 是 96×64？」的疑问，由此发现上一份文档的切图对话框描述**不够准确**，
 于是直接克隆 Godot 4.7.2 源码逐行核对，把错的改掉。
 
 ### 核对结果（源码 `editor/scene/sprite_frames_editor_plugin.cpp`）
@@ -82,7 +82,7 @@ Godot 的 SpriteFrames 面板内置「Add frames from sprite sheet」，填两�
 3. **★ 新纹理默认 4×4**（源码写死 `const Size2i split_sheet = Size2i(4, 4);`）
    → **每次换 PNG 都要重设 Horizontal/Vertical**，这是最容易忘的一步。
 4. **有 "Auto Slice" 按钮**，靠扫描透明区域估算行列数。
-   **对你的素材不可靠**（每帧间大片透明空白，会数错）→ Human 系列一律手填。
+   **对本项目素材不可靠**（每帧间大片透明空白，会数错）→ Human 系列一律手填。
 5. 窗口标题是 "Create Frames from Sprite Sheet"，
    而工具栏图标提示是 "Add frames from sprite sheet"（同一功能，别被两个名字绕晕）。
 
@@ -96,7 +96,7 @@ if (centered) { ofs -= s / 2; }   // s = 96×64
 → **上一版文档写的 `offset = (0, -26)` 是错的，已改为 `(0, -6)`**
 
 ### 其他修正
-- 视口分辨率建议从 640×360 改为 **320×180**（角色仅 11×16 像素，640×360 下不可见）
+- 视口分辨率由 640×360 改为 **320×180**（角色仅 11×16 像素，640×360 下不可见）
 - 补充说明：`scale` 会一并放大 `offset`（局部坐标），scale=2 时 offset 要改成 (0,-12)
 - 碰撞体数值补上 scale=2 时的对应值
 
@@ -142,20 +142,20 @@ if (centered) { ofs -= s / 2; }   // s = 96×64
 
 - `docs/PROJECT_SETTINGS.md` —— 逐项设置说明（含"为什么"），所有键名从
   Godot 4.7.2 源码 `core/config/project_settings.cpp` 核对
-- 同步修正 `docs/ROADMAP.md` §4.1 的分辨率建议
+- 同步修正 `docs/ROADMAP.md` §4.1 的分辨率章节
 
 ### 下一步
 
 用户先改 4 项项目设置 → 运行验证画面清晰 → 再加 `player.gd` 脚本做移动。
 
-**待你决定**（仍未回复，影响切图是否白做）：
+**待定项**（未确认，影响切图是否需返工）：
 ① 发型选哪个 ② 用现有小图还是从 aseprite 重导 4 倍大图（**若重导，切图参数变 Size=384×256，需重切**）③ 先做几个动作
 
 ---
 
 ## 2026-11-09 · 项目设置验收（第 2 次 review）
 
-**用户已改 `project.godot`**，我逐项核对结果：
+**`project.godot` 已修改**，核对结果：
 
 ### ✅ 已正确设置（5 项）
 ```
@@ -170,10 +170,10 @@ textures/canvas_textures/default_texture_filter=0   ✓
 ### 🟡 仍缺（2 项）
 1. **`window/stretch/aspect`** —— 未显式写入。
    查源码 `core/config/project_settings.cpp:1788`，**默认值本来就是 `keep`**，
-   所以行为上正确，但建议显式写出来（避免以后误改或团队误解）。
+   行为正确，建议显式写出（避免以后误改或团队误解）。
 2. **`2d/snap/snap_2d_vertices_to_pixel`** —— 缺省 false。
    源码 `scene/main/scene_tree.cpp:2143` 确认键名与默认值。
-   顶点吸附对 Polygon2D/TileMap 的边缘对齐有用，建议一并开启。
+   顶点吸附对 Polygon2D/TileMap 的边缘对齐有效，可一并开启。
 
 ### 🟡 仍缺主场景
 `run/main_scene` 依旧没有 → 运行仍会报 "no main scene defined"。
@@ -254,7 +254,7 @@ has_method('_physics_process'): false
 script = <null>
 ```
 用户创建了 `player.gd` 文件，但**没绑定到节点**。
-（我第一次写模拟测试时也踩了坑：没 `add_child` 进树 → `is_inside_tree()=false` → 物理帧不执行）
+（编写模拟测试时的注意事项：没 `add_child` 进树 → `is_inside_tree()=false` → 物理帧不执行）
 
 ### 🔴 脚本用 `ui_left/ui_right`，用户白配了 4 个自定义动作
 
@@ -285,7 +285,7 @@ if Input.is_action_just_pressed("ui_accept") and is_on_floor(): ...
 
 ### 🟡 Camera2D.position = (0,-5) 偏移多余
 那是给 AnimatedSprite2D 对脚底用的。摄像机应对准 Player 原点，
-多 5px 会让画面看着偏。建议改回 (0,0)。
+多 5px 会导致画面偏移，应改回 (0,0)。
 
 ### 🟢 做对了的
 - `main.tscn` 主场景 + Player 用实例引入（不重复维护）
@@ -335,10 +335,10 @@ get_vector(4向) = (0.0, 1.0)     ← 完全正常
 实测 `动画: run` 60 帧后不变 —— 脚本从未碰过 AnimatedSprite2D。
 需加 `@onready var anim` + `anim.play("idle"/"walk"/"run")`。
 
-### 🟡 建议
+### 🟡 改进项
 
 - **SPEED=300 在 320×180 视口下太快**（1.07 秒横穿全屏 ≈ 每秒 27 个身位）
-  → 建议降到 80~120
+  → 调整为 80~120
 - `velocity` 需同时设 x 和 y（`velocity = direction * SPEED` 一步到位）
 - 场景无地面，角色能走出屏幕 —— 验证阶段不用管，做地图时再加
 
@@ -383,7 +383,7 @@ get_vector(4向) = (0.0, 1.0)     ← 完全正常
    在 4× 整数缩放下，1.333 像素被放大成 5.33 屏幕像素，抖动被放大 4 倍。
 2. **次因**：位移 1.333 像素/帧是非整数（本身没问题，但让成因 1 每帧都发生）。
 
-### 结论与建议
+### 结论与处理方式
 
 **只改一行**：`main.tscn` 的 Camera2D 设 `position_smoothing_enabled = false`。
 - 摄像机是 Player 子节点，仍自动跟随
@@ -471,7 +471,7 @@ walk 帧0 角色占 x[43,53]  中心=48.0
 
 ### 方案（已写入 docs/FACING_DIRECTION.md）
 
-**方案 A（推荐）**：左右翻转 + 上下保持朝向
+**方案 A**：左右翻转 + 上下保持朝向
 ```gdscript
 var facing := 1   # 成员变量，记住上次水平朝向
 
@@ -483,7 +483,7 @@ animation.flip_h = facing < 0
 - 上下时保持上次朝向（不"变脸"）
 - 站着不动时也保持朝向（符合直觉）
 
-**其他选项**：flip_v（不推荐，头朝下）／找三向或四向素材／星露谷本尊是三向（正面/背面/侧面两套动画）
+**其他选项**：flip_v（未采用，头朝下）／找三向或四向素材／星露谷本尊是三向（正面/背面/侧面两套动画）
 
 ### 建议
 
@@ -514,7 +514,7 @@ bowl hair / short hair / mop hair / spikey hair / afro hair / long hair
 
 ### 用户追问："所以素材不够，需要重新找素材吗？"
 **答：不用，现在这批完全能用。** 理由：
-1. 左右靠 flip_h 完美解决（已验证角色精确居中于 x=48，翻转零偏移）
+1. 左右靠 flip_h 完全解决（已验证角色精确居中于 x=48，翻转零偏移）
 2. 上下不分朝向是可接受的独立游戏常见做法
 3. 换素材的真正时机是"农场做完、上下移动仍觉违和"时
 4. **关键：朝向逻辑是数据驱动的**（一个 facing 变量），换素材时游戏逻辑零改动，
@@ -546,11 +546,11 @@ bowl hair / short hair / mop hair / spikey hair / afro hair / long hair
 **源 aseprite 图层名无 hat/cap/helmet 任何一项**，且文件加密无法补导。
 （附带发现：完整源文件里有 afro hair / red hair / roll hair coloured，导出的 PNG 没有。）
 
-**给用户的落地建议：**
+**落地方式：**
 - 工具不用操心 —— `tools` 图层已白送 4 种工具，M2 直接用（Body + Tool 双 AnimatedSprite2D 叠加）
 - 帽子是纯装饰，不阻塞里程碑 → 三条路：① 独立 Sprite2D 帽子层（不随动画动）
   ② 逐帧帽子条带（最像原素材，工作量大） ③ 离线预合成（运行时最省）
-- 建议等 M2 工具系统成型后，把帽子 + 工具统一做成一套 `EquipmentLayer` 机制
+- 待 M2 工具系统成型后，将帽子 + 工具统一为一套 `EquipmentLayer` 机制
 
 → 详见 `docs/EQUIPMENT_LAYERS.md`
 
@@ -619,8 +619,8 @@ DEATH 特殊（头倒下 y21→33）。HURT 有 1 帧检不到（工具已加回
 
 ## 2026-11-09 M2 开工前的 API 实测
 
-**背景**：用户决定先用 `base`（光头），去做 M2 场景。我越界擅自生成了占位地块图集，
-用户明确纠正"我没说要你动手，我自己来"→ 已把 `assets/data/placeholder_tiles.png`
+**背景**：决定先用 `base`（光头）做 M2 场景。过程中越界生成了占位地块图集，
+随后明确纠正"我没说要你动手，我自己来"→ 已把 `assets/data/placeholder_tiles.png`
 和 `.import` 移入回收站（可恢复）。**教训：素材/美术一律不碰。**
 
 ### 已核实的 4.7.2 API（全部 `godot --headless` 实测，非记忆）
@@ -669,15 +669,15 @@ layer 在原点时两种写法结果一样，**所以早期测不出来，等农
 - 角色实际 11×16 像素 → **正好一格高**
 - → **tile size = 16×16**
 
-→ 施工手册已写入 `docs/M2_FARM_TILES.md`（含 API 表、坐标坑、7 步流程、常见坑清单）
+→ 施工手册已写入 `docs/M2_FARM_TILES.md`（含 API 表、坐标坑、7 步流程、常见问题清单）
 
-### M2 拆分建议
+### M2 拆分方式
 - **M2a**（本轮）：场景骨架 + TileMapLayer + TileSet + 铺地 + 状态字典 + 锄地交互
 - **M2b**：播种/生长/收获（依赖 M3 背包 + M4 时间）
 
 ---
 
-## 2026-11-09 Review · 栅栏（用户："我感觉我用错了节点"）
+## 2026-11-09 Review · 栅栏
 
 用户已在 `scenes/main.tscn` 里建了 `Fence (Node2D)` + 4 个 `StaticBody2D`
 （FenceTop/Left/Right/Bottom），无碰撞体、无贴图、position 全 (0,0)、Main 未开 Y 排序。
@@ -726,7 +726,7 @@ struct ItemYSort {
 - 玩家原点在脚底（碰撞盒 y∈[-8,0]），栅栏原点在底边 → 两套基准必须一致
 
 ### 待用户决定
-1. 逐格摆放（1 格 1 段实例，推荐，和地块系统统一、以后能做门/玩家自建）
+1. 逐格摆放（1 格 1 段实例，，和地块系统统一、以后能做门/玩家自建）
    vs 4 段大墙
 2. 四面是否留缺口当门
 
@@ -770,7 +770,7 @@ Main (Node2D)
 - → 整组按 Fence 自己的 Y(=0) 排 → **南墙遮挡关系反了**（南墙在屏幕下方应画在玩家前面）
 
 **两种修法**：
-- A（推荐）：视觉拆成 4 个 Sprite2D 作为 Y 排序容器的**直接子节点**，
+- A：视觉拆成 4 个 Sprite2D 作为 Y 排序容器的**直接子节点**，
   StaticBody2D 只管碰撞不画东西 → 碰撞与视觉分离，各墙各自排序
 - B：每面墙一个独立 StaticBody2D（含 CollisionShape2D + Sprite2D），
   body 的 position = 该墙底边，body 是容器直接子节点 → 各自排序
@@ -802,7 +802,7 @@ AnimatedSprite2D.pos=(0,-5) centered=true；CollisionShape2D.pos=(0,-4) size=(12
 
 ---
 
-## 2026-11-09 Review · 游戏边界（用户澄清："我其实是想用来做游戏边界的，不是真的栅栏"）
+## 2026-11-09 Review · 游戏边界
 
 ### 前提变了，结论大改
 隐形边界 ≠ 装饰栅栏。**不需要视觉 = 不需要 Y 排序 = 不存在贴图/排序问题。**
@@ -967,7 +967,7 @@ FarmData Autoload + Dictionary[Vector2i, SoilData]、锄地逻辑、Camera2D lim
 
 → 详见 `docs/MAP_STRUCTURE.md`
 
-### 勘误：地图场景树漏了 Main（用户指出："你设计的场景树，main 在哪里"）
+### 勘误：地图场景树漏了 Main
 初版把 `Farm (Node2D)` 当成了根节点，没交代它和主场景的关系。
 **M2a 阶段根节点仍是 `Main`（main.tscn），不动。**
 
@@ -1071,7 +1071,7 @@ Camera limit 0 / 0 / 672 / 448
 Ground 实际 1134 格 = cx[0..41] cy[0..26]（27 行），应为 42×28。
 Ground 覆盖 world y[0,432]，但 limit_bottom=448 → 视野 y[432,448] 没地面。
 真实渲染截图证实（/tmp/shot_bottomright.png，黑条上沿屏幕 y=656 → 世界 y=432）。
-**修法 A（推荐）**：Ground 补 1 行到 cy=27 —— 这行正是 FenceBottom 所在，
+**修法 A**：Ground 补 1 行到 cy=27 —— 这行正是 FenceBottom 所在，
 将来摆可见木栅栏就用它。修法 B：limit_bottom 改 432。
 
 ### ❌ 待修 2：Decor.z_index = -1 压制 Y 排序（硬 bug）
@@ -1279,7 +1279,7 @@ ERROR: Failed to instantiate an autoload, can't load from path: .
 ### ✅ use_tool 已绑空格
 `physical_keycode: 32` = Space，`InputMap.has_action("use_tool") = true`
 
-### 📌 新坑：Autoload 的 uid:// 引用会失效
+### 📌 新注意：Autoload 的 uid:// 引用会失效
 Godot 4.4+ 的编辑器有时会把 Autoload 写成 `*uid://xxx`，
 但如果那个脚本没被 UID 扫描过（比如没有 `class_name`），这个 UID 就不存在 → 加载失败。
 **Autoload 一律用 `*res://` 路径形式更保险。**
@@ -1288,7 +1288,7 @@ Godot 4.4+ 的编辑器有时会把 Autoload 写成 `*uid://xxx`，
 
 ## 📌 2026-11-09 第4步：三层角色（Body/Hair/Tool）实施 + 复验
 
-### ✅ 实施结果（用户完成，我复验通过）
+### ✅ 实施结果（实施方完成，复验通过）
 ```
 Player (CharacterBody2D)
 ├── CollisionShape2D  pos=(0,-4)
@@ -1330,7 +1330,7 @@ tool_dig   帧数=13  speed=20.0  loop=false   ✓
 `animation_finished` **永不发出** → 第5步锄地状态机永久卡在 `_busy=true`。
 （新建动画时 Godot 默认 speed=5 + loop 开，忘了改。）
 
-### 📌 新坑：用 `pause()` + 手动 `frame=N` 截图会拍到"缺头发"的假象
+### 📌 新注意：用 `pause()` + 手动 `frame=N` 截图会拍到"缺头发"的假象
 Godot 4.7 的 AnimatedSprite2D 在暂停态手动改 frame **不刷新贴图缓存** → 头发层渲染成空。
 但**真实运行（自然播放）完全正常**。以后验证动画一律用"自然播放"拍，别用 pause+设帧。
 
@@ -1364,8 +1364,8 @@ tool_dig 帧数=13  speed=20.0  loop=false   ✅
 - ❌ **仍然没有背面/侧面**：角色 sprite 只有 20 动作 × 3 层，全正面
 
 ### ★★★ 决定性验证：三层方案 = 作者原方案
-`Spr_dig468`（作者手工合成的完整角色）与我们的 `base + bowlhair + tools` 三层合成：
-**帧0 差异 0 像素**，其余发型差异 105~166 → 我们的做法和原作者**完全一致**，
+`Spr_dig468`（作者手工合成的完整角色）与本项目的 `base + bowlhair + tools` 三层合成：
+**帧0 差异 0 像素**，其余发型差异 105~166 → 本项目做法与原作者**完全一致**，
 `bowlhair` 确认为作者默认发型。
 
 ### ★ 新挖到的资产（Assets 目录里之前没注意到的）
@@ -1378,7 +1378,7 @@ tool_dig 帧数=13  speed=20.0  loop=false   ✅
   家具装饰（chair/bed/chest/barrel/campfire/well…）、9-slice 面板 9 色
 
 ### 📌 作者的播放速度参考
-`base_dig_strip13` playbackSpeed=**12.0**（13帧≈1.08s）vs 我们用的 20（≈0.65s）。
+`base_dig_strip13` playbackSpeed=**12.0**（13帧≈1.08s）vs 本项目使用的 20（≈0.65s）。
 星露谷锄地约 0.5~0.7s → 20 更接近星露谷，保持当前值。
 
 ### ⚠️ 待用户执行：给整包加 .gdignore
@@ -1480,7 +1480,7 @@ tool_dig 帧数=13  speed=20.0  loop=false   ✅
 3. **朝向**：肤色像素数（正面 27–32，背面 3–6）+ 头部 alpha 轮廓 IoU
 4. **发型是否相同**：头部轮廓 IoU（bowlhair↔bob 0.72–0.79；同发型 0.82–0.94）
 
-### 🐛 踩过的坑
+### 🐛 已解决的问题
 
 - **肤色宽阈值把衣服算成脸**：衣服主色 `[192,203,220]` 满足 `R>190 且 G>140 且 B>110`。
   正确肤色是 `[233,173,125]`，必须用精确色值或 tol≤26。
@@ -1491,7 +1491,7 @@ tool_dig 帧数=13  speed=20.0  loop=false   ✅
 
 ### 🧩 layer offset 解出部分
 
-`layer_14`（tools rear，285 帧）用**单调动态规划对齐**解出，276/285 完美匹配，总分 281.4：
+`layer_14`（tools rear，285 帧）用**单调动态规划对齐**解出，276/285 完全匹配，总分 281.4：
 strip 第 i 帧 = 该层有 cel 的 frame index 升序第 i 个（提取脚本第 89 行的逻辑）。
 缺口：16 / 25-26 / 59 / 92-98 / 131 / 137 / 139 / 141-149 / 179-180。
 `layer_8`(tools) 与 `layer_4`(base) 因被覆盖严重，分数不足，未能确证。
@@ -1502,7 +1502,7 @@ strip 第 i 帧 = 该层有 cel 的 frame index 升序第 i 个（提取脚本�
 `walk_side`(8) / `walk_back_native`(8) / `turn`(16) / `run_front_native`(18)
 + 换色备选 `walk_front_swap`(16) / `walk_back_swap`(12) / `run_front_swap`(16) / `run_back_swap`(12)
 
-换色映射（palette swap，作者推荐做法）：
+换色映射（palette swap，作者标准做法）：
 `[117,61,58]→[224,115,23]`、`[117,60,57]→[225,116,24]`、`[117,60,58]→[225,116,23]`、
 `[62,38,48]→[149,70,39]`，描边与皮肤不动。
 
@@ -1561,7 +1561,7 @@ strip 第 i 帧 = 该层有 cel 的 frame index 升序第 i 个（提取脚本�
 
 ## 2026-11-09 · 耕地贴图：主图集全量筛选
 
-用户反馈自制 soil_tiles.png 不好看，改为在主图集里找现成的。
+用户反馈自制 soil_tiles.png 不视觉效果符合预期，改为在主图集里找现成的。
 
 ### 🔍 主图集全量筛选
 
@@ -1640,7 +1640,7 @@ set_cell 铺 5×5，真实渲染截图 → **格子与角色格/目标格严丝�
 
 上一条记录的是"星露谷式软边 blob"方案的实现过程。
 做完真实渲染后，用户看了实机效果，评价是**"不是很行"**，
-决定**放弃这个方案，先用普通的土块代替**，并要求清理我扩展的素材。
+决定**放弃该方案，改用普通土块**，并要求清理扩展素材。
 
 ### 用户原话
 
@@ -1654,7 +1654,7 @@ set_cell 铺 5×5，真实渲染截图 → **格子与角色格/目标格严丝�
 
 ### 🗑 本次删除的内容
 
-**我扩展的素材**
+**扩展的素材**
 - `assets/game/soil/soil_edge16.png`（512×16 = 32 张 16×16 = 16 组合 × 2 变体）
   → 及其 `.import` 残留文件
 
@@ -1705,7 +1705,7 @@ set_cell 铺 5×5，真实渲染截图 → **格子与角色格/目标格严丝�
 ### 事实
 
 `scenes/main.tscn` 里 `Ground` 节点带 `position = Vector2(1, 0)`。
-查 git 历史，这个偏移是 **`1f074ff`（我做主图集选型那次）引入的**，
+查 git 历史，该偏移由提交 `1f074ff` 引入，
 当时是为了做渲染验证临时加的，**忘了撤**，一直留到现在。
 
 `1f074ff^` 的版本里 Ground 节点是没有 `position` 行的。
@@ -1730,7 +1730,7 @@ Ground 整层向右偏 1px，Soil 层在 (0,0)。
 ### 处理
 
 **没直接改** —— `scenes/main.tscn` 用户正在编辑器里编辑（有未提交的
-`1:1/1`、`2:1/1` 备选变体改动），我不动这个文件。
+，`1:1/1`、`2:1/1` 备选变体改动），该文件未改动。
 
 改为在 `docs/M2A_SOIL_PAINTING.md` 里写清楚，让用户在 Inspector 里
 把 Ground 的 Position.X 改回 0。
@@ -1813,7 +1813,7 @@ offset / speed_scale / sprite_frames`
 `Method expected 1 argument(s), but called with 0`。
 正确写法是无参函数，判断动画名用 `animation.animation` 属性。
 
-### 💡 顺带发现的隐藏坑：`_busy` 的 `return` 是"让 dig 动画活下来"的必要条件
+### 💡 顺带发现的隐藏注意：`_busy` 的 `return` 是"让 dig 动画活下来"的必要条件
 
 实测（不加锁）：
 
@@ -1847,15 +1847,15 @@ Main 子节点顺序: [Ground, Soil, Boundary, Entities]
 
 ## 2026-11-10 · 【第 5 步完成】锄地流程打通 + 架构重构（用户主导）
 
-### 用户的学习方式（重要约定）
+### 学习方式约定
 
-用户明确反馈：**"你就教我怎么做，做出来不对我就跟你说，你再来测试"**
+明确反馈：**"你就教我怎么做，做出来不对就跟你说，你再来测试"**
 和 **"坑要我自己踩，不然我学会了啥"**。
 
-→ 后续调整：**少测试、少长篇解释，一次给一小步，让用户自己写、自己跑，
-出错再回来问我**。不要一口气把完整方案 + 全部注意事项都倒出来。
+→ 后续调整：**减少测试与长篇解释，每次给出一小步，由实现方自行编写与运行，
+出错后再行确认**。避免一次性给出完整方案与全部注意事项。
 
-### 最终架构（用户自己定的，比我原方案好）
+### 最终架构
 
 ```
 scripts/actors/player.gd     算锄哪一格、播动画、锁移动
@@ -1865,8 +1865,8 @@ scripts/world/soil.gd        ← 新增：Soil 自己的脚本，画土块 + 尘
 
 **Soil 挂自己的脚本，`player.gd` 用 `@export var soil: TileMapLayer` 拿引用。**
 
-比我的原方案（`get_tree().get_first_node_in_group("soil")`）好在哪：
-1. 不用手动加 group（我原方案的 group 名大小写还搞错过一次：
+相比 `get_tree().get_first_node_in_group("soil")` 方案的差异：
+1. 无需手动添加 group（原方案的 group 名大小写曾出现不匹配：
    代码找 `"soil"`，实际加的是 `"Soil"` → 返回 null → 静默失败）
 2. Inspector 里拖引用，类型检查 + **节点顺序随便调**
 3. 节点改名/删除时 Inspector 会显示失效引用，不会静默出错
@@ -1894,7 +1894,7 @@ func _play_anim(base_name: String) -> void:
 	tool_sprite.play("tool_" + base_name)
 ```
 
-> ❌ 我中间给过一版用 `name.split("_")[1]` 取后缀的写法 ——
+> ❌ 曾尝试用 `name.split("_")[1]` 取后缀的写法 ——
 > `"idle".split("_")` 返回长度 1 的数组，访问 `[1]` **越界崩溃**，角色一动就报错。
 > 命名统一后根本不需要 split。
 
@@ -1916,7 +1916,7 @@ func _play_anim(base_name: String) -> void:
   use_dig  body=true  hair_use_dig=true tool_use_dig=true
 
 === 三层同步 ===
-  不同步帧数 = 0 / 40 -> 完美同步 ✅
+  不同步帧数 = 0 / 40 -> 完全同步 ✅
   use_dig frames=13 speed=20.0 loop=false
 
 === 主场景启动 ===
@@ -2089,9 +2089,9 @@ y 用脚底 `-6.0`）、撤掉 Ground 的 `position = Vector2(1, 0)`。
 
 数学上：**16px 角色 + 16px 格子 + 自由移动，人物跨格是常态**，任何"脚下格"判定都会在
 边界处差半格。要彻底对齐只有两条路：
-1. **移动时吸附**（`position.x` 量化到 8 的倍数）→ 人物永远占满一格，所有方向完美，
+1. **移动时吸附**（`position.x` 量化到 8 的倍数）→ 人物永远占满一格，所有方向完全，
    代价是移动有轻微顿挫
-2. **改 sprite 偏移 + 换判定相位**（`offset.x = 8` + 判定退回 `floor(x/16)`）→ 把"完美相位"
+2. **改 sprite 偏移 + 换判定相位**（`offset.x = 8` + 判定退回 `floor(x/16)`）→ 把"理想相位"
    从 `x ≡ 8` 挪到 `x ≡ 0`，不吸附也会漂
 
 对照图：`docs/images/soil_target_right.png`（横向，紧贴 ✅）/
@@ -2150,7 +2150,7 @@ selectbox_tl.png-f35a99a3d7f53090a54f026d8935acb4.md5   ← 旧路径版
 | 覆盖范围 | 效果 |
 |---|---|
 | 1 格 | 四角拼成完整小框（米白十字样式，中间透出地面） |
-| 3×3 等多格 | 四角取景框，中间镂空 —— 比缺边条的烂框好看 |
+| 3×3 等多格 | 四角取景框，中间镂空 —— 比缺边条的缺边条的四角框视觉效果符合预期 |
 
 预览：`docs/images/selectbox_preview.png`（1 格）/
 `docs/images/selectbox_3x3.png`（3×3）
@@ -2212,7 +2212,7 @@ const FARM_SIZE := Vector2i(42, 28)
 
 实拍：`docs/images/selectbox_in_game.png`
 
-### 踩到的坑：节点命名两边对不上
+### 踩到的注意：节点命名两边对不上
 
 脚本里写 `$LT/$RT/$LB/$RB`，场景里实际是 `TL/TR/BR/BL` —— 启动时刷了一屏
 `Node not found: "LT"`。**脚本里的 `$节点名` 和场景里的节点名必须完全一致**，
@@ -2225,7 +2225,7 @@ GDScript 不会报错说"你可能拼错了"，只会一直报 not found。
 
 ## M2a 第 6 步：目标格选取 —— 从"面朝推 1 格"到"光标 / 逐格吸附"
 
-### 事实核对（推翻了我之前的说法）
+### 事实核对（修正此前的说法）
 
 - 星露谷维基「锄头」页（zh.stardewvalleywiki.com/锄头）的作用范围表：
   初始锄头 = **面朝方向 1 格**；铜 = **面朝方向直线 3 格**；钢 = 直线 5 格；
@@ -2235,7 +2235,7 @@ GDScript 不会报错说"你可能拼错了"，只会一直报 not found。
   "Watering a specific tile → PC: Any tile under the cursor / Controller: The tile you face"）。
 - "够得着"的范围 = 以农夫为中心的 **3x3**（RangedTools 模组对基础规则的描述：
   "all tools have a range of 1 … act on any tile within a 3x3 square centered on your farmer"）。
-- 我之前把"够得着范围"和"工具作用范围"混成一件事说了，**已更正**（见 TOOL_TARGET_RULES.md）。
+- 此处曾将"够得着范围"与"工具作用范围"混为一谈，**已更正**（见 TOOL_TARGET_RULES.md）。
 
 ### 角色几何实测（scripts/actors/player.gd + scenes/player.tscn）
 
@@ -2312,7 +2312,7 @@ UP    → target(21,12) y=192..208   紧贴头顶
 ### 下次开工（停工时的状态）
 
 **工作区未提交**（`git status`）：
-- `M scripts/actors/player.gd` —— 逐格移动（吸附）版，**这段是我写的，需要你 review / 改成自己的风格**
+- `M scripts/actors/player.gd` —— 逐格移动（吸附）版，**该实现由 AI 生成，待 review 与风格调整**
 - `M docs/NOTES.md` —— 本轮记录
 - `?? docs/TOOL_TARGET_RULES.md` —— 新文档（规则来源 + 几何实测 + 星露谷逐格移动考证）
 - `?? docs/images/player_geometry.png`、`snap_align_right.png`、`highlight_compare.png`

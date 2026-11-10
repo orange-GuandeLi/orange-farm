@@ -1,14 +1,18 @@
 # Aseprite 混淆绕过 & 四向移动素材提取报告
 
-> ⚠️ **2026-11-09 更新：原始资源包已从项目中移除。**
-> `assets/Sunnyside_World_ASSET_PACK_V2.1/`（含 GameMaker 工程 475 sprite）与
-> `assets/sunnyside_world_chatacter_anim_human_v1.0.aseprite` 均已删除。
-> 本文保留为**勘察记录**；其中列出的资产已按需复制到 `assets/game/`。
-> 四向移动动画的像素成果已提取并保存在 `assets/Characters/Human_v1/`
-> （详见 [`ASEPRITE_EXTRACTION.md`](ASEPRITE_EXTRACTION.md)）。
+> ⚠️ **2026-11-10 更新：原始资源包与提取产物均已从项目中移除。**
+> `assets/Sunnyside_World_ASSET_PACK_V2.1/`（含 GameMaker 工程 475 sprite）已删除。
+> 提取产物目录 `assets/Characters/Human_v1/`（310 帧 × 15 图层 + 8 个 atlas）已清理，
+> 原因是其中的分层 strip 存在像素丢失（详见 §5），且合成帧与项目现有的三层结构不兼容。
+> 本文保留为**勘察记录**，记录提取原理与结论。
+>
+> **四向移动动画的源文件为 `sunnyside_world_chatacter_anim_human_v1.0.aseprite`**，
+> 现存放于项目外，需要时重新提取并按正确方式分层导出。
+>
+> 详见 [`FOUR_DIRECTION_ASSETS.md`](FOUR_DIRECTION_ASSETS.md)。
 
 > 日期：2026-11-09
-> 起因：用户问"整包都给了，好像还有个叫 gamemaker 的，你看看是不是可以绕过加密"
+> 起因：确认 GameMaker 工程能否绕过混淆限制
 > 结果：**绕过了。加密只混淆了 chunk 元数据，像素数据是明文 zlib，可完整提取。**
 > **并且提取出了作者官方尚未导出 PNG 的四向移动动画。**
 
@@ -92,7 +96,7 @@ assert w * h * 4 == len(data)     # 1909 / 1909 全部成立 ✅
 | width | `-4 .. -2` | WORD ✅ 1909/1909 校验通过 |
 | height | `-2 .. 0` | WORD ✅ |
 
-> **踩过的坑**：第一次把 x/y 读成了 `-20/-18`，导致所有层坐标错位、合成帧整体偏掉。
+> **已解决的问题**：第一次把 x/y 读成了 `-20/-18`，导致所有层坐标错位、合成帧整体偏掉。
 > 靠"帧0 第 3 个 cel 的 x 应该是 43、y 应该是 23"（GameMaker 里 `base_idle` f0 的 bbox）
 > 反查原始字节才定位到正确位置。
 
@@ -183,7 +187,8 @@ mining  swimming  hamering  attack  casting  waiting  reeling  caught
 ## 4. 产物位置
 
 ```
-assets/Characters/Human_v1/                  ← ★ 提取成果（源 aseprite 已删除，这是唯一副本）
+```
+assets/Characters/Human_v1/                  ← 提取成果（历史布局，该目录已从项目移除）
 ├── frames/frame_000.png … frame_309.png      ← 310 张 96×64 完整合成帧
 ├── layer_4_strip293.png                      ← base 身体层
 ├── layer_8_strip279.png                      ← tools 手臂层
@@ -215,8 +220,9 @@ docs/images/
    位置已确认在文件开头约 offset 296 处，但第二个 tag 之后的推进量还没验证通过）。
 4. **四向只有一种发型完成**（作者原话），所以实际可用的是"单发型四向"。
 5. **v1.0 用的是橙色头发**（和 V2.1 主包的棕色不同）→ 可用 palette swap 调整。
-6. **建议把 v1.0 移进 `assets/Sunnyside_World_ASSET_PACK_V2.1/`**（该目录有 `.gdignore`，
+6. **将 v1.0 移入 `assets/Sunnyside_World_ASSET_PACK_V2.1/`**（该目录有 `.gdignore`，
    Godot 不会扫描它，但文件本身可被脚本读取），保持项目根目录整洁。
+   现状：该目标目录已在素材清理阶段移除；源文件现存放于项目外 `~/Downloads/`。
 
 ---
 

@@ -1,13 +1,13 @@
 # M2 · 农场地块系统 —— 施工手册
 
 > 目标：能用锄头把地锄开，播种，作物每天生长，成熟后收获。
-> 本文档只提供**已核实的事实**和**施工顺序**。代码和操作由你完成，我负责 review。
+> 本文档只提供**已核实的事实**和**施工顺序**。代码与操作由实现方完成，review 方负责验收。
 
 ---
 
 ## 0. 先把 M2 拆开
 
-M2 的完整目标依赖 M3（背包）和 M4（时间），一次做完会失控。建议：
+M2 的完整目标依赖 M3（背包）和 M4（时间），一次性实现会导致范围失控。拆分方式：
 
 | 子阶段 | 内容 | 依赖 |
 |---|---|---|
@@ -19,7 +19,7 @@ M2 的完整目标依赖 M3（背包）和 M4（时间），一次做完会失�
 - [ ] 场景里有一片铺好的地面，走起来能看出是格子
 - [ ] 按一个键能把脚下/面前那一格锄开，画面上能看出区别
 - [ ] 已锄的格子有状态记录，关掉游戏再开（状态在 Autoload 里）能还在
-- [ ] 不能对同一格重复锄、不能对已经锄过的地重复锄（除非你设计了"复原"）
+- [ ] 不能对同一格重复锄、不能对已锄过的地重复锄（除非设计了"复原"机制）
 
 ---
 
@@ -47,13 +47,13 @@ M2 的完整目标依赖 M3（背包）和 M4（时间），一次做完会失�
 |---|---|
 | `TileSet.tile_size = Vector2i(16, 16)` | ✅ 生效 |
 | `TileSetAtlasSource.texture_region_size = Vector2i(16,16)` | ✅ 生效 |
-| `TileSetAtlasSource.create_tile(Vector2i)` | ⚠️ **返回 void**（我第一次写成 `var err := create_tile()` 直接解析报错） |
+| `TileSetAtlasSource.create_tile(Vector2i)` | ⚠️ **返回 void**（曾误写为 `var err := create_tile()`，导致解析报错） |
 | `TileSetAtlasSource.has_tile(Vector2i)` | ✅ 存在 |
 | `TileSet.add_source(src) -> int` | ✅ 返回 source_id（从 0 开始） |
 | `TileSet.get_source_count() / get_source_id(i)` | ✅ 正常 |
 | `TileSet.add_physics_layer()` / `set_physics_layer_collision_layer()` | ✅ 正常 |
 
-### 两个实测踩坑点
+### 两个实测注意要点
 
 **① `create_tile()` 返回 void**
 ```gdscript
@@ -74,7 +74,7 @@ src.create_tile(Vector2i(0,0))
 
 ---
 
-## 2. ⚠️ 最大的坑：坐标空间
+## 2. ⚠️ 主要陷阱：坐标空间
 
 **`local_to_map()` 收的是该 TileMapLayer 的「局部坐标」，不是全局坐标。**
 
@@ -95,7 +95,7 @@ var cell := soil_layer.local_to_map(soil_layer.to_local(player.global_position))
 ```
 
 > 如果 TileMapLayer 正好在原点且父节点没偏移，两种写法结果一样 —— 所以这坑在早期
-> 测不出来，等你把农场挪个位置就全错位。**从一开始就写对，别等。**
+> 该写法无法通过测试验证，农场位置一旦变更即全部错位。**应在一开始就采用正确写法。**
 
 ---
 
@@ -120,30 +120,30 @@ Farm (Node2D)
 
 ### 步骤 2 · 准备地块贴图
 
-**这是你目前唯一的素材缺口**：素材包里 186 个 PNG 全是角色，**一块地块贴图都没有**。
-你要么去找一套 farm tileset，要么自己画。
+**这是当前唯一的素材缺口**：素材包里 186 个 PNG 全是角色，**一块地块贴图都没有**。
+需要获取一套 farm tileset 或自行绘制。
 
 **技术要求（决定了后面所有事）：**
 
 | 项 | 值 | 为什么 |
 |---|---|---|
-| **单格尺寸** | **16×16 像素** | 视口 320×180 → 20×11 格可见，正好是《星露谷》的比例；你的角色 11×16 像素，**正好一格高** |
+| **单格尺寸** | **16×16 像素** | 视口 320×180 → 20×11 格可见，正好是《星露谷》的比例；角色 11×16 像素，**正好一格高** |
 | 图集组织 | 横排或方阵都行 | 但每格必须严格 16×16 |
 | 纹理过滤 | Nearest | 项目已全局设为 0，导入时也选 Nearest |
 | 需要的 tile | 至少 3 个 | 草地 / 已锄的土 / 已浇水的土 |
 
-> 16×16 是我基于你的视口尺寸和角色尺寸算出来的，不是拍脑袋。
-> 你如果想用 32×32 的地块，视口 320×180 就只剩 10×5.6 格可见，会非常局促。
+> 16×16 由当前视口尺寸与角色尺寸推算得出。
+> 若采用 32×32 地块，视口 320×180 仅剩 10×5.6 格可见，视野局促。
 
 ### 步骤 3 · 建 TileSet
 
-**编辑器路径**（推荐，你能学会它）：
+**编辑器路径**：
 
 1. 选中 `Ground` 节点 → Inspector → **Tile Set** → `<empty>` → **新建 TileSet**
 2. 底部 **TileSet 面板** → 点 **Atlas** 标签（第一个图标）→ **新建 Atlas Source**
-3. 选你的地块贴图
+3. 选择地块贴图
 4. **Tile Size 改成 16×16**（新建时默认是 64×64，**这一步必须改**）
-5. 在图集网格上右键 → **Create Tile**，逐个或框选批量创建你要用的 tile
+5. 在图集网格上右键 → **Create Tile**，逐个或框选批量创建所需 tile
 
 **代码路径**（可脚本化、可复现）：
 ```gdscript
@@ -169,7 +169,7 @@ for x in range(40):
         ground.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 ```
 
-**铺多大**：视野 20×11 格，农场至少要 30×20 格才有"走出边界"的感觉。
+**规模要求**：视野为 20×11 格，农场至少需 30×20 格才具备超出边界的空间感。
 地块大点无所谓，TileMapLayer 只存用到的格子。
 
 ### 步骤 5 · 地块状态数据（方案 C）
@@ -180,7 +180,7 @@ for x in range(40):
 - 在 **项目设置 → 全局 → 自动加载** 里注册成 `FarmData`
 - 内部存：`var soils: Dictionary[Vector2i, SoilData] = {}`
 
-**SoilData 建议做成 Resource**（这样将来能加"湿度""施肥天数"等字段而不破坏存档）：
+**SoilData 采用 Resource 实现**（这样将来能加"湿度""施肥天数"等字段而不破坏存档）：
 ```gdscript
 class_name SoilData
 extends Resource
@@ -203,7 +203,7 @@ enum State { UNTILLED, TILLED, WATERED, GROWING, MATURE }
    var target := player.global_position + facing_vector * 16.0
    var cell := soil_layer.local_to_map(soil_layer.to_local(target))
    ```
-   > 往哪锄？"面朝方向的前一格"比"脚下那格"体验好。`facing` 变量你 M1 已经写了。
+   > 锄地目标应为"面朝方向的前一格"而非"脚下那格"。`facing` 变量已在 M1 实现。
 3. 改状态：`FarmData.soils[cell] = ...`（state → TILLED）
 4. 刷新表现：`soil_layer.set_cell(cell, 0, atlas_coords_of_tilled_soil)`
 
@@ -220,9 +220,9 @@ enum State { UNTILLED, TILLED, WATERED, GROWING, MATURE }
 
 ---
 
-## 4. 常见坑清单
+## 4. 常见问题清单
 
-| 坑 | 后果 | 正确做法 |
+| 问题 | 后果 | 正确做法 |
 |---|---|---|
 | `local_to_map(global_position)` | 格子算错（农场一挪就全错位） | 先 `to_local()` |
 | TileSet 的 `tile_size` 没改成 16×16 | 格子巨大，铺出来是一张图 | 改 TileSet，不是 TileMapLayer |
@@ -235,15 +235,15 @@ enum State { UNTILLED, TILLED, WATERED, GROWING, MATURE }
 
 ---
 
-## 5. 我会怎么 review
+## 5. Review 流程
 
-你做完 M2a 交给我，我会：
+M2a 完成后提交 review，包含以下步骤：
 
-1. 逐行读你的脚本
+1. 逐行检查脚本
 2. `godot --headless` 跑一遍抓运行时错误
 3. **无头模拟按键**，验证：锄地后格子状态确实变了、`get_used_cells` 正确、
    坐标换算在 layer 有偏移时依然正确
-4. 逐条反馈（🔴 Bug / 🟡 结构 / 🟢 建议）
+4. 逐条反馈（🔴 Bug / 🟡 结构 / 🟢 改进项）
 
 ---
 
@@ -252,9 +252,8 @@ enum State { UNTILLED, TILLED, WATERED, GROWING, MATURE }
 **唯一卡点：地块贴图。** 素材包里没有。
 
 两条路：
-- **A**：你去找一套 farm tileset（16×16 或能重切到 16×16 的都行）
-- **B**：你自己画几块 16×16 的色块先跑通逻辑
+- **A**：获取一套 farm tileset（16×16 或可重切为 16×16）
+- **B**：自行绘制若干 16×16 色块以先跑通逻辑
 
 在这之前，场景骨架、TileSet 结构、地块状态字典、锄地逻辑**都可以先做**，
-只是暂时看不见地。你要是想先做逻辑，我建议先做**步骤 1、5、6**，
-等你拿到贴图再补 2、3、4。
+仅为暂时不可见地块。若优先实现逻辑，可先完成**步骤 1、5、6**，取得贴图后再补 2、3、4。

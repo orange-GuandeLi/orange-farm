@@ -164,7 +164,7 @@ var sid := ts.add_source(src)         # 返回 source_id，从 0 开始
 soil.tile_set = ts
 ```
 
-### 两个实测踩坑点
+### 两个实测注意要点
 
 **① `create_tile()` 返回 void**
 ```gdscript
