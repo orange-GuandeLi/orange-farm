@@ -8,7 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://dxkiarvvqgih3" path="res://assets/ui/selectbox_tr.png" id="4_85g3d"]
 [ext_resource type="Texture2D" uid="uid://bhlnssdb278yp" path="res://assets/ui/selectbox_br.png" id="5_85g3d"]
 [ext_resource type="Texture2D" uid="uid://cg3qwwoaqwph5" path="res://assets/ui/selectbox_bl.png" id="6_85g3d"]
-[ext_resource type="Texture2D" uid="uid://decwbadwdap2j" path="res://assets/game/fx/dust_land.png" id="8_85g3d"]
+[ext_resource type="Texture2D" uid="uid://bd3vvok0vryln" path="res://assets/game/soil/soil_00.png" id="7_eb6dy"]
+[ext_resource type="Texture2D" uid="uid://874ten0ppdkq" path="res://assets/game/soil/soil_01.png" id="8_trceg"]
+[ext_resource type="Texture2D" uid="uid://dri4ufygv58ku" path="res://assets/game/soil/soil_03.png" id="9_a8y0u"]
+[ext_resource type="Texture2D" uid="uid://b18ddb6hmnblk" path="res://assets/game/soil/soil_04.png" id="10_jkv2x"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
@@ -1760,6 +1763,32 @@ texture = ExtResource("1_sugp2")
 [sub_resource type="TileSet" id="TileSet_o5qli"]
 sources/0 = SubResource("TileSetAtlasSource_tbgi4")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eb6dy"]
+texture = ExtResource("7_eb6dy")
+texture_region_size = Vector2i(16, 12)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_trceg"]
+texture = ExtResource("8_trceg")
+texture_region_size = Vector2i(16, 12)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a8y0u"]
+texture = ExtResource("9_a8y0u")
+texture_region_size = Vector2i(16, 12)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jkv2x"]
+texture = ExtResource("10_jkv2x")
+texture_region_size = Vector2i(16, 12)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_85g3d"]
+sources/0 = SubResource("TileSetAtlasSource_eb6dy")
+sources/1 = SubResource("TileSetAtlasSource_trceg")
+sources/2 = SubResource("TileSetAtlasSource_a8y0u")
+sources/3 = SubResource("TileSetAtlasSource_jkv2x")
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5qli"]
 size = Vector2(1292, 16)
 
@@ -1798,9 +1827,8 @@ texture = ExtResource("6_85g3d")
 centered = false
 
 [node name="Soil" type="TileMapLayer" parent="." unique_id=893052748]
-tile_set = SubResource("TileSet_o5qli")
+tile_set = SubResource("TileSet_85g3d")
 script = ExtResource("2_jyhfs")
-tex = ExtResource("8_85g3d")
 
 [node name="Boundary" type="StaticBody2D" parent="." unique_id=708301617]
 
