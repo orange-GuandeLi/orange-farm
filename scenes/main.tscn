@@ -2284,9 +2284,9 @@ tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAAAAAEAAAACAAEAAAAAAAIAAAABAAE
 tile_set = SubResource("TileSet_o5qli")
 
 [node name="Vegetation" type="TileMapLayer" parent="." unique_id=1432039098]
-tile_map_data = PackedByteArray("AAA3ACAAAQAAAAAAAAA6AB8AAAAhAAMAAAA=")
 tile_set = SubResource("TileSet_o5qli")
 script = ExtResource("3_jkv2x")
+still_ratio = 0.9
 
 [node name="SelectBox" type="Node2D" parent="." unique_id=607928968]
 visible = false
