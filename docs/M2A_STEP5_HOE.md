@@ -87,6 +87,10 @@ dur = 13 帧 / speed 20 = 0.65 秒
 
 ### 0.4 尘土特效
 
+> ⚠️ **2026-11-11 起尘土特效已从 `soil.gd` 移除**（接入四态耕地贴图那次一并删掉，
+> `@export var tex` 和 `_spawn_dust()` 都没了）。本节保留作历史与素材备料 ——
+> `assets/game/fx/dust_land.png` 还在仓库里，想加回来时按下面的代码接即可。
+
 | 文件 | 内容 |
 |---|---|
 | `assets/game/fx/dust_land.png` | 144×9 = **6 帧 24×9 横排** |
@@ -263,7 +267,7 @@ func _play_anim(base_name: String) -> void:
 
 > ⚠️ 本章是第 5 步当时的版本：当时用 `velocity + move_and_slide()`，中间一度改成逐格吸附，
 > 2026-11-10 又改回自由移动（8 向输入 + 实时目标格）。常量已移入 `GameConfig`
-> （`FARM_SIZE = 80×45`），另加了 `SelectBox`。**改代码前以 `scripts/actors/player.gd` 为准**，
+> （`FARM_SIZE = 120×68`），另加了 `SelectBox`。**改代码前以 `scripts/actors/player.gd` 为准**，
 > 本章只保留锄地流程的思路。
 
 ### 3.1 新增常量与变量

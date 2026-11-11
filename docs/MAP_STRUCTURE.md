@@ -3,6 +3,13 @@
 > 依据：M2 手册 + 本轮实测（2026-11-09 13:15）
 > 前提：当前**没有任何地块贴图**，但不能因此停下架构搭建
 
+> ⚠️ 2026-11-11 现状（读之前先看这段）：
+> - `Ground` 已经是 `TileMapLayer`（不再是 Polygon2D），铺满 **120×68 = 8160 格**棋盘草地
+> - `Soil` 的 TileSet 改成了**4 个独立 atlas source**（一个 source 一张 16×12 贴图），
+>   状态用 `source_id` 表达、atlas 坐标恒为 `(0,0)` —— 详见 §五
+> - `Decor` 已挪进 `Entities` 并开了 `y_sort_enabled`
+> - 下面「一 / 二 / 三」是 2026-11-09 的选型推演，保留作历史
+
 ---
 
 ## 一、核心判断：地面和耕地要用**不同**的节点
@@ -121,8 +128,11 @@ local_to_map((16,16)) = (1, 1)      ← 局部 (16,16) 属于格子 (1,1)
 |---|---|
 | 20 × 10 格 | x ∈ [0, 19]，y ∈ [0, 9] |
 | 24 × 12 格 | x ∈ [0, 23]，y ∈ [0, 11] |
+| **120 × 68 格（当前）** | x ∈ [0, 119]，y ∈ [0, 67] |
 
 格子 (c, r) 覆盖全局 x ∈ [16+16c, 16+16(c+1))、y ∈ [16+16r, 16+16(r+1))。
+
+> 当前 `Soil.position = (0,0)`（没设偏移），所以格子 (c, r) 实际覆盖 x ∈ [16c, 16(c+1))、y ∈ [16r, 16(r+1))。
 
 ### ⚠️ 坐标空间陷阱（复测确认）
 
@@ -139,14 +149,53 @@ var cell := soil.local_to_map(soil.to_local(player.global_position))
 
 ---
 
-## 五、TileSet 的搭建（等贴图到位再做）
+## 五、TileSet 的搭建
 
-### 编辑器路径
+### 编辑器路径（当前实际做法：4 个独立 source）
 
 1. 选中 `Soil` → Inspector → **Tile Set** → 新建 TileSet
-2. 底部 TileSet 面板 → **Atlas** 标签 → **New Atlas Source** → 选贴图
-3. **Tile Size 改 16×16**（新建默认 64×64，这步必须改）
-4. 网格上右键 → **Create Tile**，至少建 2 个：`耕地`、`浇水耕地`
+2. 展开 TileSet → **Tile Size 确认 16×16**（新建默认**就是 16×16**，不用改）
+3. 底部 TileSet 面板 → 左侧 source 列表 `+` → **Atlas**，建 **4 个**（一个状态一个）
+4. 每个 source：
+   - **Texture** → 选对应的 16×12 贴图
+   - **Texture Region Size** → 改成 **16×12**（默认 16×16，**必须改**）
+   - 顶部 **⋮ 菜单 → Create Tiles in Non-Transparent Texture Regions** 建 tile
+5. `Soil` 节点 → `tile_set` 指到这个 TileSet
+
+### 为什么是 4 个独立 source，而不是合成一张图集
+
+状态（干土 / 湿土 / 播种 / 生长）直接对应 `source_id`，atlas 坐标恒为 `(0,0)`：
+
+```
+set_cell(cell, SRC_DRY, Vector2i(0, 0))
+```
+
+好处：单态换图/重画不牵动其他态、加第 5 态只要加第 5 个 source、不用记图集内坐标。
+
+### ⚠️ 最容易踩的坑：`texture_region_size` 大于贴图 → 图集直接归零
+
+```
+atlas_grid = floor(贴图尺寸 ÷ texture_region_size)
+```
+
+| 贴图 | region | atlas_grid | 结果 |
+|---|---|---|---|
+| 1024×1024 | 16×16 | 64×64 | 4096 格 ✅ |
+| 16×12 | 16×12 | 1×1 | 1 格 ✅ |
+| **16×12** | **16×16** | **1×0** | **0 格** ❌ |
+
+`region` 一旦大于贴图，高度 `12 ÷ 16 = 0` → **一个有效格子都没有**。后果是：
+自动切片切不出来、**「Create Tiles in Non-Transparent Texture Regions」也建不出来**
+（它扫的就是有效区域，没区域可扫）、`set_cell` 写进去了但渲染时找不到 tile →
+`The Image width specified (0 pixels)` → **屏幕上什么都不显示，也不崩**。
+
+排查口诀：**贴图挂上了却什么都不显示，先查 `texture_region_size`，再查有没有 `0:0/0 = 0` 这种 tile 条目。**
+
+另外两个要点：
+- **自动切片用的是 `TileSet.tile_size`，不是贴图尺寸** —— 所以 16×12 的图自动切不出来，
+  合成成 64×16 反而能切（高度补到了 16）。
+- **贴图挂上 ≠ 有 tile**。`0:0/0 = 0` 才是"这张表的 (0,0) 处有一个 tile"的声明，
+  不会被自动生成，得靠拖图时的弹窗或 ⋮ 菜单显式创建。
 
 ### 代码路径（可脚本化，实测通过）
 
@@ -155,12 +204,11 @@ var ts := TileSet.new()
 ts.tile_size = Vector2i(16, 16)
 
 var src := TileSetAtlasSource.new()
-src.texture = load("res://assets/tilesets/soil.png")
-src.texture_region_size = Vector2i(16, 16)
-src.create_tile(Vector2i(0, 0))      # ⚠️ 返回 void，别接收返回值
-src.create_tile(Vector2i(1, 0))
+src.texture = load("res://assets/game/soil/soil_00.png")
+src.texture_region_size = Vector2i(16, 12)   # ⚠️ 必须 ≤ 贴图尺寸
+src.create_tile(Vector2i(0, 0))               # ⚠️ 返回 void，别接收返回值
 
-var sid := ts.add_source(src)         # 返回 source_id，从 0 开始
+var sid := ts.add_source(src)                  # 返回 source_id，从 0 开始
 soil.tile_set = ts
 ```
 
@@ -189,16 +237,17 @@ for x in range(cols):
     for y in range(rows):
         soil.set_cell(Vector2i(x, y), 0, Vector2i(0, 0))
 
-# 刷新某一格（改状态后）
-soil.set_cell(cell, 0, Vector2i(1, 0))
-soil.update_internals()     # 改完不调则当帧不生效
+# 刷新某一格（改状态后）：换 source_id 就是换状态
+soil.set_cell(cell, SRC_WET, Vector2i(0, 0))
 ```
 
 | 情况 | 处理 |
 |---|---|
 | 同一格已被锄过 | 拒绝（或设计"复原"） |
-| 从耕地改浇水地 | 先 `erase_cell(cell)` 再 `set_cell(新 tile)`，否则图集坐标冲突 |
-| 要同时显示"耕地 + 浇水" | 再开一个 `Water` TileMapLayer（这正是方案 A 的用武之地） |
+| 换状态 | **直接 `set_cell(cell, 新 source_id, (0,0))`**，不用先 `erase_cell` —— `set_cell` 本来就是覆盖写 |
+| 要同时显示"耕地 + 浇水" | 再开一个 `Water` TileMapLayer；或者给同一 source 建**替代 tile**（alternative tile）用 `modulate` 表达干湿 |
+
+> `update_internals()` 在 Godot 4 已经不需要了（4.x 里 `set_cell` 会自己触发重绘）。
 
 ---
 

@@ -2440,3 +2440,62 @@ UP    → target(21,12) y=192..208   紧贴头顶
 - 实测（x=100，朝下）：`feet_y=96..103 → cell(6,5) target(6,6)`；
   `feet_y=104..119 → cell(6,6) target(6,7)`；`(100,100)` 锄地落在 `(6,6)`。
 - 代价：朝下站在一格开头时，目标格是脚底这格（贴身），不再严格“脚底前方 1 格”。
+
+---
+
+## 2026-11-11 11:00 泥土图集踩坑记录：region size 大于贴图 → 图集归零
+
+**现象**：4 个 16×12 的泥土贴图挂进 TileSetAtlasSource 后，
+自动切片和「Create Tiles in Non-Transparent Texture Regions」**都建不出 tile**，
+`set_cell` 写进去了、`get_used_cells()` 也有格子，但屏幕上什么都不显示，
+控制台只报 `The Image width specified (0 pixels) must be greater than 0 pixels`。
+
+**根因**（实测）：
+
+```
+atlas_grid = floor(贴图尺寸 ÷ texture_region_size)
+
+1024×1024 贴图 + region 16×16 → 64×64 = 4096 格   ✅
+  16×12 贴图 + region 16×12 →  1×1  =    1 格   ✅
+  16×12 贴图 + region 16×16 →  1×0  =    0 格   ❌ ← 高度 12÷16=0
+```
+
+`region` 一旦大于贴图，**整张图集的有效格子数直接是 0**。
+自动切片和 ⋮ 菜单扫的都是"有效区域"，一个都没有 → 什么也建不出来。
+渲染时 TileMapLayer 找不到 tile → 造一个 0×0 的兜底贴图 → `0 pixels` 报错 → 那格静默不画。
+
+**教训**：
+- 排查口诀：**贴图挂上了却什么都不显示 → 先查 `texture_region_size`，再查有没有 `0:0/0 = 0` 这种 tile 条目。**
+- **贴图挂上 ≠ 有 tile**。`0:0/0 = 0` 是"这张表的 (0,0) 处有一个 tile"的声明，不会自动生成。
+- **自动切片用的是 `TileSet.tile_size`（16×16），不是贴图尺寸** → 16×12 的单张图自动切不出来；
+  合成成 64×16 反而能切（高度补到了 16）。
+- `texture_region_size` 的默认值就是 **(16,16)**，不是 (0,0)（我一开始判断错了）。
+  默认值等于 16×16 时 Godot 保存 `.tscn` 会省略这一行 —— **看不到属性 ≠ 属性没生效**。
+
+**最终方案**：不合成图集，4 张图各占一个 atlas source，
+状态直接用 `source_id` 表达、atlas 坐标恒为 `(0,0)`：
+
+```
+set_cell(cell, SRC_DRY, Vector2i(0, 0))   # 干土
+set_cell(cell, SRC_WET, Vector2i(0, 0))   # 湿土
+set_cell(cell, SRC_SEEDED, Vector2i(0, 0))
+set_cell(cell, SRC_GROWING, Vector2i(0, 0))
+```
+
+好处：单态换图不牵动其他态、加第 5 态只要加第 5 个 source、不用记图集内坐标。
+
+---
+
+## 2026-11-11 11:12 农场扩到 120×68
+
+- 视口 640×360 下，农场从 80×45 扩到 **120×68**（1920×1088 px）→ **3.00×3.02 屏**。
+- 四面墙 (960,0)/(960,1080)/(2,540)/(1918,540)，尺寸 1932×16 / 1932×16 / 16×1096 / 16×1096；
+  Camera `0/0/1920/1088`，出生点 (952,544)（正好落在正中心格 59,33）。
+- `Ground` 铺满 `0..119 × 0..67` = **8160 格**，棋盘规则仍是 `(x+y)%2` 的 `(1,1)`/`(2,1)`，
+  实测 **8160 格全部符合、不符 0 格**（新旧区域纹理连续，看不出接缝）。
+- 推挤实测（真实碰撞盒 12×8、四面墙同参数、每方向 500 帧）：
+  脚底 x ∈ [16, 1904]、y ∈ [16, 1072] → **118×66 格**，与几何期望误差 < 0.01 px。
+- 镜头夹取实测：玩家到左上角 → 镜头 (0,0)；到右下角 → 镜头 (1600, 908)（= limit 减半视口）。
+- 铺地继续用 `tools/paint_checker.gd`（改 `W`/`H` 重跑，EditorScript 只改内存，**跑完必须 Ctrl+S**）。
+- 文档：FARM_SIZE / MAP_STRUCTURE / ROADMAP / PROJECT_SETTINGS / SPRITE_SLICING /
+  M2A_STEP5_HOE / M2A_SOIL_PAINTING / TOOL_TARGET_RULES 已同步。
