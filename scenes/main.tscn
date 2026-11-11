@@ -2289,6 +2289,7 @@ tile_set = SubResource("TileSet_o5qli")
 script = ExtResource("3_jkv2x")
 
 [node name="SelectBox" type="Node2D" parent="." unique_id=607928968]
+visible = false
 script = ExtResource("2_85g3d")
 
 [node name="TL" type="Sprite2D" parent="SelectBox" unique_id=2113031282]
@@ -2335,10 +2336,9 @@ y_sort_enabled = true
 [node name="Decor" type="TileMapLayer" parent="Entities" unique_id=675625871]
 y_sort_enabled = true
 
-[node name="Player" parent="Entities" unique_id=1235568156 node_paths=PackedStringArray("soil", "select_box") instance=ExtResource("1_o5qli")]
+[node name="Player" parent="Entities" unique_id=1235568156 node_paths=PackedStringArray("soil") instance=ExtResource("1_o5qli")]
 position = Vector2(952, 544)
 soil = NodePath("../../Soil")
-select_box = NodePath("../../SelectBox")
 
 [node name="Camera2D" type="Camera2D" parent="Entities/Player" unique_id=492096928]
 limit_left = 0

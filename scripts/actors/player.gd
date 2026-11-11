@@ -4,7 +4,6 @@ extends CharacterBody2D
 @onready var hair_sprite: AnimatedSprite2D = $HairSprite # 头发动画
 @onready var tool_sprite: AnimatedSprite2D = $ToolSprite # 工具动画
 @export var soil: TileMapLayer
-@export var select_box: SelectBox # 目标格高亮框
 
 var facing := Vector2i.DOWN # 面向那里
 const SPEED = 60.0 # 速度
@@ -18,7 +17,6 @@ func _ready() -> void:
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 
 func _physics_process(_delta: float) -> void:
-	_update_select_box() # 先更新高亮框（播动画期间也要跟着动）
 
 	if _busy: # 工具动画期间锁移动
 		velocity = Vector2.ZERO
@@ -139,19 +137,6 @@ func _target_cell() -> Vector2i:
 		Vector2i.LEFT:  return c + Vector2i(-1, 0)
 		Vector2i.RIGHT: return c + Vector2i(1, 0)
 	return Vector2i(-999, -999)
-
-## 更新目标格高亮框：能锄才显示，锄过的和越界的都藏起来
-func _update_select_box() -> void:
-	if select_box == null:
-		return
-	var cell := _target_cell()
-	var can_dig: bool = cell.x >= 0 and cell.x < GameConfig.FARM_SIZE.x \
-		and cell.y >= 0 and cell.y < GameConfig.FARM_SIZE.y \
-		and not FarmData.is_tilled(cell)
-	if can_dig:
-		select_box.move_to(cell)
-	else:
-		select_box.hide_box()
 
 func _apply_till(cell: Vector2i) -> void:
 	if not FarmData.till(cell):
