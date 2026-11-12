@@ -11,3 +11,4 @@ tmp_review/
 
 # 所有临时工作区（素材解析 / 导出 / 验证产物）
 tmp/
+assets-tmp/
