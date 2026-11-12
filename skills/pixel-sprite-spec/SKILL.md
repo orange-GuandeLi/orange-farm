@@ -20,6 +20,11 @@ description: |
 脚本在本 skill 目录的 `scripts/` 下（本项目内路径 `skills/pixel-sprite-spec/scripts/`；
 若装在别处，用加载 skill 时 `Location:` 头里的目录替换）。**一律用绝对路径调用**，避免猜错路径：
 
+> **改完本目录要同步到运行时**：Mavis 只从 `activeDataDir/skills/`（即 `~/.minimax/skills/`）加载 skill，
+> 项目里的 `skills/` 只是仓库文件、不会被自动加载。改完跑一次
+> `node skills/pixel-sprite-spec/install.js`（`--check` 只看差异不写入），
+> 旧版本会自动备份到 `~/.minimax/cache/skill-backups/`。
+
 | 命令 | 干什么 | 什么时候用 |
 |---|---|---|
 | `node $SKILL/scripts/sheet_probe.js info <png>` | 尺寸、帧网格、每帧 bbox、调色板计数 | 每次开工第一步 |
@@ -28,6 +33,7 @@ description: |
 | `node $SKILL/scripts/sheet_probe.js ascii <png> <frame> [--crop x,y,w,h] [--hex]` | 把某帧局部打成 ASCII 图（`--hex` 给精确十六进制） | 看局部结构、确认颜色 |
 | `node $SKILL/scripts/sprite_spec.js <spec.json> [--check] [--preview]` | 按 spec 渲染（输出 PNG 或 .aseprite，看扩展名） | 出图；`--check` 只校验 |
 | `node $SKILL/scripts/aseprite_export.js <in.aseprite> <out.png> [--split]` | .aseprite 母版 → PNG 条带（纯 Node，不依赖 Aseprite） | 母版改完要进引擎时 |
+| `node $SKILL/scripts/verify_strict.js <原图> <产物1> <产物2>` | 严格逐字节 RGBA 比对（含全透明像素的 RGB） | 要"其余像素一个没动"的硬证据时 |
 
 `$SKILL` 指 skill 自己的目录。这五个子命令已经覆盖"测量→定位→校验"的全部动作，
 **先查这张表再决定要不要自己写脚本**——重复造一个只会做这一件事的脚本，正是这条流水线要消灭的东西。
