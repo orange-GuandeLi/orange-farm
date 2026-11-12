@@ -1,0 +1,174 @@
+{
+  "name": "idle_s_noblush",
+  "root": ".",
+  "cell": {
+    "w": 96,
+    "h": 64
+  },
+  "frames": 4,
+  "notes": {
+    "purpose": "第 1 步：朝下站立图去掉两处腮红，腮红 #FA717A -> 脸部肤色 #E8AD7D",
+    "source": "/Users/orange/my/godot/farm/assets/characters/human/idle/base_idle_s.png",
+    "grid": "probe info 实测：384x64 = 96x64 x 4 帧（候选 P=96 得分 0.97）",
+    "blush_measured_by": "probe find '#FA717A' --components -> 每帧 2 个单像素连通块，共 8 px",
+    "blush_coords_frame_local": {
+      "frame 0": [
+        "46,32",
+        "50,32"
+      ],
+      "frame 1": [
+        "46,33",
+        "50,33"
+      ],
+      "frame 2": [
+        "46,33",
+        "50,33"
+      ],
+      "frame 3": [
+        "46,32",
+        "50,32"
+      ]
+    },
+    "skin_color_why": "#E8AD7D 是全图肤色主色（252 px，占非透明像素最大份额），也是本项目既有换色规则（measurement-playbook.md 第 7 节：腮红 #FA717A -> #E8AD7D）",
+    "scope": "除这 8 个腮红像素外，整帧逐像素原样 copy，其余一律不动",
+    "output_format": ".aseprite 可编辑母版（每帧一个 cel，96x64 画布），可用 Aseprite/LibreSprite 打开继续改"
+  },
+  "palette": {
+    "skin_main": "#E8AD7D"
+  },
+  "sources": {
+    "idle_s": "/Users/orange/my/godot/farm/assets/characters/human/idle/base_idle_s.png"
+  },
+  "outputs": {
+    "idle_s_noblush": "base_idle_s_noblush.aseprite"
+  },
+  "layers": [
+    {
+      "name": "base",
+      "output": "idle_s_noblush",
+      "frames": [
+        {
+          "frame": 0,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "idle_s",
+              "frame": 0
+            },
+            {
+              "op": "fill",
+              "rect": [
+                46,
+                32,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            },
+            {
+              "op": "fill",
+              "rect": [
+                50,
+                32,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            }
+          ]
+        },
+        {
+          "frame": 1,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "idle_s",
+              "frame": 1
+            },
+            {
+              "op": "fill",
+              "rect": [
+                46,
+                33,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            },
+            {
+              "op": "fill",
+              "rect": [
+                50,
+                33,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            }
+          ]
+        },
+        {
+          "frame": 2,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "idle_s",
+              "frame": 2
+            },
+            {
+              "op": "fill",
+              "rect": [
+                46,
+                33,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            },
+            {
+              "op": "fill",
+              "rect": [
+                50,
+                33,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            }
+          ]
+        },
+        {
+          "frame": 3,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "idle_s",
+              "frame": 3
+            },
+            {
+              "op": "fill",
+              "rect": [
+                46,
+                32,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            },
+            {
+              "op": "fill",
+              "rect": [
+                50,
+                32,
+                1,
+                1
+              ],
+              "color": "skin_main"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "preview": "_preview_step1.png"
+}

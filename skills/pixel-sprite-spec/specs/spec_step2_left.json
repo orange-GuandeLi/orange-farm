@@ -1,0 +1,89 @@
+{
+  "name": "idle_s_noblush_left",
+  "root": ".",
+  "cell": {
+    "w": 96,
+    "h": 64
+  },
+  "frames": 4,
+  "notes": {
+    "purpose": "第 2 步：在第 1 步（去腮红）结果基础上做朝左版——每帧各自左右镜像",
+    "source": "./base_idle_s_noblush.aseprite（第 1 步产物，.aseprite 可直接作为 copy 源）",
+    "mirror_scope": "mirror 算子作用于当前帧的 96x64 画布（op.rect 省略 = 整帧），因此每帧在各自格内左右翻转，帧顺序保持 0..3 不变",
+    "why_frame_order_kept": "需求写明「每帧各自左右镜像」；保持帧序才能让待机动画的起伏节奏与朝下版完全一致（整条 384 宽一次性镜像会额外把帧序倒过来）",
+    "pixel_mapping": "帧内坐标 x -> 95 - x（96 宽格内逐像素左右对调）",
+    "output_format": ".aseprite 可编辑母版（每帧一个 cel，96x64 画布），可用 Aseprite/LibreSprite 打开继续改"
+  },
+  "palette": {},
+  "sources": {
+    "noblush": "base_idle_s_noblush.aseprite"
+  },
+  "outputs": {
+    "idle_s_noblush_left": "base_idle_s_noblush_left.aseprite"
+  },
+  "layers": [
+    {
+      "name": "base",
+      "output": "idle_s_noblush_left",
+      "frames": [
+        {
+          "frame": 0,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "noblush",
+              "frame": 0
+            },
+            {
+              "op": "mirror",
+              "axis": "h"
+            }
+          ]
+        },
+        {
+          "frame": 1,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "noblush",
+              "frame": 1
+            },
+            {
+              "op": "mirror",
+              "axis": "h"
+            }
+          ]
+        },
+        {
+          "frame": 2,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "noblush",
+              "frame": 2
+            },
+            {
+              "op": "mirror",
+              "axis": "h"
+            }
+          ]
+        },
+        {
+          "frame": 3,
+          "ops": [
+            {
+              "op": "copy",
+              "src": "noblush",
+              "frame": 3
+            },
+            {
+              "op": "mirror",
+              "axis": "h"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "preview": "_preview_step2.png"
+}
