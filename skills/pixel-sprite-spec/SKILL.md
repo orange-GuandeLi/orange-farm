@@ -93,7 +93,7 @@ description: |
 
    | 算子 | 作用 |
    |---|---|
-   | `copy` | 从另一张图贴一块过来（换朝向、贴后脑、换图层） |
+   | `copy` | 从另一张图贴一块过来（换朝向、贴后脑、换图层）；`flip: "h"/"v"` 可先翻转再贴 |
    | `fill` | 填一个矩形色块（改单个像素群） |
    | `clear` | 把矩形擦成透明（覆盖写，不是混合） |
    | `remap` | 按颜色整体替换（换发色、换衣服色） |
@@ -123,6 +123,15 @@ description: |
    要交付"还能改改"的版本就写 `.aseprite` 后缀；`.aseprite` 也可以当**输入**用
    （`copy` / `mirror` 算子直接吃它），所以流程可以是：母版在 Aseprite 里改 →
    导出 PNG → 再用 spec 生成变体。
+
+   **多层母版**：如果产物天然分几层（角色常见就是 base / 头发 / 工具三层），
+   用 `masters` 输出**一个**多图层 `.aseprite`，别让人开三个文件对：
+   ```jsonc
+   "masters": [
+     { "layers": ["base_dig_n", "bowlhair_dig_n", "tools_dig_n"], "output": "dig_north.aseprite" }
+   ]
+   ```
+   层的顺序 = **下层在前**（后写的叠在上面）。
 
 5. **逐像素校验，用数字验收**
 

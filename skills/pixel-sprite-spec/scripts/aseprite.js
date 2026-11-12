@@ -134,6 +134,7 @@ function chunk(type, data) {
  * @param {number} doc.width      画布宽（单帧）
  * @param {number} doc.height     画布高（单帧）
  * @param {Array}  doc.frames     [{ durationMs, layers: [{ name, rgba, x, y }] }]  下层在前
+ *                                  同名 layer 视为同一层（跨帧共用），只在该层首次出现的帧写图层定义
  * @param {number} [doc.speed]    默认帧时长（毫秒）
  * @param {Array}  [doc.palette]  [[r,g,b,a], ...]；不给则自动从像素里收集
  */
@@ -160,6 +161,21 @@ function writeAseprite(filePath, doc) {
     palette = [...map.values()];
   }
 
+  // 图层表：按名字去重，顺序 = 下层 → 上层（后写的层叠在上面）。
+  // Aseprite 格式里图层定义（0x2004）只出现在第 0 帧，后续帧只放 cel（0x2005），
+  // 否则 LibreSprite 会把每帧的图层定义当成新图层 —— 13 帧就变成 13 个同名 layer，
+  // 只有最后一个在所有帧里都有内容。
+  const layerNames = [];
+  const layerIndexOf = new Map();
+  for (const f of frames) {
+    for (const L of f.layers) {
+      if (!layerIndexOf.has(L.name)) {
+        layerIndexOf.set(L.name, layerNames.length);
+        layerNames.push(L.name);
+      }
+    }
+  }
+
   const frameBlocks = [];
   frames.forEach((f, fi) => {
     const parts = [];
@@ -167,21 +183,20 @@ function writeAseprite(filePath, doc) {
     if (fi === 0) {
       const pc = paletteChunk(palette);
       if (pc) parts.push(pc);
+      // 图层定义只写第 0 帧，顺序 = 下层在前
+      for (const name of layerNames) parts.push(layerChunk({ name, childLevel: 0 }));
     }
-    // 图层定义 + cel
-    f.layers.forEach((L, li) => {
-      parts.push(layerChunk({ name: L.name, childLevel: 0 }));
-    });
-    f.layers.forEach((L, li) => {
+    // 每帧只放 cel，layerIndex 指向全局图层表
+    for (const L of f.layers) {
       parts.push(celChunk({
-        layerIndex: li,
+        layerIndex: layerIndexOf.get(L.name),
         x: L.x || 0,
         y: L.y || 0,
         width,
         height,
         rgba: L.rgba,
       }));
-    });
+    }
     const body = Buffer.concat(parts);
     const fh = Buffer.alloc(16);
     w32(fh, 0, 16 + body.length); // bytes in this frame（含 16 字节帧头）
@@ -213,7 +228,7 @@ function writeAseprite(filePath, doc) {
   w32(header, 0, 128 + body.length);
 
   fs.writeFileSync(filePath, Buffer.concat([header, body]));
-  return { path: filePath, frames: frames.length, width, height, layers: frames[0].layers.length, palette: palette.length };
+  return { path: filePath, frames: frames.length, width, height, layers: layerNames.length, palette: palette.length };
 }
 
 // ----------------------------------------------------------------- 读 ----

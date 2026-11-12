@@ -132,7 +132,27 @@ const OPS = {
     const ch = ctx.cellH;
     const f = op.frame || 0;
     const at = op.at || [0, 0];
-    let rect = op.rect;
+    const rect = op.rect;
+    // flip: "h" / "v" / "hv" —— 贴之前先翻转（左右/上下）
+    const flip = op.flip || '';
+    if (flip) {
+      const x = rect ? rect[0] : 0;
+      const y = rect ? rect[1] : 0;
+      const w = rect ? rect[2] : cw;
+      const h = rect ? rect[3] : ch;
+      const sx0 = f * cw + x;
+      const piece = { width: w, height: h, data: Buffer.alloc(w * h * 4) };
+      for (let yy = 0; yy < h; yy++) {
+        for (let xx = 0; xx < w; xx++) {
+          const tx = flip.includes('h') ? w - 1 - xx : xx;
+          const ty = flip.includes('v') ? h - 1 - yy : yy;
+          const sOff = ((y + yy) * src.width + sx0 + xx) * 4;
+          src.data.copy(piece.data, (ty * w + tx) * 4, sOff, sOff + 4);
+        }
+      }
+      blendRegion(canvas, piece, 0, 0, w, h, at[0], at[1]);
+      return;
+    }
     if (rect) {
       const [x, y, w, h] = rect;
       blendRegion(canvas, src, f * cw + x, y, w, h, at[0], at[1]);
@@ -501,6 +521,42 @@ function main(argv) {
 
     writePNG(outPath, img.width, img.height, img.data);
     console.log(`  写出 ${outPath}`);
+  }
+
+  // masters：把多个层合成"一个多图层 .aseprite 母版"（一层一个 cel，可直接在 Aseprite 里叠看）
+  for (const master of spec.masters || []) {
+    const aliases = master.layers || [];
+    if (!aliases.length) {
+      console.error(`masters 条目 '${master.output || '?'}' 没有指定 layers`);
+      return 1;
+    }
+    const cells = aliases.map((alias) => {
+      const arr = result.perFrame.get(alias);
+      if (!arr) {
+        console.error(`master 引用了不存在的层 '${alias}'`);
+        return null;
+      }
+      const name = (spec.layers || []).find((l) => l.output === alias)?.name || alias;
+      return { name, cells: arr };
+    });
+    if (cells.some((c) => !c)) return 1;
+    const frames = [];
+    for (let f = 0; f < result.n; f++) {
+      frames.push({
+        durationMs: spec.frame_duration || 100,
+        // 顺序 = 下层在前（后写的层叠在上面）
+        layers: cells.map((c) => ({ name: c.name, rgba: c.cells[f].data, x: 0, y: 0 })),
+      });
+    }
+    const outPath = resolvePath(master.output, root);
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    const info = writeAseprite(outPath, {
+      width: result.cellW,
+      height: result.cellH,
+      frames,
+      speed: spec.frame_duration || 100,
+    });
+    console.log(`  写出 ${outPath}  (母版: ${info.frames} 帧 × ${info.layers} 层 [${cells.map((c) => c.name).join(', ')}], ${info.width}×${info.height})`);
   }
 
   if (args.preview) {

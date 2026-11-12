@@ -45,6 +45,10 @@ spec 是一个 JSON 文件，描述"从哪些图、取哪些块、涂成什么�
     { "layers": ["base_dig_n", "bowlhair_dig_n"], "output": "dig_north_composite" }
   ],
 
+  "masters": [                     // 多图层母版：一个 .aseprite 里放多层，方便一次打开叠看
+    { "layers": ["base_dig_n", "bowlhair_dig_n", "tools_dig_n"], "output": "dig_north.aseprite" }
+  ],
+
   "preview": "tmp/north/dig/_spec_preview.png",   // 对照图路径（--preview 时才写）
   "legend": { "o": "outline" }     // brush 的默认字符对照，可放顶层
 }
@@ -53,6 +57,8 @@ spec 是一个 JSON 文件，描述"从哪些图、取哪些块、涂成什么�
 - `root` 是相对 spec 文件所在目录解析的，所以 spec 可以带着走。写绝对路径也行。
 - `layers` 里每个 `frames` 条目必须覆盖 0..frames-1，渲染器会检查帧数与输出尺寸。
 - 每一层输出都是"整条动画条带"，不是单帧图——引擎要的就是这种。
+- `masters` 里的层顺序 = **下层在前**（`base` → `bowlhair` → `tools`，后写的叠在上面）；
+  它和 `composites` 的区别是：`composites` 烘成一张图，`masters` 保持图层可分别编辑。
 
 ### 输出格式：`.png` 还是 `.aseprite`
 
@@ -74,6 +80,10 @@ spec 是一个 JSON 文件，描述"从哪些图、取哪些块、涂成什么�
 - 画布 = `cell.w × cell.h`（**单帧尺寸**，不是条带宽度）
 - 帧数 = `spec.frames`，每帧一个 cel（cel 类型 2 = zlib 压缩 RGBA）
 - 图层名 = spec 里该层的 `name`（默认可见 + 可编辑）
+- **图层定义只写在第 0 帧**，后续帧只放 cel —— 这是 Aseprite 格式的要求。
+  （早先的写法每帧都写一遍图层定义，LibreSprite 打开就会看到 N 个同名图层、
+  只有最后一个在所有帧里都有内容。）
+- 多层母版（`masters`）= 一个文件里 N 个图层，每帧 N 个 cel，图层顺序 = 下层在前
 - 帧时长 = `spec.frame_duration`（毫秒，默认 100）
 - 调色板自动从像素里收集（不透明色，按首次出现排序）
 
@@ -94,6 +104,7 @@ spec 是一个 JSON 文件，描述"从哪些图、取哪些块、涂成什么�
 ```json
 {"op": "copy", "src": "dig_base", "frame": 0}
 {"op": "copy", "src": "idle_hair_n", "frame": 0, "rect": [42, 28, 13, 6], "at": [42, 28]}
+{"op": "copy", "src": "dig_tools", "frame": 3, "rect": [51, 33, 15, 7], "at": [30, 15], "flip": "h"}
 ```
 
 | 字段 | 含义 |
@@ -102,6 +113,10 @@ spec 是一个 JSON 文件，描述"从哪些图、取哪些块、涂成什么�
 | `frame` | 来源图的第几帧（帧宽取 spec 的 cell.w） |
 | `rect` | `[x, y, w, h]`，**帧内**区域；省略 = 整帧 |
 | `at` | `[x, y]`，贴到画布的哪个位置；省略 = `[0, 0]` |
+| `flip` | 可选，`"h"` / `"v"` / `"hv"` —— 贴之前先翻转这一块（角色转身、左右镜像用） |
+
+> `flip` 翻的是**这一块自己**（以 rect 的宽/高为轴），不是整帧。
+> 例：把 x51..65 的工具组件左右翻过来贴到 x30..44，就是"角色转身，工具换到另一侧"。
 
 ### `fill` —— 填一个矩形（色块）
 
