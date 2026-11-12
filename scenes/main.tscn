@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://874ten0ppdkq" path="res://assets/game/soil/soil_01.png" id="8_trceg"]
 [ext_resource type="Texture2D" uid="uid://dri4ufygv58ku" path="res://assets/game/soil/soil_03.png" id="9_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://b18ddb6hmnblk" path="res://assets/game/soil/soil_04.png" id="10_jkv2x"]
+[ext_resource type="Script" uid="uid://qiujxeglwrva" path="res://scripts/world/crops.gd" id="15_jkv2x"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
@@ -2414,3 +2415,7 @@ limit_left = 0
 limit_top = 0
 limit_right = 1920
 limit_bottom = 1088
+
+[node name="Crops" type="Node2D" parent="Entities" unique_id=1967525155]
+y_sort_enabled = true
+script = ExtResource("15_jkv2x")
