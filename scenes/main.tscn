@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://b05i1pomv42j" path="res://assets/game/bush/bush_green.png" id="19_gqmmt"]
 [ext_resource type="Texture2D" uid="uid://b22phnv71hwuj" path="res://assets/game/bush/bush_orange.png" id="20_yc10j"]
 [ext_resource type="Texture2D" uid="uid://btgkrdv5uoeqo" path="res://assets/game/bush/bush_red.png" id="21_jscy8"]
+[ext_resource type="Texture2D" uid="uid://b1hm46atkjcn" path="res://assets/game/house/house_green.png" id="22_pm3ni"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
@@ -2358,6 +2359,9 @@ size = Vector2(6, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ld40"]
 size = Vector2(24, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6deb"]
+size = Vector2(32, 16)
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_jkv2x"]
 
 [node name="Main" type="Node2D" unique_id=384196172]
@@ -2509,6 +2513,18 @@ shape = SubResource("RectangleShape2D_0ld40")
 texture = ExtResource("21_jscy8")
 centered = false
 offset = Vector2(0, -21)
+
+[node name="HouseGreen" type="StaticBody2D" parent="Entities" unique_id=2058714115]
+position = Vector2(910, 473)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/HouseGreen" unique_id=29364753]
+position = Vector2(16, -8)
+shape = SubResource("RectangleShape2D_y6deb")
+
+[node name="Sprite2D" type="Sprite2D" parent="Entities/HouseGreen" unique_id=704952358]
+texture = ExtResource("22_pm3ni")
+centered = false
+offset = Vector2(0, -56)
 
 [node name="Toolbar" type="CanvasLayer" parent="." unique_id=1061629639]
 layer = 10

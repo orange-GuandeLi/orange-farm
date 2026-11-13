@@ -39,6 +39,19 @@ RECTS: dict[str, tuple[int, int, int, int]] = {
     "rock_mid": (820, 343, 24, 22),
     "rock_small": (855, 349, 18, 16),
     "rock_tiny": (883, 355, 10, 10),
+    # 尖顶小屋（绿/橙/红/紫四套配色，纵向每套间隔 128px）
+    "house_green": (520, 296, 32, 56),
+    "house_orange": (520, 424, 32, 56),
+    "house_red": (520, 552, 32, 56),
+    "house_purple": (520, 680, 32, 56),
+}
+
+# 指定了输出目录的素材直接进正式资源目录；其余进 assets-tmp/props 备料区
+DEST: dict[str, str] = {
+    "house_green": "assets/game/house",
+    "house_orange": "assets/game/house",
+    "house_red": "assets/game/house",
+    "house_purple": "assets/game/house",
 }
 
 
@@ -61,7 +74,9 @@ def crop_all(src: Path, out: Path, only: list[str] | None) -> list[dict]:
         if x + w > atlas.width or y + h > atlas.height:
             sys.exit(f"{name} 超出图集范围 {atlas.size}")
         crop = atlas.crop((x, y, x + w, y + h))
-        path = out / f"{name}.png"
+        dest = Path(DEST.get(name, out))
+        dest.mkdir(parents=True, exist_ok=True)
+        path = dest / f"{name}.png"
         crop.save(path)
         manifest.append(
             {
