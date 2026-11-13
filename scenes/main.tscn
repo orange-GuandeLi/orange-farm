@@ -17,6 +17,11 @@
 [ext_resource type="Script" uid="uid://qiujxeglwrva" path="res://scripts/world/crops.gd" id="15_jkv2x"]
 [ext_resource type="Script" uid="uid://ha7j5fqejhuy" path="res://scripts/ui/toolbar.gd" id="16_jbj1t"]
 [ext_resource type="Texture2D" uid="uid://c58em7twlk0r" path="res://assets/game/rock/rock_tiny.png" id="16_muem4"]
+[ext_resource type="Texture2D" uid="uid://dsagddmnsx50c" path="res://assets/game/tree/pine_a.png" id="17_dp3eg"]
+[ext_resource type="Texture2D" uid="uid://bk012a5on4iqs" path="res://assets/game/tree/pine_b.png" id="18_0ld40"]
+[ext_resource type="Texture2D" uid="uid://b05i1pomv42j" path="res://assets/game/bush/bush_green.png" id="19_gqmmt"]
+[ext_resource type="Texture2D" uid="uid://b22phnv71hwuj" path="res://assets/game/bush/bush_orange.png" id="20_yc10j"]
+[ext_resource type="Texture2D" uid="uid://btgkrdv5uoeqo" path="res://assets/game/bush/bush_red.png" id="21_jscy8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
@@ -2347,6 +2352,12 @@ size = Vector2(16, 1096)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_muem4"]
 size = Vector2(10, 10)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dp3eg"]
+size = Vector2(6, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ld40"]
+size = Vector2(24, 20)
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_jkv2x"]
 
 [node name="Main" type="Node2D" unique_id=384196172]
@@ -2438,6 +2449,66 @@ offset = Vector2(0, -10)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Rock" unique_id=1009889903]
 position = Vector2(5, -5)
 shape = SubResource("RectangleShape2D_muem4")
+
+[node name="SlimPine" type="StaticBody2D" parent="Entities" unique_id=1625601560]
+position = Vector2(1068, 447)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/SlimPine" unique_id=838743714]
+position = Vector2(7, -4)
+shape = SubResource("RectangleShape2D_dp3eg")
+
+[node name="Sprite2D" type="Sprite2D" parent="Entities/SlimPine" unique_id=1223060616]
+texture = ExtResource("17_dp3eg")
+centered = false
+offset = Vector2(0, -35)
+
+[node name="Pine" type="StaticBody2D" parent="Entities" unique_id=1603512580]
+position = Vector2(1043, 465)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Pine" unique_id=405893351]
+position = Vector2(7, -4)
+shape = SubResource("RectangleShape2D_dp3eg")
+
+[node name="Sprite2D" type="Sprite2D" parent="Entities/Pine" unique_id=807560194]
+texture = ExtResource("18_0ld40")
+centered = false
+offset = Vector2(0, -35)
+
+[node name="Bush" type="StaticBody2D" parent="Entities" unique_id=1964545147]
+position = Vector2(1007, 481)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Bush" unique_id=683733289]
+position = Vector2(12, -10)
+shape = SubResource("RectangleShape2D_0ld40")
+
+[node name="Sprite2D" type="Sprite2D" parent="Entities/Bush" unique_id=142286610]
+texture = ExtResource("19_gqmmt")
+centered = false
+offset = Vector2(0, -21)
+
+[node name="BushOrange" type="StaticBody2D" parent="Entities" unique_id=577418800]
+position = Vector2(983, 481)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/BushOrange" unique_id=963131912]
+position = Vector2(12, -10)
+shape = SubResource("RectangleShape2D_0ld40")
+
+[node name="Sprite2D" type="Sprite2D" parent="Entities/BushOrange" unique_id=1221485606]
+texture = ExtResource("20_yc10j")
+centered = false
+offset = Vector2(0, -21)
+
+[node name="BushRed" type="StaticBody2D" parent="Entities" unique_id=743117871]
+position = Vector2(959, 481)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/BushRed" unique_id=550909912]
+position = Vector2(12, -10)
+shape = SubResource("RectangleShape2D_0ld40")
+
+[node name="Sprite2D" type="Sprite2D" parent="Entities/BushRed" unique_id=1211050620]
+texture = ExtResource("21_jscy8")
+centered = false
+offset = Vector2(0, -21)
 
 [node name="Toolbar" type="CanvasLayer" parent="." unique_id=1061629639]
 layer = 10
