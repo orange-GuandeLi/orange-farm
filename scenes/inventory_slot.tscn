@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bsv4dsdbdctlu"]
+
+[ext_resource type="Script" uid="uid://de730e02yvg75" path="res://scripts/ui/inventory_slot.gd" id="1_dxvxp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c13kb"]
+bg_color = Color(0.53310794, 0.49356434, 0.44956258, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7735731, 0.7220274, 0.64995646, 1)
+
+[node name="InventorySlot" type="Panel" unique_id=1029269346]
+custom_minimum_size = Vector2(32, 32)
+theme_override_styles/panel = SubResource("StyleBoxFlat_c13kb")
+script = ExtResource("1_dxvxp")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=1201834828]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Count" type="Label" parent="." unique_id=1918719015]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+vertical_alignment = 2

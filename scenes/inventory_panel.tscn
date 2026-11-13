@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://d0yl5keyhyhad"]
+
+[ext_resource type="Script" uid="uid://3767wf6rwo68" path="res://scripts/ui/inventory_panel.gd" id="1_u4feb"]
+[ext_resource type="PackedScene" uid="uid://bsv4dsdbdctlu" path="res://scenes/inventory_slot.tscn" id="1_v4pxl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8v0a"]
+bg_color = Color(0.45395327, 0.42957872, 0.37483972, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9731482, 0.886004, 0.76111215, 1)
+
+[node name="InventoryPanel" type="CanvasLayer" unique_id=1218738655]
+layer = 20
+script = ExtResource("1_u4feb")
+
+[node name="Root" type="Control" parent="." unique_id=1674961719]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Center" type="CenterContainer" parent="Root" unique_id=1986147400]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Root/Center" unique_id=457552405]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_y8v0a")
+
+[node name="Margin" type="MarginContainer" parent="Root/Center/Frame" unique_id=98156399]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Grid" type="GridContainer" parent="Root/Center/Frame/Margin" unique_id=228259205]
+layout_mode = 2
+columns = 4
+
+[node name="Slot0" parent="Root/Center/Frame/Margin/Grid" unique_id=1029269346 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot1" parent="Root/Center/Frame/Margin/Grid" unique_id=405576148 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot2" parent="Root/Center/Frame/Margin/Grid" unique_id=729445636 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot3" parent="Root/Center/Frame/Margin/Grid" unique_id=537512900 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot4" parent="Root/Center/Frame/Margin/Grid" unique_id=1642445888 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot5" parent="Root/Center/Frame/Margin/Grid" unique_id=143584139 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot6" parent="Root/Center/Frame/Margin/Grid" unique_id=1037196686 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot7" parent="Root/Center/Frame/Margin/Grid" unique_id=1612165154 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot8" parent="Root/Center/Frame/Margin/Grid" unique_id=498695196 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot9" parent="Root/Center/Frame/Margin/Grid" unique_id=191732800 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot10" parent="Root/Center/Frame/Margin/Grid" unique_id=1376534116 instance=ExtResource("1_v4pxl")]
+layout_mode = 2
+
+[node name="Slot11" parent="Root/Center/Frame/Margin/Grid" unique_id=1538850828 instance=ExtResource("1_v4pxl")]
+layout_mode = 2

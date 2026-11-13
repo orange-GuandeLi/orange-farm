@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://b22phnv71hwuj" path="res://assets/game/bush/bush_orange.png" id="20_yc10j"]
 [ext_resource type="Texture2D" uid="uid://btgkrdv5uoeqo" path="res://assets/game/bush/bush_red.png" id="21_jscy8"]
 [ext_resource type="Texture2D" uid="uid://b1hm46atkjcn" path="res://assets/game/house/house_green.png" id="22_pm3ni"]
+[ext_resource type="PackedScene" uid="uid://d0yl5keyhyhad" path="res://scenes/inventory_panel.tscn" id="24_y6deb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
@@ -2569,3 +2570,5 @@ theme_override_font_sizes/font_size = 8
 toggle_mode = true
 button_group = SubResource("ButtonGroup_jkv2x")
 text = "浇水"
+
+[node name="InventoryPanel" parent="." unique_id=1218738655 instance=ExtResource("24_y6deb")]
