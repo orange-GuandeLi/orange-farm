@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 @onready var animation: AnimatedSprite2D = $BodySprite # 身体动画
@@ -10,8 +11,22 @@ const SPEED = 60.0 # 速度
 ## 工具动作里"入土"那一刻占总时长的比例（use_dig 的落地帧 f9 在 0.69 处，取 0.7）
 const TOOL_IMPACT_RATIO := 0.7
 var _busy := false # 是否在播放工具动画
+## 手上的工具变了（工具栏靠这个信号刷新）
+signal tool_changed(tool: int)
+
+## 当前拿着的工具
+var tool: int = GameConfig.Tool.DIG
+
+
+## 换工具。键盘和 UI 都走这一个入口。
+func set_tool(t: int) -> void:
+	if tool == t:
+		return
+	tool = t
+	tool_changed.emit(tool)
 
 func _ready() -> void:
+	add_to_group("player")
 	animation.animation_finished.connect(_on_animation_finished)
 	# 俯视角：不要重力/地面逻辑，move_and_slide 才是 2D 自由移动
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING

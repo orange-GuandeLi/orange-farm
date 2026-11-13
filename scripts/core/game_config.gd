@@ -7,3 +7,10 @@ const TILE_SIZE := 16
 
 ## 农场大小（格子数），跟 main.tscn 里地面铺砖范围保持一致
 const FARM_SIZE := Vector2i(120, 68)
+
+## 手上的工具
+enum Tool {
+	DIG,    ## 锄头
+	SEED,   ## 种子
+	WATER,  ## 水壶
+}

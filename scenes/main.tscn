@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dri4ufygv58ku" path="res://assets/game/soil/soil_03.png" id="9_a8y0u"]
 [ext_resource type="Texture2D" uid="uid://b18ddb6hmnblk" path="res://assets/game/soil/soil_04.png" id="10_jkv2x"]
 [ext_resource type="Script" uid="uid://qiujxeglwrva" path="res://scripts/world/crops.gd" id="15_jkv2x"]
+[ext_resource type="Script" uid="uid://ha7j5fqejhuy" path="res://scripts/ui/toolbar.gd" id="16_jbj1t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tbgi4"]
 texture = ExtResource("1_sugp2")
@@ -2342,6 +2343,8 @@ size = Vector2(16, 1096)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(16, 1096)
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_jkv2x"]
+
 [node name="Main" type="Node2D" unique_id=384196172]
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=2136841265]
@@ -2419,3 +2422,47 @@ limit_bottom = 1088
 [node name="Crops" type="Node2D" parent="Entities" unique_id=1967525155]
 y_sort_enabled = true
 script = ExtResource("15_jkv2x")
+
+[node name="Toolbar" type="CanvasLayer" parent="." unique_id=1061629639]
+layer = 10
+script = ExtResource("16_jbj1t")
+
+[node name="CenterContainer" type="CenterContainer" parent="Toolbar" unique_id=1083486776]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -44.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Toolbar/CenterContainer" unique_id=365533726]
+layout_mode = 2
+
+[node name="Dig" type="Button" parent="Toolbar/CenterContainer/HBoxContainer" unique_id=651221438]
+custom_minimum_size = Vector2(34, 18)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_jkv2x")
+text = "铲子"
+
+[node name="Seed" type="Button" parent="Toolbar/CenterContainer/HBoxContainer" unique_id=1769391890]
+custom_minimum_size = Vector2(34, 18)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_jkv2x")
+text = "播种"
+
+[node name="Water" type="Button" parent="Toolbar/CenterContainer/HBoxContainer" unique_id=127742176]
+custom_minimum_size = Vector2(34, 18)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 8
+toggle_mode = true
+button_group = SubResource("ButtonGroup_jkv2x")
+text = "浇水"
