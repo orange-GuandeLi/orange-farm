@@ -993,7 +993,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_apmd0")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"hair_use_water",
 "speed": 5.0
 }, {
@@ -1334,7 +1334,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_uifsl")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"tool_use_water",
 "speed": 5.0
 }, {
@@ -1485,7 +1485,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xdd7v")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"use_water",
 "speed": 5.0
 }, {

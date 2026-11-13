@@ -47,7 +47,29 @@ func _physics_process(_delta: float) -> void:
 	_play_anim("walk" if velocity.length() > 1.0 else "idle")
 
 	if Input.is_action_just_pressed("use_tool"):
-		_start_tool("dig")
+		_start_tool(tool)
+
+## 工具 id → 动作动画基名（"use_" 前缀在下面补）
+## 种子还没动画，返回空字符串
+func _tool_anim(t: int) -> String:
+	match t:
+		GameConfig.Tool.DIG:
+			return "dig"
+		GameConfig.Tool.WATER:
+			return "water"
+	return ""
+
+
+
+
+## 这个工具在这格上用不用得上
+func _can_use(t: int, cell: Vector2i) -> bool:
+	match t:
+		GameConfig.Tool.DIG:
+			return not FarmData.is_tilled(cell)   # 锄过的地不能再锄一遍
+		GameConfig.Tool.WATER:
+			return FarmData.is_tilled(cell)        # 没锄过的地浇不了水
+	return false
 
 ## 节点位置（脚底）-> 身体中心所在的格
 ##   身体中心 = 脚底上方 8px；刚踏进新格时目标格才不会跳远
@@ -70,21 +92,25 @@ func _update_facing(direction: Vector2) -> void:
 			facing = Vector2i.UP if direction.y < 0.0 else Vector2i.DOWN
 	# 翻不翻由 _play_one 按方向决定，这里不碰 flip_h
 
-func _start_tool(tool: String) -> void:
+func _start_tool(t: int) -> void:
 	var cell := _target_cell()
 	if cell.x < 0 or cell.x >= GameConfig.FARM_SIZE.x or cell.y < 0 or cell.y >= GameConfig.FARM_SIZE.y:
 		return
-	if FarmData.is_tilled(cell):
+	if not _can_use(t, cell):
 		return
 
+	var anim_base := _tool_anim(t)
+	if anim_base == "":
+		return          # 这个工具还没动画，先什么都不做
+
 	_busy = true
-	var anim := _play_anim("use_" + tool)
+	var anim := _play_anim("use_" + anim_base)
 	if anim == &"":
 		# 没有这个工具动画：别把玩家锁死，也不改地块
 		_busy = false
 		return
 
-	# 等锄头落地再改地块：时长从动画本身算，改帧数/速度时不用再动这里
+	# 等落地再改地块：时长从动画本身算，改帧数/速度时不用再动这里
 	await get_tree().create_timer(_anim_duration(animation, anim) * TOOL_IMPACT_RATIO).timeout
 	_apply_till(cell)
 
